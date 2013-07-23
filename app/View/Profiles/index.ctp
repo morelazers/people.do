@@ -1,0 +1,26 @@
+<script>
+
+	$(document).ready(function(){
+	    $('#EditForm').hide();
+	});
+
+	function showEditForm(){
+		$("#EditForm").toggle();
+		if($("#EditButton").text() == "Edit"){
+			$("#EditButton").text("Cancel");
+		} else {
+			$("#EditButton").text("Edit");
+		}
+	}
+</script>
+
+<div id="EditForm">
+<?php
+	echo $this->Form->create('Profile');
+    echo $this->Form->input('about_me', array('rows' => '3'));
+    echo $this->Form->input('interests');
+    echo $this->Form->input('id', array('type' => 'hidden'));
+    echo $this->Form->end('Save');
+?>
+</div>
+<button id="EditButton" onclick="showEditForm()">Edit</button>
