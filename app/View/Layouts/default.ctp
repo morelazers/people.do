@@ -25,16 +25,37 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 
     <?php echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'); ?>
     <?php echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js'); ?>
+    <?php echo $this->Html->script('login_popup.js'); ?>
+    
+    <?php echo $this->Html->script('popbox.js'); ?>
+    <script type='text/javascript'>
+	   	$(document).ready(function(){
+	     	$('.login_popbox').popbox();
+	   	});
+	</script>
+
+    <?php 
+    	$userdata = $this->session->read('Auth.User'); 
+    	echo '<script> var userIsLoggedIn = ';
+    	if(!$userdata){
+    		echo 'false ';
+    	} else {
+    		echo 'true ';
+    	}
+    	echo '</script>';
+    	debug($userdata);
+    ?>
 
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $title_for_layout; ?>
+
+		people.do
+
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('bootstrap');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -42,15 +63,39 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	?>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
 
-			<?php echo $this->Session->flash(); ?>
+	<div id="wrapper">
+      	<div id="header">
+        	<div class="container">
+          		<div class="fluid logo">
+            		Some Logo
+          		</div>
+          		<div id="navigation" class="fluid">
+            		<ul>
+              			<li><a href="/">Home</a></li>
+              			<li><a href="/ideas/add/">Share</a></li>
+              			<li><a href="/">Discover</a></li>
+              			<li><a href="/about/">About</a></li>
+            		</ul>
+          		</div>
+          		<div id="user-panel" class="pull-right">
+            		Welcome, Chris!
+          		</div>
+        	</div>
+      	</div>
 
-			<?php echo $this->fetch('content'); ?>
+        <div id="welcome-panel" class="container inset">
+	        Welcome<br />
+	        Welcome<br /> 
+	        Welcome<br />
+	        (Here you can use bootstrap fluid grid)
+      	</div>
+		<div id="main" class="container inset">
+			<div id="content">
+				<?php echo $this->Session->flash(); ?>
+
+				<?php echo $this->fetch('content'); ?>
+			</div>
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(

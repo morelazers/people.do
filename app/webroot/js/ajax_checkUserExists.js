@@ -8,7 +8,7 @@ function checkUsernameIsValid(){
         $('#UsernameValidMessage').html("Checking username...");
         $('#SendButton').attr('disabled', true);
         var request = 
-        $.ajax("http://www.dev.thinkshare.it/cakephp/users/checkExistence",
+        $.ajax(window.location.origin + "/users/checkExistence",
         {
             type: "POST",
             data: 
@@ -18,8 +18,8 @@ function checkUsernameIsValid(){
             dataType: "JSON"
         });
         
-        request.done(function(data){
-            if(data.exists){
+        request.done(function(user){
+            if(user.exists){
                 $('#UsernameValidMessage').html('This user exists!');
                 $('#SendButton').removeAttr('disabled');
             }

@@ -15,6 +15,21 @@ echo $this->Html->link(
     array('controller' => 'users', 'action' => 'add')
 );
 ?>
+, or sign in with 
+<?php
+echo $this->Html->link(
+    'Google',
+    array('controller' => 'auth', 'action' => 'google')
+);
+?>
+ or 
+<?php
+echo $this->Html->link(
+    'Facebook',
+    array('controller' => 'auth', 'action' => 'facebook')
+);
+?>
+.
 <br /><br />
 <?php
 echo $this->Html->link(
@@ -33,13 +48,24 @@ echo $this->Html->link(
     <!-- Here is where we loop through our $ideas array, printing out post info -->
 
     <?php foreach ($ideas as $idea): ?>
-    <tr>
-        <td><?php echo $idea['Idea']['id']; ?></td>
-        <td>
-            <?php echo $this->Html->link($idea['Idea']['name'],
-array('controller' => 'ideas', 'action' => 'view', $idea['Idea']['id'])); ?>
-        </td>
-    </tr>
+        <div class="post">
+            <p class="title">
+                <?php 
+                    echo $this->Html->link($idea['Idea']['name'],
+                    array('controller' => 'ideas', 'action' => 'view', $idea['Idea']['id'])); 
+                ?>
+            </p>
+            <p class="description">
+                Shared by: 
+                <?php
+                    echo $this->Html->link($idea['Idea']['posted_by_name'], 
+                    array('controller' => 'users', 'action' => 'profile', $idea['Idea']['posted_by_name']));
+                ?>
+                <br />
+                <?php echo $idea['Idea']['upvotes']; ?>
+                Likes
+            </p>
+        </div>
     <?php endforeach; ?>
     <?php unset($idea); ?>
 </table>

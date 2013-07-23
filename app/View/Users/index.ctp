@@ -20,13 +20,6 @@ echo $this->Html->link(
 
 <br /><br />
 
-<?php
-echo $this->Html->link(
-    'Sign in with Twitter',
-    array('controller' => 'twitter_users', 'action' => 'index')
-);
-?>
-
 <table>
     <tr>
         <th>Id</th>

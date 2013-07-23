@@ -107,3 +107,31 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+// Loads Opauth Plugin
+CakePlugin::load('Opauth', array('routes' => true, 'bootstrap' => true));
+
+/**
+ * If your CakePHP app does not reside at DocumentRoot (eg. http://localhost),
+ * but at a directory below DocumentRoot (eg. http://localhost/your-cake-app)
+ * Uncomment the next line and replace 'your-cake-app' with your actual path
+ */
+	//Configure::write('Opauth.path', '/your-cake-app/auth/');
+
+/**
+ * Opauth strategy configurations
+ */
+// Facebook strategy
+Configure::write('Opauth.Strategy.Facebook', array(
+	'app_id' => '169357349892432',
+	'app_secret' => '8f1acba035e2879ecc5e333a52b73616'
+));
+
+// Google strategy
+Configure::write('Opauth.Strategy.Google', array(
+	'client_id' => '245096563422.apps.googleusercontent.com',
+	'client_secret' => 'xHSpS5Rkf4IM6EOxOFZnLsWm'
+));
+
+// Load the Twitter Bootstrap plugin
+CakePlugin::load('BoostCake');

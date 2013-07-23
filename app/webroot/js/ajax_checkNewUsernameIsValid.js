@@ -12,7 +12,7 @@ function checkUsernameIsValid(){
     }
     $('#UsernameValidMessage').html('Checking new username...');
     var request = 
-    $.ajax("http://www.dev.thinkshare.it/cakephp/users/checkExistence",
+    $.ajax(window.location.origin + "/users/checkExistence",
     {
         type: "POST",
         data: 

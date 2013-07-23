@@ -6,24 +6,24 @@
     <fieldset>
         <legend><?php echo __('Add User'); ?></legend>
         <?php 
-        echo $this->Form->input('username');
+            echo $this->Form->input('username');
         ?>
         <div id="UsernameValidMessage"></div>
         <?php
-        echo $this->Form->input('password');
-        echo $this->Form->input('repeat_password', array(
-                                    'type' => 'password'
-                                    ));
+            echo $this->Form->input('password');
+            echo $this->Form->input('repeat_password', array(
+                                        'type' => 'password'
+                                        ));
         ?>
         <div id="PasswordMatchMessage"></div>
         <?php
-        echo $this->Form->input('email');
+            echo $this->Form->input('email');
         ?>
     </fieldset>
 <?php 
-echo $this->Form->end(array(
-                            'label' => 'Sign Up',
-                            'id' => 'RegisterButton'
-                            ));
+    echo $this->Form->end(array(
+                                'label' => 'Sign Up',
+                                'id' => 'RegisterButton'
+                                ));
 ?>
 </div>

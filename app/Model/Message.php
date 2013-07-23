@@ -33,7 +33,6 @@ class Message extends AppModel {
         if(!$result) {
             return null;
         }
-        pr($result);
         return $result['User']['id'];
     }
 }

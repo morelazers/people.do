@@ -6,11 +6,13 @@ class MessagesController extends AppController {
     
     public function index() 
     {
+        $user = $this->Auth->user();
+        $uid = $user['User']['id'];
         $this->set('messages', 
             $this->Message->find('all', 
                 array(
                     'conditions' => array(
-                        'Message.to_user_id' => $this->Auth->user('id')
+                        'Message.to_user_id' => $uid
                     )
                 )
             )
@@ -20,10 +22,11 @@ class MessagesController extends AppController {
     public function send() 
     {
         if($this->request->is('post')) {
+            $user = $this->Auth->user();
+            $uid = $user['User']['id'];
             $this->Message->create();
-            $this->request->data['Message']['from_user_id'] = $this->Auth->user['id'];
+            $this->request->data['Message']['from_user_id'] = $uid;
             $this->request->data['Message']['to_user_id'] = $this->Message->getIdFromUsername($this->request->data['Message']['recipient']);
-            pr($this->request->data);
             // Send the message:
             $this->Message->save($this->request->data);
         }

@@ -15,8 +15,11 @@ class IdeasController extends AppController
             throw new NotFoundException(__('Invalid idea'));
         }
         
+        $user = $this->Auth->user();
+        $uid = $user['User']['id'];
+        
         if($this->request->is('post')) {
-            $this->request->data['Comment']['user_id'] = $this->Auth->user['id'];
+            $this->request->data['Comment']['user_id'] = $uid;
             $this->request->data['Comment']['idea_id'] = $id;
             $this->request->data['Comment']['content'] = $this->request->data['Comment']['comment'];
             $this->Idea->Comment->create();
@@ -25,15 +28,30 @@ class IdeasController extends AppController
             }
         }
         
+        $this->Idea->unbindModel(
+            array('hasMany' => array('Comment'))
+        );
         $idea = $this->Idea->findById($id);
+        $ideaUpvotes = $this->Idea->IdeaUpvote->find('all', array(
+            'conditions' => array('idea_id' => $id)));
+        $commentUpvotes = $this->Idea->Comment->CommentUpvote->find('all', array(
+            'conditions' => array('CommentUpvote.user_id' => $uid)));
         
         if (!$idea) {
             throw new NotFoundException(__('Invalid idea'));
         }
         
+        $comments = $this->Idea->Comment->find('all', array(
+            'conditions' => array('Comment.idea_id' => $id)));
+        
         $data = array(
-            'idea' => $idea
-            );
+            'idea' => $idea,
+            'ideaUpvotes' => $ideaUpvotes,
+            'commentUpvotes' => $commentUpvotes,
+            'comments' => $comments
+        );
+            
+        debug($data);
         
         $this->set($data);
     }
@@ -43,16 +61,21 @@ class IdeasController extends AppController
             $this->layout = 'ajax';
             $this->autoRender = false;
             $id = $this->request->data['id'];
-            $this->Idea->updateAll(array('Idea.upvotes' =>'Idea.upvotes + 1'), array('Idea.id' => $id));
-            $this->Idea->IdeaUpvote->create();
-            $data = array(
-                'idea_id' => $id,
-                'user_id' => $this->Auth->user['id']
-                );
-            $this->Idea->IdeaUpvote->save($data);
-            $upvotes = $this->request->data['upvotes'];
-            $newUpvoteNumber = $upvotes + 1;
-            echo $newUpvoteNumber;
+            $uid = $this->request->data['uid'];
+            if($vote = $this->Idea->IdeaUpvote->findByIdeaIdAndUserId($id, $uid)){
+                $this->Idea->IdeaUpvote->delete($vote['IdeaUpvote']['id']);
+                $this->Idea->updateAll(array('Idea.upvotes' =>'Idea.upvotes - 1'), array('Idea.id' => $id));
+            } else {
+                $this->Idea->updateAll(array('Idea.upvotes' =>'Idea.upvotes + 1'), array('Idea.id' => $id));
+                $this->Idea->IdeaUpvote->create();
+                $data = array(
+                    'idea_id' => $id,
+                    'user_id' => $uid
+                    );
+                $this->Idea->IdeaUpvote->save($data);
+            }
+            $user = $this->Idea->User->findById($this->Auth->user['id']);
+            $this->Auth->login($user);
         }
     }
     

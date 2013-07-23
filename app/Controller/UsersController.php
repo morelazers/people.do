@@ -1,7 +1,27 @@
 <?php
-// app/Controller/UsersController.php
-App::import('Vendor', 'OAuth/OAuthClient');
 class UsersController extends AppController {
+    
+    public function opauth_complete(){
+
+        if($this->data['auth']['provider'] === 'Google'){
+            $googleUser = $this->User->GoogleUser->findByGoogleId($this->data['auth']['raw']['id']);
+            if(!$googleUser){
+                $this->User->GoogleUser->addUser($this->data);
+            }
+            $googleUser = $this->User->GoogleUser->findByGoogleId($this->data['auth']['raw']['id']);
+            $user = $this->User->findById($googleUser['User']['id']);
+            $this->Auth->login($user);
+        }
+        elseif($this->data['auth']['provider'] === 'Facebook'){
+            $facebookUser = $this->User->FacebookUser->findByFacebookId($this->data['auth']['uid']);
+            if(!$facebookUser){
+                $this->User->FacebookUser->addUser($this->data);
+                $facebookUser = $this->User->FacebookUser->findByFacebookId($this->data['auth']['uid']);
+            }
+            $user = $this->User->findById($facebookUser['User']['id']);
+            $this->Auth->login($user);
+        }
+    }
 
     public function beforeFilter() 
     {
@@ -14,6 +34,8 @@ class UsersController extends AppController {
         $this->Auth->authenticate = array('Form');
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
+                $user = $this->User->findByUsername($this->request->data['User']['username']);
+                $this->Auth->login($user);
                 $this->redirect($this->Auth->redirect());
             } else {
                 $this->Session->setFlash(__('Invalid username or password, try again'));
@@ -26,20 +48,22 @@ class UsersController extends AppController {
         $this->redirect($this->Auth->logout());
     }
 
-    public function index() 
+    public function index($username = null) 
     {
         $this->User->recursive = 0;
-        $this->set('users', $this->paginate());
-        //pr($this->Auth->user());
+        $this->set('users', $this->paginate()); 
     }
 
-    public function view($id = null) 
+    public function profile($username = null) 
     {
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
+        if($username){
+            $user = $this->User->findByUsername($username);
+            $this->set(array(
+                'user' => $user
+            ));
+        } else {
+        
         }
-        $this->set('user', $this->User->read(null, $id));
     }
 
     public function add() 
@@ -55,54 +79,15 @@ class UsersController extends AppController {
             }
         }
     }
-
-    public function edit($id = null) 
-    {
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->User->read(null, $id);
-            unset($this->request->data['User']['password']);
-        }
-    }
-
-    public function delete($id = null) 
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->User->delete()) {
-            $this->Session->setFlash(__('User deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('User was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
     
     public function checkExistence() {
-        //echo json_encode(array('exists' => true));
         if($this->request->is('ajax')) {
-            //echo json_encode(array('exists' => true));
             if(!isset($this->request->data['username'])){
                 exit;
             }
             $this->layout = 'ajax';
             $this->autoRender = false;
             $user = $this->User->findByUsername($this->request->data['username']);
-            //pr($user);
             if(!$user){
                 echo json_encode(array('exists' => false));
             } else {

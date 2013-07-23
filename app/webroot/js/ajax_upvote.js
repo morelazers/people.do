@@ -1,53 +1,60 @@
 $(document).ready(function() {
-    
-    $(".upvoteIdeaButton").click(function(){
-        $(this).toggleClass("voted");
-    });
-    
-    $(".upvoteCommentButton").click(function(){
-        $(this).toggleClass("voted");
-    });
-    
+    if(!userIsLoggedIn){
+
+    }
+    else{
+        $("#UpvoteIdea").click(function(){
+            $(this).toggleClass("voted");
+            votes = parseInt($("#IdeaUpvoteCount").text());
+            if($(this).hasClass("voted")){
+                votes = votes + 1;
+            } else {
+                votes = votes - 1;
+            }
+            $("#IdeaUpvoteCount").text("" + votes);
+        });
+        
+        $(".upvoteComment").click(function(){
+            $(this).toggleClass("voted");
+            var id = this.id.slice(13);
+            votes = parseInt($("#CommentUpvoteCount" + id).text());
+            if($(this).hasClass("voted")){
+                votes = votes + 1;
+            } else {
+                votes = votes - 1;
+            }
+            $("#CommentUpvoteCount" + id).text(votes);
+        }); 
+    }
 });
 
     
-function upvoteComment(commentId, votes){
-    
-    
+function upvoteComment(commentId, votes, userId){
     var request = 
-    $.ajax("http://www.dev.thinkshare.it/cakephp/comments/upvote/",
+    $.ajax(window.location.origin + "/comments/upvote/",
     {
         type: "POST",
         data: 
             {
                 id : commentId,
-                upvotes: votes
+                upvotes : votes,
+                uid : userId
             },
-        dataType: "html"
+        dataType: "JSON"
     });
-    
-    request.done(function(html){
-        $("#commentUpvoteCount"+commentId).text(html);
-    });
-    
 }
 
-function upvoteIdea(ideaId, votes){
-    
+function upvoteIdea(ideaId, votes, userId){
     var request = 
-    $.ajax("http://www.dev.thinkshare.it/cakephp/ideas/upvote/",
+    $.ajax(window.location.origin + "/ideas/upvote/",
     {
         type: "POST",
         data: 
             {
                 id : ideaId,
-                upvotes: votes
+                upvotes: votes,
+                uid : userId
             },
-        dataType: "html"
+        dataType: "JSON"
     });
-    
-    request.done(function(html){
-        $("#ideaUpvoteCount").text(html);
-    });
-    
 }

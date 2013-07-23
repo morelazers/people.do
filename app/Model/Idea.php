@@ -2,6 +2,7 @@
 class Idea extends AppModel 
 {
     public $hasMany = array('Comment', 'IdeaUpvote');
+    public $belongsTo = array('User');
     
     public $validate = array(
         'name' => array(
