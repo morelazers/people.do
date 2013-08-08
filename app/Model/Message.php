@@ -2,7 +2,12 @@
 class Message extends AppModel {
     
     public $belongsTo = array(
-        'User' => array(
+        'Sender' => array(
+            'className' => 'User',
+            'foreignKey' => 'from_user_id'
+        ),
+        'Recipient' => array(
+            'className' => 'User',
             'foreignKey' => 'to_user_id'
         )
     );

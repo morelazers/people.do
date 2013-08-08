@@ -21,29 +21,26 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 ?>
 <!DOCTYPE html>
 <html>
+
+<?php include 'static/head.php'; ?>
+
 <head>
 
     <?php echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'); ?>
     <?php echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js'); ?>
-    <?php echo $this->Html->script('login_popup.js'); ?>
-    
-    <?php echo $this->Html->script('popbox.js'); ?>
-    <script type='text/javascript'>
-	   	$(document).ready(function(){
-	     	$('.login_popbox').popbox();
-	   	});
-	</script>
 
     <?php 
     	$userdata = $this->session->read('Auth.User'); 
     	echo '<script> var userIsLoggedIn = ';
     	if(!$userdata){
+            $loggedIn = false;
     		echo 'false ';
     	} else {
+            $loggedIn = true;
     		echo 'true ';
     	}
     	echo '</script>';
-    	debug($userdata);
+    	//debug($userdata);
     ?>
 
 	<?php echo $this->Html->charset(); ?>
@@ -56,6 +53,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('bootstrap');
+    echo $this->Html->css('bootstrap-responsive.min');
+    echo $this->Html->css('style');
+    echo $this->Html->css('http://fonts.googleapis.com/css?family=Lato:400,700');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -65,31 +65,51 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <body>
 
 	<div id="wrapper">
-      	<div id="header">
-        	<div class="container">
-          		<div class="fluid logo">
-            		Some Logo
-          		</div>
-          		<div id="navigation" class="fluid">
-            		<ul>
-              			<li><a href="/">Home</a></li>
-              			<li><a href="/ideas/add/">Share</a></li>
-              			<li><a href="/">Discover</a></li>
-              			<li><a href="/about/">About</a></li>
-            		</ul>
-          		</div>
-          		<div id="user-panel" class="pull-right">
-            		Welcome, Chris!
-          		</div>
-        	</div>
-      	</div>
+  	<div id="header" class="row">
+    	<div class="span4">
+      		<div class="logo">
+        		<?php 
+                    echo $this->Html->image("transparentlogo.png", array(
+                        "alt" => "People.do",
+                        'url' => array('controller' => 'ideas', 'action' => 'index'),
+                        'class' => 'peopleDoLogo'
+                    ));
+    			?>
+      		</div>
+      </div>      
+  		<div class="span6">
+        <ul class="navigation">
+          <li><a href="/ideas/index">Home</a></li>
+          <li><a href="/ideas/add">Share</a></li>
+          <li><a href="/ideas/index">Think</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+  		<div class="span2">
+        Welcome<?php if($loggedIn){ 
+                        echo ', '.$userdata['User']['display_name'].'!<br />';
+                        $unreadCount = 0;
+                        foreach($userdata['MessageReceived'] as $message){
+                            if(!$message['is_read']){
+                                $unreadCount++;
+                            }
+                        }
+                        echo '<a href="/messages/" class="messagesLink">Messages ('.$unreadCount.')</a>';
+                    } 
+                ?>
+      </div>
+    </div>
 
-        <div id="welcome-panel" class="container inset">
-	        Welcome<br />
-	        Welcome<br /> 
-	        Welcome<br />
-	        (Here you can use bootstrap fluid grid)
-      	</div>
+    
+
+    <div class="row">
+      <div class="span12">
+        <div class="hero-unit">
+          <?php echo $this->fetch('topbar'); ?>
+        </div>
+      </div>
+    </div>  
+
 		<div id="main" class="container inset">
 			<div id="content">
 				<?php echo $this->Session->flash(); ?>
@@ -97,15 +117,25 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 				<?php echo $this->fetch('content'); ?>
 			</div>
 		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
-		</div>
+		<div class="footer">
+      <div class="row">
+        <div class="span6">
+          <p>&copy; 2013 PeopleDo</p>
+        </div>
+        <!-- <div class="span6">
+          <ul class="row">
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html">Subscribe</a></li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php
+    echo $this->Js->writeBuffer();
+  ?>
 </body>
 </html>

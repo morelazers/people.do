@@ -1,6 +1,8 @@
 <!-- File: /app/View/Ideas/index.ctp -->
 
+<?php echo $this->start('topbar'); ?>
 <h1>Ideas</h1>
+<?php echo $this->end(); ?>
 
 <?php 
 echo $this->Html->link(
@@ -38,15 +40,15 @@ echo $this->Html->link(
 );
 ?>
 <br /><br />
+<?php
+echo $this->Html->link(
+    'Edit your profile',
+    array('controller' => 'profiles', 'action' => 'index')
+);
+?>
+<br /><br />
 
 <table>
-    <tr>
-        <th>Id</th>
-        <th>Title</th>
-    </tr>
-
-    <!-- Here is where we loop through our $ideas array, printing out post info -->
-
     <?php foreach ($ideas as $idea): ?>
         <div class="post">
             <p class="title">
@@ -56,10 +58,10 @@ echo $this->Html->link(
                 ?>
             </p>
             <p class="description">
-                Shared by: 
+                Brainchild of: 
                 <?php
-                    echo $this->Html->link($idea['Idea']['posted_by_name'], 
-                    array('controller' => 'users', 'action' => 'profile', $idea['Idea']['posted_by_name']));
+                    echo $this->Html->link($idea['Idea']['shared_by_name'], 
+                    array('controller' => 'profiles', 'action' => 'view', $idea['Idea']['user_id']));
                 ?>
                 <br />
                 <?php echo $idea['Idea']['upvotes']; ?>

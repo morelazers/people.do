@@ -69,10 +69,10 @@ class DATABASE_CONFIG {
 	public $test = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
-		'host' => 'mysql.thinkshare.it',
-		'login' => 'lazorsql',
-		'password' => 'laz0rbe4mz',
-		'database' => 'lazors_dev',
+		'host' => 'localhost',
+		'login' => 'root',
+		'password' => '',
+		'database' => 'peopledo',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);

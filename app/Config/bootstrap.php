@@ -135,3 +135,6 @@ Configure::write('Opauth.Strategy.Google', array(
 
 // Load the Twitter Bootstrap plugin
 CakePlugin::load('BoostCake');
+
+// Load the Chosen plugin
+CakePlugin::load('Chosen');

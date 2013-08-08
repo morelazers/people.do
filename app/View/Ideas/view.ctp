@@ -3,17 +3,22 @@
 <?php echo $this->Html->script('ajax_upvote'); ?>
 <?php echo $this->Html->script('ajax_replyToComment'); ?>
 
+<?php echo $this->start('topbar'); ?>
 <h1><?php echo h($idea['Idea']['name']); ?></h1>
-<div id="ideaId" display="none"><?php echo $idea['Idea']['id']; ?></div>
+<div id="ideaId" style="display:none"><?php echo $idea['Idea']['id']; ?></div>
 
-<p><small>Posted by: <?php echo $idea['Idea']['posted_by_name']; ?></small></p>
+<p><small>Brainchild of: 
+<?php
+    echo $this->Html->link($idea['Idea']['shared_by_name'], 
+    array('controller' => 'profiles', 'action' => 'view', $idea['Idea']['user_id']), array('class' => 'topBarLink'));
+?>
+</small></p>
 
-<p>Upvotes: </p>
-<div id="IdeaUpvoteCount">
-    <?php echo $idea['Idea']['upvotes']; ?>
-</div>
-
-<p><?php echo h($idea['Idea']['description']); ?></p>
+<p>Upvotes: 
+    <span id="IdeaUpvoteCount">
+        <?php echo $idea['Idea']['upvotes']; ?>
+    </span>
+</p>
 
 <?php 
 
@@ -37,26 +42,15 @@
     }
 ?>
 
+<?php echo $this->end(); ?>
+
+<p><?php echo h($idea['Idea']['description']); ?></p>
+
 <hr>
-
-<?php foreach ($comments as $comment): ?>
-
-<tr>
-    <?php 
-        echo $this->element('comment', array(
-                                    'comment' => $comment,
-                                    'commentUpvotes' => $commentUpvotes,
-                                    'user' => $user
-                                    
-                                    ));
-    ?>
-</tr>
-<?php endforeach; ?>
-<?php unset($comment); ?>
 
 <?php
 
-    /* Show the comment form at the bottom of the list of comments */
+    /* Show the comment form at the top of the list of comments */
 
     if(!$user){
         ?>
@@ -65,12 +59,43 @@
         <?php
     } else {
         echo $this->Form->create('Comment');
-        echo $this->Form->input('Comment', array('rows' => '3'));
-        echo $this->Form->end(array(
+        if(isset($user)){
+            echo $this->Form->hidden(
+                'UserId', 
+                array('value' => $user['User']['id'])
+            );
+        }
+        
+        echo $this->Form->input('content', array(
+            'rows' => '3',
+            'id' => 'commentBox',
+            'label' => 'Leave a comment!'
+            )
+        );
+        $options = array(
             'label' => 'Submit Comment',
             'id' => 'SubmitComment'
-        ));
+        );
+        echo $this->Form->end($options);
     }
-
-    echo $this->Js->writeBuffer();
 ?>
+
+<hr>
+
+<?php foreach ($comments as $comment): ?>
+
+<tr>
+    <?php 
+        if(empty($comment['Parent']['id'])){
+            echo $this->element(
+                'comment', array(
+                    'comment' => $comment,
+                    'commentUpvotes' => $commentUpvotes,
+                    'user' => $user
+                )
+            );
+        }
+    ?>
+</tr>
+<?php endforeach; ?>
+<?php unset($comment); ?>

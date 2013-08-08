@@ -32,18 +32,21 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+    
+    public $uses = array('User');
 
     public $helpers = array(
         'Session',
         'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
         'Form' => array('className' => 'BoostCake.BoostCakeForm'),
         'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
+        'Chosen.Chosen'
     );
     
     public $components = array(
         'Session',
         'Auth' => array(
-            'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
+            'loginRedirect' => array('controller' => 'ideas', 'action' => 'index'),
             'logoutRedirect' => array('controller' => 'ideas', 'action' => 'index'),
             'authorize' => array('Controller'), // Added this line
             'flash' => array(
@@ -71,6 +74,14 @@ class AppController extends Controller {
     public function beforeFilter() 
     {
         $this->Auth->allow();
+        
+        if($this->Session->check('Auth.User')) {
+            $user = $this->Auth->user();
+            $uid = $user['User']['id'];
+            $user = $this->User->findById($uid);
+            $this->Auth->login($user);
+        }
+        
     }
     
 }

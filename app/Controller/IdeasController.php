@@ -3,6 +3,7 @@ class IdeasController extends AppController
 {
     public $helpers = array('Html', 'Form', 'Session', 'Js');
     public $components = array('Session', 'RequestHandler');
+    public $uses = array('Interest', 'Idea');
     
     public function index()
     {
@@ -18,20 +19,23 @@ class IdeasController extends AppController
         $user = $this->Auth->user();
         $uid = $user['User']['id'];
         
+        $idea = $this->Idea->findById($id);
+        
         if($this->request->is('post')) {
             $this->request->data['Comment']['user_id'] = $uid;
             $this->request->data['Comment']['idea_id'] = $id;
-            $this->request->data['Comment']['content'] = $this->request->data['Comment']['comment'];
+            
             $this->Idea->Comment->create();
             if($this->Idea->Comment->save($this->request->data)) {
                 $this->Session->setFlash('Comment posted!');
+                $newId = $this->Idea->Comment->getLastInsertId();
             }
+            if($idea['Idea']['user_id'] !== $uid) {
+                $this->Idea->notifyPoster($uid, $this->request->data, $idea['Idea']['user_id'], $newId);
+            }
+            $this->redirect(array('action' => 'view', $id));
         }
         
-        $this->Idea->unbindModel(
-            array('hasMany' => array('Comment'))
-        );
-        $idea = $this->Idea->findById($id);
         $ideaUpvotes = $this->Idea->IdeaUpvote->find('all', array(
             'conditions' => array('idea_id' => $id)));
         $commentUpvotes = $this->Idea->Comment->CommentUpvote->find('all', array(
@@ -41,18 +45,29 @@ class IdeasController extends AppController
             throw new NotFoundException(__('Invalid idea'));
         }
         
-        $comments = $this->Idea->Comment->find('all', array(
-            'conditions' => array('Comment.idea_id' => $id)));
+        $this->Idea->unbindModel(
+            array('hasMany' => array('Comment'))
+        );
+        
+        $comments = $this->Idea->Comment->find(
+            'threaded', array(
+                'conditions' => array(
+                    'Comment.idea_id' => $id
+                ),
+                'order' => array(
+                    'Comment.upvotes' => 'desc'  
+                )
+            )
+        );
         
         $data = array(
             'idea' => $idea,
             'ideaUpvotes' => $ideaUpvotes,
             'commentUpvotes' => $commentUpvotes,
-            'comments' => $comments
+            'comments' => $comments,
+            'user' => $user
         );
-            
-        debug($data);
-        
+
         $this->set($data);
     }
     
@@ -82,15 +97,40 @@ class IdeasController extends AppController
     public function add() 
     {
         if ($this->request->is('post')) {
-            $this->request->data['Idea']['user_id'] = $this->Auth->user['id'];
+            $user = $this->Auth->user();
+            $this->request->data['Idea']['user_id'] = $user['User']['id'];
+            $this->request->data['Idea']['shared_by_name'] = $user['User']['display_name'];
             $this->Idea->create();
+                 
             if ($this->Idea->save($this->request->data)) {
-                $this->Session->setFlash('Your idea has been posted.');
-                $this->redirect(array('action' => 'index'));
+                $ideaId = $this->Idea->getLastInsertId();
+                
+                $ideaInterest['idea_id'] = $ideaId;
+                $this->Session->setFlash('Your idea has been shared!');
+
+                if(!empty($this->request->data['Interest']['id'])){
+                    foreach($this->request->data['Interest']['id'] as $id){
+                        if(!is_numeric($id)){
+                            $this->Interest->saveNewInterest($id, $user['User']['id']);
+                            $id = $this->Interest->getLastInsertId();
+                        }
+                        if(!$this->Idea->IdeaInterest->findByIdeaIdAndInterestId($ideaId, $id)) {
+                            $ideaInterest['interest_id'] = $id;
+                            $this->Idea->IdeaInterest->create();
+                            $this->Idea->IdeaInterest->save($ideaInterest);
+                        }
+                    }
+                }
+                $this->redirect(array('action' => 'view', $ideaId));
             } else {
                 $this->Session->setFlash('Unable to add your idea.');
             }
         }
+        $interests = $this->Interest->find('all');
+        $this->set(array(
+            'interests' => $interests
+            )
+        );
     }
     
     public function isAuthorized($user) 
@@ -107,7 +147,6 @@ class IdeasController extends AppController
                 return true;
             }
         }
-    
         return parent::isAuthorized($user);
     }
     

@@ -3,6 +3,11 @@ class CommentsController extends AppController {
     
     public $components = array('RequestHandler');
     
+    public function index(){
+        /*$data = $this->Comment->generateTreeList(null, null, null, '&nbsp;&nbsp;&nbsp;');
+        debug($data); die;*/
+    }
+    
     public function upvote() {
         if($this->request->is('ajax')){
             $this->layout = 'ajax';
@@ -29,41 +34,44 @@ class CommentsController extends AppController {
             $this->layout = 'ajax';
             $this->autoRender = false;
             $ideaId = $this->request->data['ideaId'];
-            $parentId = $this->request->data['parentId'];
+            if($this->request->data['parentId']){
+                $parentId = $this->request->data['parentId'];
+            } else {
+                $parentId = null;
+            }
             $uid = $this->request->data['uid'];
             $content = $this->request->data['content'];
             $this->Comment->create();
             $data = array(
                 'idea_id' => $ideaId,
-                'parent_comment_id' => $parentId,
+                'parent_id' => $parentId,
                 'user_id' => $uid,
                 'content' => $content
-                );
+            );
+            
             $this->Comment->save($data);
             $user = $this->Auth->user();
             $comment = array(
-                'id' => $this->Comment->id,
-                'content' => $content,
-                'upvotes' => 1
-                );
-            $this->set(array(
-                'user' => $user,
-                'comment' => $comment
-                ));
+                'Comment' => array(
+                    'id' => $this->Comment->id,
+                    'content' => $content,
+                    'upvotes' => 1
+                )
+            );
                 
-            //$this->autoRender = false;
             $view = new View($this, false);
             $view->set(array(
                 'user' => $user,
                 'comment' => $comment
-                ));
+                )
+            );
+            
+            $newId = $this->Comment->id;
+            
             $view->viewPath = 'Elements';
             $view_output = $view->render('comment');
-                
-                
-            
-            /*$variable = $this->render('/Elements/comment');*/
-            echo json_encode(array('content' => $content, 'newCommentId' => $this->Comment->id, 'comment' => $view_output));
+            echo json_encode(array('content' => $content, 'newCommentId' => $newId, 'comment' => $view_output));
+            $this->Comment->notifyPoster($uid, $data, $parentId, $newId);
         }
     }
     

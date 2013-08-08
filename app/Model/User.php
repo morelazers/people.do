@@ -2,8 +2,20 @@
 App::uses('AuthComponent', 'Controller/Component');
 class User extends AppModel
 {
+    //public $uses = 'Message';
     public $hasOne = array('GoogleUser', 'FacebookUser', 'Profile');
-    //public $hasMany = array('IdeaUpvote');
+    public $hasMany = array(
+        'UserInterest',
+        'Interest',
+        'MessageSent' => array(
+            'className' => 'Message',
+            'foreignKey' => 'from_user_id'
+        ),
+        'MessageReceived' => array(
+            'className' => 'Message',
+            'foreignKey' => 'to_user_id'
+        )
+    );
 
     public $validate = array(
         'username' => array(
@@ -46,5 +58,19 @@ class User extends AppModel
         }
         
     }
+    
+    public function sendMessage($id, $message, $ownerId, $newId){
+        $this->id = $id;
+        
+        $data['from_user_id'] = $id;
+        $data['to_user_id'] = $ownerId;
+        $data['subject'] = $message['subject'];
+        $data['content'] = $message['content'];
+        $data['comment_id'] = $newId;
+        
+        $this->MessageReceived->create($data);
+        $this->MessageReceived->save($data);
+    }
+    
 }
 ?>

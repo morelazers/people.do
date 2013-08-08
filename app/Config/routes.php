@@ -30,7 +30,11 @@
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/profiles/*', array('controller' => 'profiles', 'action' => 'index'));
+	Router::connect('/profile', array('controller' => 'profiles', 'action' => 'index'));
+    Router::connect('/profile/view/*', array('controller' => 'profiles', 'action' => 'view'));
+    Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
+    
+    Router::connect('/about/*', array('controller' => 'pages', 'action' => 'about'));
 
 
 	Router::connect(

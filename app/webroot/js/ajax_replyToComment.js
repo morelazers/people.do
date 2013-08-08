@@ -1,30 +1,31 @@
-var replying = false;
-
 $(document).ready(function() {
 	$('.replyToCommentButton').click(function(event){
         event.preventDefault();
-		if($(this).text() === 'Reply'){
-			$(this).text('Cancel');
-            replying = true;
-		} else {
-			$(this).text('Reply');
-            replying = false;
-		}
 	});
 });
 
 function showReplyBox(commentId, userId){
-    if(replying){
-        $('#Comment'+commentId).append("<div class='replyArea'><br /><textarea id='ReplyToCommentTextArea"+commentId+"' rows='3' cols='30' required='required'></textarea>"+
+    
+    var thisButton = $('#ReplyToComment'+commentId);
+    
+    if(thisButton.text() === 'Reply'){
+        thisButton.text('Cancel');
+        var element = $("<div class='replyArea' id='ReplyArea"+commentId+"'><br /><textarea id='ReplyToCommentTextArea"+commentId+"' rows='3' cols='30' required='required'></textarea>"+
         "<br /><button class='submitCommentReply' onclick='replyToComment("+commentId+", "+userId+")'>Submit Reply</button></div>");
+        $(element).insertAfter("#ReplyToComment"+commentId);
     } else {
-        $('.replyArea').remove();
+        thisButton.text('Reply');
+        $('#ReplyArea'+commentId).remove();
     }
 }
 
 function replyToComment(commentId, userId){
+    if($("#ReplyToCommentTextArea"+commentId).val() === ""){
+        return;
+    }
     var commentContent = $("#ReplyToCommentTextArea"+commentId).val();
     var ideaId = $("#ideaId").text();
+    
 	var request = 
     $.ajax(window.location.origin + "/comments/reply/",
     {
@@ -38,10 +39,12 @@ function replyToComment(commentId, userId){
             },
         dataType: "JSON"
     });
-    
+
     request.done(function(data){
-        $('#Comment'+commentId).append("<div class='commentChild'>"+data.comment+"</div>");
         $('.replyArea').remove();
+        $('#ReplyToComment'+commentId).text('Reply');
+        var element = $("<div class='commentChild'>"+data.comment+"</div>");
+        $(element).insertAfter("#ReplyToComment"+commentId);
     });
 
 }

@@ -1,10 +1,9 @@
 <?php 
     if(!isset($child)){
         $child = false;
-        $thisComment = $comment['Comment']; 
-    } else {
-        $thisComment = $comment;
     }
+    
+    $thisComment = $comment['Comment'];
 ?>
 
 <div class="comment<?php if($child){ echo 'Child'; }?>" id="Comment<?php echo $thisComment['id']; ?>">
@@ -25,7 +24,7 @@
             $class = 'upvoteComment';
             if(isset($commentUpvotes)){
                 foreach($commentUpvotes as $vote){
-                    if($vote['CommentUpvote']['id'] === $thisComment['id'] && $vote['User']['id'] === $user['User']['id']){
+                    if($vote['CommentUpvote']['comment_id'] === $thisComment['id'] && $vote['User']['id'] === $user['User']['id']){
                         $class = 'upvoteComment voted';
                     }
                 }
@@ -43,8 +42,8 @@
             echo $this->Js->get('#ReplyToComment'.$thisComment['id'])->event('click', $replyEventCode, array('wrap' =>true));
         }
         
-        if(!empty($comment['Children'])){
-            foreach($comment['Children'] as $comment){
+        if(!empty($comment['children'])){
+            foreach($comment['children'] as $comment){
                 echo $this->element(
                     'comment', array(
                         'comment' => $comment,

@@ -17,7 +17,7 @@ class FacebookUser extends AppModel{
 		$this->User->save($user);
 
 		$user = array();
-		$user['facebook_id'] = $raw['auth']['uid'];
+		$user['facebook_link'] = $raw['auth']['raw']['link'];
 		$user['user_id'] = $this->User->id;
 		$user['token'] = $raw['auth']['credentials']['token'];
 		$this->create();

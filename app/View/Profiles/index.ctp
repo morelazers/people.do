@@ -12,13 +12,21 @@
 			$("#EditButton").text("Edit");
 		}
 	}
+    
 </script>
 
 <div id="EditForm">
 <?php
 	echo $this->Form->create('Profile');
     echo $this->Form->input('about_me', array('rows' => '3'));
-    echo $this->Form->input('interests');
+    
+    echo $this->element('interestBox', array(
+        'interests' => $interests,
+        'selected' => $selected,
+        'placeholder' => 'What are you interested in?'
+        )
+    );
+
     echo $this->Form->input('id', array('type' => 'hidden'));
     echo $this->Form->end('Save');
 ?>
