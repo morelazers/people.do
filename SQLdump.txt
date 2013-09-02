@@ -1,0 +1,473 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.10.4
+-- http://www.phpmyadmin.net
+--
+-- Host: mysql.thinkshare.it
+-- Generation Time: Aug 28, 2013 at 04:06 PM
+-- Server version: 5.1.39
+-- PHP Version: 5.3.13
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `lazors_dev`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idea_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `user_id` varchar(100) COLLATE ascii_bin DEFAULT NULL,
+  `content` varchar(10000) COLLATE ascii_bin DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `upvotes` int(10) DEFAULT '1',
+  `lft` int(11) NOT NULL,
+  `rght` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=207 ;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `idea_id`, `parent_id`, `user_id`, `content`, `created`, `upvotes`, `lft`, `rght`) VALUES
+(199, 29, 197, '39', 'Testing', '2013-08-16 02:45:55', 0, 29, 32),
+(200, 29, 199, '39', 'kaslammo', '2013-08-16 02:48:14', 1, 30, 31),
+(201, 29, 198, '39', 'Works now!', '2013-08-16 02:48:35', 0, 35, 38),
+(192, 28, NULL, '39', 'Comment', '2013-08-12 11:12:55', 1, 47, 54),
+(193, 28, 192, '39', 'Reply', '2013-08-12 11:13:02', 1, 48, 53),
+(194, 28, 193, '39', 'Disabled button', '2013-08-12 11:15:03', 1, 49, 52),
+(195, 28, 194, '39', 'Only when you reply though', '2013-08-12 11:15:16', 1, 50, 51),
+(196, NULL, 0, '39', 'HI JADE', '2013-08-14 07:12:38', 1, 55, 56),
+(197, 29, 186, '53', 'Yeah upvotes! ', '2013-08-15 17:58:31', 2, 28, 33),
+(198, 29, 186, '53', 'Notice (8): Undefined index: User [APP/View/Elements/comment.ctp, line 7]', '2013-08-15 17:58:46', 2, 34, 45),
+(186, 29, NULL, '39', 'Have an upvote! (And a message)', '2013-08-12 10:38:50', 3, 27, 46),
+(184, 20, NULL, '53', 'comment', '2013-08-12 08:54:14', 1, 23, 24),
+(185, 20, NULL, '53', 'Comment?', '2013-08-12 08:54:24', 1, 25, 26),
+(202, 29, 198, '39', 'Works now!', '2013-08-16 02:48:37', 1, 39, 40),
+(203, 29, 198, '39', 'Works now!', '2013-08-16 02:48:49', 1, 41, 42),
+(204, 29, 198, '39', 'Well at least it should work now.', '2013-08-16 02:50:04', 1, 43, 44),
+(205, 29, 201, '1', 'someone hit the reply button a few too many times.', '2013-08-16 02:56:04', 2, 36, 37),
+(206, 30, NULL, '39', 'You need not.', '2013-08-16 15:36:55', 1, 57, 58);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comment_upvotes`
+--
+
+DROP TABLE IF EXISTS `comment_upvotes`;
+CREATE TABLE IF NOT EXISTS `comment_upvotes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=257 ;
+
+--
+-- Dumping data for table `comment_upvotes`
+--
+
+INSERT INTO `comment_upvotes` (`id`, `comment_id`, `user_id`, `created`) VALUES
+(231, 196, 39, '2013-08-14 07:12:39'),
+(229, 195, 39, '2013-08-12 11:15:16'),
+(228, 194, 39, '2013-08-12 11:15:03'),
+(227, 193, 39, '2013-08-12 11:13:21'),
+(225, 192, 39, '2013-08-12 11:12:55'),
+(221, 191, NULL, '2013-08-12 10:57:19'),
+(224, 189, 39, '2013-08-12 11:02:47'),
+(201, 188, 39, '2013-08-12 10:41:43'),
+(244, 186, 39, '2013-08-16 02:50:45'),
+(202, 187, 39, '2013-08-12 10:41:51'),
+(186, 185, 53, '2013-08-12 08:54:24'),
+(185, 184, 53, '2013-08-12 08:54:14'),
+(181, 182, 39, '2013-08-12 07:33:01'),
+(162, 179, 39, '2013-08-12 07:17:21'),
+(161, 178, 39, '2013-08-12 07:12:03'),
+(184, 183, 39, '2013-08-12 07:40:08'),
+(152, 176, 39, '2013-08-12 07:03:02'),
+(142, 175, 39, '2013-08-12 07:02:42'),
+(141, 174, 39, '2013-08-12 06:58:12'),
+(140, 173, 39, '2013-08-12 06:56:49'),
+(232, 186, 53, '2013-08-15 17:58:18'),
+(233, 197, 53, '2013-08-15 17:58:31'),
+(234, 198, 53, '2013-08-15 17:58:46'),
+(247, 186, 38, '2013-08-16 14:31:06'),
+(246, 205, 1, '2013-08-16 02:56:04'),
+(249, 202, 38, '2013-08-16 14:31:09'),
+(248, 205, 38, '2013-08-16 14:31:08'),
+(241, 198, 39, '2013-08-16 02:50:33'),
+(240, 204, 39, '2013-08-16 02:50:04'),
+(250, 203, 38, '2013-08-16 14:31:09'),
+(251, 197, 38, '2013-08-16 14:31:10'),
+(254, 200, 38, '2013-08-16 14:31:14'),
+(256, 206, 39, '2013-08-16 15:36:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `facebook_users`
+--
+
+DROP TABLE IF EXISTS `facebook_users`;
+CREATE TABLE IF NOT EXISTS `facebook_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `facebook_link` varchar(1000) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+
+--
+-- Dumping data for table `facebook_users`
+--
+
+INSERT INTO `facebook_users` (`id`, `facebook_link`, `user_id`, `token`) VALUES
+(16, 'https://www.facebook.com/sam.wooler', 38, 'CAACaB5SuMVABAI9ihc6xqrPZAh76hqueJwlLmkxb3EmfudMxiqWKNWV6meqfPibWLaUitFHouDiYEy0euOQR0b9b9eZAi7srUwB20lHYB2IwasVhyr9bE2X5MoauhQE0ZAWaAAWOMADtNsI5jvNdkCD0fRbqZCwZD'),
+(17, 'https://www.facebook.com/trollingyouu', 39, 'CAACaB5SuMVABAF9nHf4ZAq660HuzVZCRaRmZAnfMv3zyXy2iI0OZAnZBBmIGXJAawqBi272pgZBS4ks6pI6QZAqJXZAELDsdkpenBIeb5w8O27fZABY8PvFLyTcSwtl4XmytyGI02tyLKGUSPyLnZBnMrETIwCndOEqokZD'),
+(18, 'https://www.facebook.com/henry.coggin', 40, 'CAACaB5SuMVABAAkm9Bj1pZAMquHqd8BZCGLTlAv8TPC6yRGXC6DaYO4ctOi7vqJvNKMDgqK1D5vEgVZCVJAG8MAlq2I1IBER5qo2aPvuI1vLr6N2efEKxxl4KV7duU5VMZAt8kb7wFTQSkN3zd34'),
+(19, 'https://www.facebook.com/jade.sunley', 54, 'CAACaB5SuMVABAJmTqGOoNPOpcH4222O07ZCfBKgerk7g6rjjR6BiEAPrneF2bqEgyQohYYL9tV8dnzA4ZBfWImqY3G1v2ZBrQ91THunWZBpzSVhvhZCeGrSFEgQn6s1JJdE3EjPfT6VMVmEAUBi0I');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `google_users`
+--
+
+DROP TABLE IF EXISTS `google_users`;
+CREATE TABLE IF NOT EXISTS `google_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `google_id` varchar(1000) NOT NULL,
+  `token` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `google_users`
+--
+
+INSERT INTO `google_users` (`id`, `user_id`, `google_id`, `token`) VALUES
+(3, 52, '108026918809709683463', 'ya29.AHES6ZSNdMhlwnvKLtyNp_zoybYiEmE60lhbTdBMe-b-TsVlea0Z2ag_');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ideas`
+--
+
+DROP TABLE IF EXISTS `ideas`;
+CREATE TABLE IF NOT EXISTS `ideas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `shared_by_name` varchar(100) COLLATE ascii_bin DEFAULT NULL,
+  `name` varchar(1000) COLLATE ascii_bin DEFAULT NULL,
+  `description` mediumtext COLLATE ascii_bin,
+  `interests` varchar(10000) COLLATE ascii_bin DEFAULT NULL,
+  `is_open` tinyint(1) DEFAULT NULL,
+  `upvotes` int(11) DEFAULT '1',
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=31 ;
+
+--
+-- Dumping data for table `ideas`
+--
+
+INSERT INTO `ideas` (`id`, `user_id`, `shared_by_name`, `name`, `description`, `interests`, `is_open`, `upvotes`, `created`) VALUES
+(21, 39, 'Tom Nash', 'This is another idea', 0x49742773206e6f742061207665727920676f6f64206f6e652074686f756768, NULL, NULL, 1, '2013-08-08 11:58:33'),
+(20, 38, 'Sam Wooler', 'This is an idea title!', 0x5468697320697320746865206465736372697074696f6e21, NULL, NULL, 2, '2013-08-07 03:51:35'),
+(29, 53, 'jon', 'More ideas!', 0x4964656173206172652066756e, NULL, NULL, 2, '2013-08-12 08:54:48'),
+(30, 38, 'Sam Wooler', 'Self-Microwaving Hot Dog', 0x4e656564204920736179206d6f72653f213f, NULL, NULL, 2, '2013-08-16 14:29:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `idea_interests`
+--
+
+DROP TABLE IF EXISTS `idea_interests`;
+CREATE TABLE IF NOT EXISTS `idea_interests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idea_id` int(11) NOT NULL,
+  `interest_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=54 ;
+
+--
+-- Dumping data for table `idea_interests`
+--
+
+INSERT INTO `idea_interests` (`id`, `idea_id`, `interest_id`) VALUES
+(28, 18, 1),
+(29, 18, 3),
+(30, 18, 4),
+(31, 18, 7),
+(32, 18, 4549),
+(33, 19, 1),
+(34, 19, 2),
+(35, 19, 4),
+(36, 19, 5),
+(37, 19, 7),
+(38, 19, 4549),
+(39, 20, 3),
+(40, 21, 1),
+(41, 21, 4),
+(42, 21, 7),
+(43, 21, 4549),
+(44, 22, 4),
+(45, 23, 2),
+(46, 26, 2),
+(47, 26, 4),
+(48, 27, 3),
+(49, 28, 3),
+(50, 29, 2),
+(51, 30, 1),
+(52, 30, 5),
+(53, 30, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `idea_upvotes`
+--
+
+DROP TABLE IF EXISTS `idea_upvotes`;
+CREATE TABLE IF NOT EXISTS `idea_upvotes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idea_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=91 ;
+
+--
+-- Dumping data for table `idea_upvotes`
+--
+
+INSERT INTO `idea_upvotes` (`id`, `idea_id`, `user_id`, `created`) VALUES
+(88, 30, 38, '2013-08-16 14:29:38'),
+(37, 20, 40, '2013-08-07 11:46:15'),
+(40, 21, 1, '2013-08-10 04:26:30'),
+(45, 25, 38, '2013-08-10 13:19:19'),
+(47, 27, 39, '2013-08-11 06:38:41'),
+(87, 29, 1, '2013-08-16 02:55:42'),
+(50, 29, 53, '2013-08-12 08:54:48'),
+(89, 30, 39, '2013-08-16 15:36:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `interests`
+--
+
+DROP TABLE IF EXISTS `interests`;
+CREATE TABLE IF NOT EXISTS `interests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE ascii_bin NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=4551 ;
+
+--
+-- Dumping data for table `interests`
+--
+
+INSERT INTO `interests` (`id`, `name`, `user_id`, `created`) VALUES
+(1, 'Activism', NULL, '2013-07-29 02:43:20'),
+(2, 'Ideas', NULL, '2013-07-29 02:44:14'),
+(3, 'Crisps', 1, '0000-00-00 00:00:00'),
+(4, 'Politics', 1, '0000-00-00 00:00:00'),
+(5, 'Religion', 1, '0000-00-00 00:00:00'),
+(6, 'Comics', 23, '0000-00-00 00:00:00'),
+(7, 'Comic Books', 23, '0000-00-00 00:00:00'),
+(4549, 'Guitars', 23, '2013-08-02 09:25:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE IF NOT EXISTS `messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_user_id` int(11) DEFAULT NULL,
+  `to_user_id` int(11) DEFAULT NULL,
+  `subject` varchar(100) COLLATE ascii_bin DEFAULT NULL,
+  `content` varchar(1000) COLLATE ascii_bin DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `is_read` tinyint(1) DEFAULT NULL,
+  `comment_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=69 ;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `subject`, `content`, `created`, `is_read`, `comment_id`) VALUES
+(57, 39, 38, 'a', 'a', '2013-08-14 10:17:05', 1, NULL),
+(58, 39, 38, 'a', 'a', '2013-08-14 10:17:51', 1, NULL),
+(59, 39, 38, 'sorry these are all tests', 'loltest', '2013-08-14 10:18:44', 1, NULL),
+(56, 39, 38, 'I mean really about to', 'PLAY DOTA', '2013-08-14 10:16:20', 1, NULL),
+(55, 39, 38, 'Sam', 'I am about to relapse.', '2013-08-14 10:14:36', 1, NULL),
+(53, 1, 39, 'FUCKIN HI', 'hello\r\nthis \r\nis\r\na mesage from\r\njade', '2013-08-14 07:09:29', 1, NULL),
+(54, 39, 1, ' replied to your comment!', 'HI JADE', '2013-08-14 07:12:39', NULL, NULL),
+(50, 39, 53, 'You have a new reply from Tom Nash!', 'Have an upvote! (And a message)', '2013-08-12 10:38:50', 1, 186),
+(49, 53, 38, 'You have a new reply from jon!', 'Comment?', '2013-08-12 08:54:24', 1, 185),
+(48, 53, 38, 'You have a new reply from jon!', 'comment', '2013-08-12 08:54:14', 1, 184),
+(60, 53, 39, 'jon replied to your comment!', 'Yeah upvotes! ', '2013-08-15 17:58:31', 1, 197),
+(61, 53, 39, 'jon replied to your comment!', 'Notice (8): Undefined index: User [APP/View/Elements/comment.ctp, line 7]', '2013-08-15 17:58:47', 1, 198),
+(62, 39, 53, 'Tom Nash replied to your comment!', 'Testing', '2013-08-16 02:45:55', NULL, 199),
+(63, 39, 53, ' replied to your comment!', 'Works now!', '2013-08-16 02:48:35', NULL, NULL),
+(64, 39, 53, ' replied to your comment!', 'Works now!', '2013-08-16 02:48:37', NULL, NULL),
+(65, 39, 53, ' replied to your comment!', 'Works now!', '2013-08-16 02:48:49', NULL, NULL),
+(66, 39, 53, 'Tom Nash replied to your comment!', 'Well at least it should work now.', '2013-08-16 02:50:04', NULL, NULL),
+(67, 1, 39, 'JADE replied to your comment!', 'someone hit the reply button a few too many times.', '2013-08-16 02:56:04', 1, 205),
+(68, 39, 38, 'You have a new reply from Tom Nash!', 'You need not.', '2013-08-16 15:36:55', NULL, 206);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `profiles`
+--
+
+DROP TABLE IF EXISTS `profiles`;
+CREATE TABLE IF NOT EXISTS `profiles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `about_me` varchar(10000) DEFAULT NULL,
+  `avatar_location` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+
+--
+-- Dumping data for table `profiles`
+--
+
+INSERT INTO `profiles` (`id`, `user_id`, `about_me`, `avatar_location`) VALUES
+(29, 38, NULL, NULL),
+(30, 39, NULL, NULL),
+(31, 40, NULL, NULL),
+(33, 42, NULL, NULL),
+(35, 44, NULL, NULL),
+(36, 45, NULL, NULL),
+(37, 46, NULL, NULL),
+(38, 47, NULL, NULL),
+(39, 48, NULL, NULL),
+(40, 49, NULL, NULL),
+(41, 50, NULL, NULL),
+(42, 51, NULL, NULL),
+(43, 52, NULL, NULL),
+(44, 53, NULL, NULL),
+(45, 54, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `twitter_users`
+--
+
+DROP TABLE IF EXISTS `twitter_users`;
+CREATE TABLE IF NOT EXISTS `twitter_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `token_key` varchar(100) DEFAULT NULL,
+  `token_secret` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `twitter_users`
+--
+
+INSERT INTO `twitter_users` (`id`, `user_id`, `token_key`, `token_secret`) VALUES
+(13, 13, '864820321-CaNKT0zMuaIpMeyAwBKL2lnScfXrZmYgEwmo1jgl', 'e3YOudV6F5T3miIrCWJ6tanmKDMoULHjscbZIxEmE'),
+(12, 12, '864820321-CaNKT0zMuaIpMeyAwBKL2lnScfXrZmYgEwmo1jgl', 'e3YOudV6F5T3miIrCWJ6tanmKDMoULHjscbZIxEmE');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) COLLATE ascii_bin DEFAULT NULL,
+  `display_name` varchar(100) COLLATE ascii_bin DEFAULT NULL,
+  `usertype` varchar(10) COLLATE ascii_bin DEFAULT NULL,
+  `email_address` varchar(100) COLLATE ascii_bin DEFAULT NULL,
+  `password` varchar(1000) COLLATE ascii_bin DEFAULT NULL,
+  `about_me` varchar(1000) COLLATE ascii_bin DEFAULT NULL,
+  `avatar_location` varchar(150) COLLATE ascii_bin DEFAULT NULL,
+  `twitter_user` tinyint(1) NOT NULL DEFAULT '0',
+  `facebook_user` tinyint(1) NOT NULL DEFAULT '0',
+  `google_user` tinyint(1) NOT NULL DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=55 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `display_name`, `usertype`, `email_address`, `password`, `about_me`, `avatar_location`, `twitter_user`, `facebook_user`, `google_user`, `created`) VALUES
+(1, 'JADE', 'JADE', 'admin', NULL, '3a4d4931283d521a20cf6948aaa6afd108d0d796', NULL, NULL, 0, 0, 0, NULL),
+(52, NULL, 'Tom Nash', NULL, 'contacttomnash@gmail.com', NULL, NULL, NULL, 0, 0, 1, '2013-08-11 06:42:16'),
+(53, 'jon', 'jon', NULL, 'jon@sparks.li', '5e63b3a6f32487b117dc84e15591e067c61b9efc', NULL, NULL, 0, 0, 0, '2013-08-12 08:54:12'),
+(38, NULL, 'Sam Wooler', NULL, NULL, NULL, NULL, 'https://graph.facebook.com/100002964246863/picture?type=square', 0, 1, 0, '2013-08-07 03:50:52'),
+(39, NULL, 'Tom Nash', NULL, NULL, NULL, NULL, 'https://graph.facebook.com/1644527514/picture?type=square', 0, 1, 0, '2013-08-07 03:50:54'),
+(40, NULL, 'Henry Coggin', NULL, NULL, NULL, NULL, 'https://graph.facebook.com/717941467/picture?type=square', 0, 1, 0, '2013-08-07 11:45:38'),
+(54, NULL, 'Jade Sunley', NULL, NULL, NULL, NULL, 'https://graph.facebook.com/604304691/picture?type=square', 0, 1, 0, '2013-08-13 12:19:30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_interests`
+--
+
+DROP TABLE IF EXISTS `user_interests`;
+CREATE TABLE IF NOT EXISTS `user_interests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `interest_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=123 ;
+
+--
+-- Dumping data for table `user_interests`
+--
+
+INSERT INTO `user_interests` (`id`, `user_id`, `interest_id`) VALUES
+(92, 23, 4549),
+(90, 23, 4),
+(89, 23, 2),
+(87, 1, 5),
+(86, 1, 4),
+(85, 1, 3),
+(84, 1, 2),
+(91, 23, 6),
+(88, 23, 1),
+(94, 38, 3),
+(83, 1, 1),
+(120, 39, 4),
+(119, 39, 3),
+(118, 39, 2),
+(117, 39, 1),
+(121, 39, 5),
+(116, 54, 4549),
+(115, 54, 6),
+(114, 54, 2),
+(113, 54, 1),
+(122, 39, 4549);
