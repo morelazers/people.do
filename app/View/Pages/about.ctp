@@ -2,6 +2,8 @@
 <h1>What is this place?</h1>
 <?php echo $this->end(); ?>
 
+<div class="about-centred">
+<br />
 People.do is an ideas-sharing website designed for the purpose of getting great ideas out of heads and into the real world. There are many ways in which this process happens in day-to-day life already; 
 each one of them has one thing in common: <b>people.</b>
 <br />
@@ -27,4 +29,7 @@ The best way for that to happen is to make others want to share it with their fr
 Whether this is sharing them on Facebook, Twitter or Google+, or simply by relaying it to your friends or family.
 <br />
 <br />
-We want to you be inspired by something you see on people.do, or even better, <b>we want you to inspire someone else through people.do.</b>
+We want you to be inspired by something you see on people.do, or even better, <b>we want you to inspire someone else through people.do.</b>
+<br />
+<br />
+</div>

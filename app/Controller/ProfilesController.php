@@ -10,7 +10,7 @@ class ProfilesController extends AppController{
 		$user = $this->Auth->user();
 
         if (!$user) {
-            $this->Session->setFlash('Please login');
+            $this->Session->setFlash('Please login first');
             $this->redirect(array('controller' => 'users', 'action' =>'login'));
         }
 
@@ -74,8 +74,17 @@ class ProfilesController extends AppController{
             $this->redirect(array('controller' => 'profiles', 'action' => 'index'));
         }
         
+        $interestNames = array();
+        if(!empty($userToView['UserInterest'])){
+            foreach($userToView['UserInterest'] as $interestId){
+                $interest = $this->Interest->findById($interestId['interest_id']);
+                $interestNames[] = $interest['Interest']['name'];
+            }
+        }
+        
         $this->set(array(
-            'userToView' => $userToView
+            'userToView' => $userToView,
+            'interestNames' => $interestNames
             )
         );
     }

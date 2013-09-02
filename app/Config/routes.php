@@ -35,6 +35,9 @@
     Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
     
     Router::connect('/about/*', array('controller' => 'pages', 'action' => 'about'));
+    Router::connect('/login/*', array('controller' => 'users', 'action' => 'login'));
+    Router::connect('/share/*', array('controller' => 'ideas', 'action' => 'add'));
+    Router::connect('/think/*', array('controller' => 'users', 'action' => 'think'));
 
 
 	Router::connect(

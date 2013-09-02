@@ -4,10 +4,21 @@
     }
     
     $thisComment = $comment['Comment'];
+    $commentPoster = $comment['User'];
 ?>
-
-<div class="comment<?php if($child){ echo 'Child'; }?>" id="Comment<?php echo $thisComment['id']; ?>">
-    <?php echo $thisComment['content']; ?>
+<?php
+if($child){
+    echo '<div class="commentChild">';
+}
+?>
+<div class="comment" id="Comment<?php echo $thisComment['id']; ?>">
+    <span class="commentPosterLink">
+    <?php 
+    echo $this->Html->link($commentPoster['display_name'], array('controller' => 'profiles', 'action' => 'view', $commentPoster['id'])); 
+    ?>
+    </span>
+    <br />
+    <?php echo nl2br($thisComment['content']); ?>
     <br />
     <div id="CommentUpvoteCount<?php echo $thisComment['id']; ?>" class="commentUpvoteCount"><?php echo $thisComment['upvotes']; ?></div>
     <br />
@@ -21,7 +32,13 @@
             <button class="loginRequired">Reply</button>
             <?php
         } else {
-            $class = 'upvoteComment';
+            if(isset($newComment)){
+                $class = 'upvoteComment voted';
+                $disabled = true;
+            } else {
+                $class = 'upvoteComment';
+            }
+            
             if(isset($commentUpvotes)){
                 foreach($commentUpvotes as $vote){
                     if($vote['CommentUpvote']['comment_id'] === $thisComment['id'] && $vote['User']['id'] === $user['User']['id']){
@@ -54,7 +71,9 @@
                 );
             }
         }
-        
+if($child){
+    echo "</div>";
+}
     ?>
 </div>
 <hr>

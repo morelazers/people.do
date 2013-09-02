@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<?php include 'static/head.php'; ?>
+
+<body>
+	<div class="container">
+		<div id="header" class="row">
+			<div class="span4">
+				<h1 class="logo"><a href="index.php"><img src="http://www.dev.thinkshare.it/img/transparentlogo.png" height="70"></a></h1>
+				<p class="tagline"></p>
+			</div>
+			<div class="span6">
+				<ul class="navigation">
+					<li><a href="index.php">Home</a></li>
+					<li><a href="index.php">Share</a></li>
+					<li><a href="index.php">Think</a></li>
+					<li><a href="index.php">About</a></li>
+
+				</ul>
+			</div>
+
+			<div class="span2">
+				Welcome, (username)!
+			</div>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<div class="hero-unit">
+					<h2 class="lead">Load of welcome jargon about the site's mission</h2>
+				</div>
+			</div>
+		</div>	
+
+
+
+		<div class="ideaList">
+	        <div class="idea">
+	            <p class="title">
+	                <a href="#">This is the title of an idea</a>
+	            </p>
+	            <p class="description">
+	                Brainchild of: 
+	                <a href="#">This is the name of whoever shared the idea, it's also a link to their profile</a>
+	                <br />
+	                (Upvote number)
+	                Likes
+	            </p>
+	        </div>
+    	</div>
+
+		<div class="footer">
+			<div class="row">
+				<div class="span6">
+					<p>&copy; 2013 PeopleDo</p>
+				</div>
+				<!-- <div class="span6">
+					<ul class="row">
+						<li><a href="blog.html">Blog</a></li>
+						<li><a href="portfolio.html">Portfolio</a></li>
+						<li><a href="about.html">About</a></li>
+						<li><a href="contact.html">Contact</a></li>
+						<li><a href="index.html">Subscribe</a></li>
+					</ul>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

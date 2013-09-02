@@ -5,8 +5,8 @@ class FacebookUser extends AppModel{
 	public function addUser($raw){
 		$user = array();
 		$user['display_name'] = $raw['auth']['info']['name'];
-        if(isset($user['email_address'])){
-            $user['email_address'] = $raw['auth']['info']['email'];
+        if(isset($raw['auth']['raw']['email'])){
+            $user['email_address'] = $raw['auth']['raw']['email'];
         }
 		if(isset($raw['auth']['info']['image'])){
 			$user['avatar_location'] = $raw['auth']['info']['image'];

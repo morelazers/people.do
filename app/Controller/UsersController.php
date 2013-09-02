@@ -3,6 +3,25 @@ class UsersController extends AppController {
     
     public $uses = array('User', 'IdeaInterest', 'Idea');
     
+    public function getCurrentUserId(){
+        if($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $user = $this->Auth->user();
+            $uid = $user['User']['id'];
+            echo json_encode(array('id' => $uid));
+        }
+    }
+    
+    public function ajaxOpauth(){
+        if($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $this->Session->write('User.ajaxOpauth', true);
+            echo true;
+        }
+    }
+    
     public function opauth_complete(){
         
         if(isset($this->data['error'])){
@@ -27,7 +46,12 @@ class UsersController extends AppController {
             $user = $this->User->findById($facebookUser['User']['id']);
             $this->Auth->login($user);
         }
-        $this->redirect($this->Auth->redirect());
+        
+        if(!$this->Session->read('User.ajaxOpauth')) {
+            $this->Session->write('User.ajaxOpauth', false);
+            $this->redirect($this->Auth->redirect());
+        }
+        
     }
 
     public function beforeFilter() {
@@ -44,6 +68,49 @@ class UsersController extends AppController {
                 $this->redirect($this->Auth->redirect());
             } else {
                 $this->Session->setFlash(__('Invalid username or password, try again'));
+            }
+        }
+    }
+    
+    public function ajax_login() {
+        if($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $this->Auth->authenticate = array('Form');
+            
+            $this->request->data['User']['username'] = $this->request->data['username'];
+            $this->request->data['User']['password'] = $this->request->data['password'];
+            
+            if($this->Auth->login()){
+                $user = $this->User->findByUsername($this->request->data['User']['username']);
+                $this->Auth->login($user);
+                echo json_encode(array('valid' => true));
+            } else {
+                echo json_encode(array('valid' => false));
+            }
+        }
+    }
+    
+    public function ajax_register() {
+        if($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $this->User->create();
+            
+            $this->request->data['User']['username'] = $this->request->data['username'];
+            $this->request->data['User']['password'] = $this->request->data['password'];
+            if($this->request->data['email']){
+                $this->request->data['User']['email_address'] = $this->request->data['email'];
+            }
+            
+            $this->request->data['User']['display_name'] = $this->request->data['User']['username'];
+            if($this->User->save($this->request->data)){
+                $id = $this->User->getLastInsertId();
+                $user = $this->User->findById($id);
+                $this->Auth->login($user);
+                echo json_encode(array('valid' => true));
+            } else {
+                echo json_encode(array('valid' => false));
             }
         }
     }
@@ -88,6 +155,15 @@ class UsersController extends AppController {
     
     public function think() {
         $user = $this->Auth->user();
+        
+        if(!$user){
+            $ideasToDisplay = $this->Idea->find('all', array('order' => array('Idea.upvotes' => 'DESC')));
+            $this->set(array(
+                'ideas' => $ideasToDisplay
+                    )
+                );
+            return;
+        }
         
         // Find the IdeaInterests that have the same InterestIds as the UserInterests
         
@@ -135,7 +211,8 @@ class UsersController extends AppController {
         );
         
         $this->set(array(
-            'ideas' => $ideasToDisplay
+            'ideas' => $ideasToDisplay,
+            'user' => $user
             )
         );
         

@@ -1,13 +1,32 @@
 $(document).ready(function(){
     $('#UsernameValidMessage').html('');
     $('#RegisterButton').attr('disabled', true);
-    $('#UserUsername').keyup(checkUsernameIsValid);
-    $('#UserUsername').keydown(checkUsernameIsValid);
+    
+    var input = $('#RegisterUsername');
+    input.on('keydown', function() {
+        var key = event.keyCode || event.charCode;
+    
+        if( key == 8 || key == 46 ){
+           $('#UsernameValidMessage').html('');
+        } else {
+            checkUsernameIsValid();
+        }
+    });
+    input.on('keyup', function() {
+        var key = event.keyCode || event.charCode;
+    
+        if( key == 8 || key == 46 ){
+           $('#UsernameValidMessage').html('');
+        } else {
+            checkUsernameIsValid();
+        }
+    });
+    
 });
 
 function checkUsernameIsValid(){
-    if($('#UserUsername').val() === ''){
-        $('#UsernameValidMessage').html('Your username can\'t be blank');
+    if($('#RegisterUsername').val() === ''){
+        $('#UsernameValidMessage').html('');
         return;
     }
     $('#UsernameValidMessage').html('Checking new username...');
@@ -17,19 +36,17 @@ function checkUsernameIsValid(){
         type: "POST",
         data: 
             {
-                username : $('#UserUsername').val()
+                username : $('#RegisterUsername').val()
             },
         dataType: "JSON"
     });
     
     request.done(function(data){
         if(data.exists){
-            $('#UsernameValidMessage').html('This user already exists, invalid username!');
+            $('#UsernameValidMessage').html('This user already exists, we can\'t have two!');
             $('#RegisterButton').attr('disabled', true);
-        }
-        else
-        {
-            $('#UsernameValidMessage').html('Valid username');
+        } else {
+            $('#UsernameValidMessage').html($("#RegisterUsername").val()+' is free!');
             $('#RegisterButton').removeAttr('disabled');
         }
     });

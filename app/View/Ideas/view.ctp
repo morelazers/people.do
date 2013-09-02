@@ -44,40 +44,46 @@
 
 <?php echo $this->end(); ?>
 
-<p><?php echo h($idea['Idea']['description']); ?></p>
-
+<div id="IdeaDescription">
+<br />
+<p><?php echo nl2br($idea['Idea']['description']); ?></p>
+</div>
 <hr>
+
+<div id="CommentsAndForm">
 
 <?php
 
-    /* Show the comment form at the top of the list of comments */
+    /* Show the comment form at the bottom of the list of comments */
 
     if(!$user){
-        ?>
-        <textarea rows="3"></textarea><br />
-        <button class="loginRequired">Submit Comment</button>
-        <?php
+        $class = 'loginRequired';
     } else {
-        echo $this->Form->create('Comment');
-        if(isset($user)){
-            echo $this->Form->hidden(
-                'UserId', 
-                array('value' => $user['User']['id'])
-            );
-        }
-        
-        echo $this->Form->input('content', array(
-            'rows' => '3',
-            'id' => 'commentBox',
-            'label' => 'Leave a comment!'
-            )
-        );
-        $options = array(
-            'label' => 'Submit Comment',
-            'id' => 'SubmitComment'
-        );
-        echo $this->Form->end($options);
+        $class = 'commentSubmitButton';
     }
+    echo $this->Form->create('Comment', array('id' => 'CommentForm'));
+    
+    if(isset($user)){
+        echo $this->Form->hidden(
+            'UserId', 
+            array('value' => $user['User']['id'])
+        );
+    }
+    
+    echo $this->Form->input('content', array(
+        'rows' => '3',
+        'id' => 'commentBox',
+        'label' => 'Leave a comment!'
+        )
+    );
+    $options = array(
+        'label' => 'Submit Comment',
+        'id' => 'SubmitComment',
+        'class' => $class
+    );
+    echo $this->Form->end($options);
+
+    echo $this->Js->writeBuffer();
 ?>
 
 <hr>
@@ -99,3 +105,5 @@
 </tr>
 <?php endforeach; ?>
 <?php unset($comment); ?>
+
+</div>

@@ -2,9 +2,17 @@ body {
   -webkit-font-smoothing: antialiased;
   color: black;
   color: rgba(0, 0, 0, 0.9);
+  text-align: center;
+}
+.peopleDoLogo {
+    margin-left:30px;
+}
+
+.idea-title {
+    font-size: 200%;
 }
 a {
-  color: white;
+  color: #D92A29;
   -khtml-opacity: 0.8;
   -moz-opacity: 0.8;
   opacity: 0.8;
@@ -16,7 +24,7 @@ a:hover {
   -ms-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  color: white;
+  color: #D92A29;
   -khtml-opacity: 1;
   -moz-opacity: 1;
   opacity: 1;
@@ -66,7 +74,7 @@ legend {
 .footer {
   margin-top: 30px;
   padding: 30px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 .footer li {
   list-style: none;
@@ -109,6 +117,7 @@ legend {
   font-weight: 400;
   line-height: 48px;
   font-family: 'Lato', sans-serif;
+  width: 80%;
 }
 #header .tagline {
   line-height: 18px;
@@ -119,11 +128,20 @@ legend {
 }
 #header .navigation li {
   display: inline;
-  font-size: 14px;
+  font-size: 200%;
   font-weight: bold;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   margin-right: 15px;
 }
+
+.navigation a {
+    color: white;
+}
+
+.navigation a:hover{
+    color: white;
+}
+
 .dropdown-menu {
   background: rgba(0, 0, 0, 0.5);
 }
@@ -262,4 +280,91 @@ img.left {
 }
 .module p {
   font-size: 11px;
+}
+.container-inset {
+    background-color: #F5EDF0;
+    margin-top: 0;
+}
+.user-panel a {
+    color: white;
+}
+.user-panel {
+    color: white;
+    text-align: right;
+    margin-top: 14%;
+    font-size: 15px;
+}
+.navigation {
+    width: 79%;
+}
+.about-centred {
+    font-size: 160%;
+    text-align: center;
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom:9px;
+    line-height: 110%;
+    color : #575656;
+}
+#ModalRegisterForm {
+    float: right;
+}
+#ModalLoginForm {
+    float: left;
+}
+#LoginModal {
+    width: 800px;
+    margin-left: -400px;
+}
+.modal h3 {
+    color: black;
+    text-shadow: none;
+}
+#CommentForm{
+    text-align: left;
+    margin-left: 30px;
+}
+.comment{
+    text-align: left;
+    margin-left: 30px;
+}
+.commentChild{
+    margin-top: 15px;
+}
+#UserAddForm{
+    margin-top: 20px;
+}
+#UserLoginForm{
+    margin-top: 125px;
+}
+.hero-unit p{
+    color: white;
+}
+.hero-unit a, 
+.hero-unit a:hover{
+    color: #FF5554;
+}
+#IdeaDescription {
+   font-size: 120%;
+}
+.error-message {
+    color: red;
+    font-size: 20px;
+    line-height: 110%;
+}
+#flashMessage {
+    color: red;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+#FacebookModalButton{
+    background-image: url('/img/fbLoginButtonSmall.jpg');
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 67px;
+    padding-top: 18px;
+}
+.profileHeading{
+    color:black;
+    text-shadow:none;
 }

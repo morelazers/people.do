@@ -4,48 +4,7 @@
 <h1>Ideas</h1>
 <?php echo $this->end(); ?>
 
-<?php 
-echo $this->Html->link(
-    'Share Idea',
-    array('controller' => 'ideas', 'action' => 'add')
-); 
-?>
-<br /><br />
-<?php
-echo $this->Html->link(
-    'Register',
-    array('controller' => 'users', 'action' => 'add')
-);
-?>
-, or sign in with 
-<?php
-echo $this->Html->link(
-    'Google',
-    array('controller' => 'auth', 'action' => 'google')
-);
-?>
- or 
-<?php
-echo $this->Html->link(
-    'Facebook',
-    array('controller' => 'auth', 'action' => 'facebook')
-);
-?>
-.
-<br /><br />
-<?php
-echo $this->Html->link(
-    'Send a Message',
-    array('controller' => 'messages', 'action' => 'send')
-);
-?>
-<br /><br />
-<?php
-echo $this->Html->link(
-    'Edit your profile',
-    array('controller' => 'profiles', 'action' => 'index')
-);
-?>
+
 <br /><br />
 
 <table>
@@ -54,7 +13,8 @@ echo $this->Html->link(
             <p class="title">
                 <?php 
                     echo $this->Html->link($idea['Idea']['name'],
-                    array('controller' => 'ideas', 'action' => 'view', $idea['Idea']['id'])); 
+                    array('controller' => 'ideas', 'action' => 'view', $idea['Idea']['id']),
+                    array('class' => 'idea-title')); 
                 ?>
             </p>
             <p class="description">

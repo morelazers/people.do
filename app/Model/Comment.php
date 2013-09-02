@@ -40,7 +40,7 @@ class Comment extends AppModel {
         }
     }
     
-    public function afterSave($created) {
+    public function afterSave() {
         $newId = $this->getLastInsertId();
         
         $comment = $this->findById($newId);

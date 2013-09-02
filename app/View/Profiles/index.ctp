@@ -15,6 +15,10 @@
     
 </script>
 
+<?php $this->start('topbar'); ?>
+<h1>Edit your profile!</h1>
+<?php $this->end(); ?>
+
 <div id="EditForm">
 <?php
 	echo $this->Form->create('Profile');

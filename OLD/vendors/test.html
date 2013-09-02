@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>people.do</title>
+		<style>
+			* {
+				overflow: none;
+			}
+			
+			body {
+				background-color: #FAFAFA;
+				font-family: Helvetica, sans-serif;
+			}
+		
+			html, body, div  {
+				margin:0;
+				padding:0;
+			}
+			
+			div.container {
+				width:950px;
+				margin: 0px auto;
+			}
+			div.inset {
+				padding: 10px;
+			}
+			
+			div.fluid {
+				display: inline-block;
+			}
+			.pull-left {
+				float:left;
+			}
+			.pull-right {
+				float:right;
+			}
+			
+			div#header {
+				background-color: #D92A29;	
+				padding: 20px 0px;
+				color: white;
+			}
+			div#header .logo {
+				font-size: 1.3em;
+			}
+			div#header * {
+				vertical-align: middle;
+			}
+			div#header div#user-panel {
+				margin-top: 20px;
+			}
+			
+			div#navigation ul li {
+				display: inline-block;
+				padding: 0px 5px;
+				border-right: 1px solid white; 
+			}
+			div#navigation ul li a {
+				text-transform:uppercase;
+				color: white;
+				text-decoration: none;
+			}
+			div#navigation ul li a:hover {
+				text-decoration: underline;
+			}
+			div#navigation ul li:last-child {
+				border-right: none;
+			}
+			
+			div#welcome-panel {
+				font-size: 0.8em;
+				background-color: #343434;
+				color: white;
+			}
+			
+			div#main {
+				background-color: white;
+				border-left: 1px solid #CCCCCD;
+				border-right: 1px solid #CCCCCD;
+				height: 100%;
+			}
+			
+			div#main .post {
+				border:1px solid #F4F4F4;
+				text-align: center;
+			}
+			div#main .post p.title {
+				font-size: 1.5em;
+				color: #D92A29;
+			}
+			
+			
+		</style>
+	</head>
+	<body>
+		
+		<div id="wrapper">
+			<div id="header">
+				<div class="container">
+					<div class="fluid logo">
+						Some Logo
+					</div>
+					<div id="navigation" class="fluid">
+						<ul>
+							<li><a href="#">Home</a></li>
+							<li><a href="#">Share</a></li>
+							<li><a href="#">Discover</a></li>
+							<li><a href="#">About</a></li>
+						</ul>
+					</div>
+					<div id="user-panel" class="pull-right">
+						Welcome, Chris!
+					</div>
+				</div>
+			</div>
+			
+			<div id="welcome-panel" class="container inset">
+				Welcome<br />
+				Welcome<br /> 
+				Welcome<br />
+				(Here you can use bootstrap fluid grid)
+			</div>
+			
+			<div id="main" class="container inset">
+				<div class="post">
+					<p class="title">
+						Make Britain Green
+					</p>
+					<p class="description">
+						Shared By: Henrycoggin
+						<br />
+						44 Likes
+					</p>
+				</div>
+				
+				<div class="post">
+					<p class="title">
+						Make Britain Green
+					</p>
+					<p class="description">
+						Shared By: Henrycoggin
+						<br />
+						44 Likes
+					</p>
+				</div>
+				
+				<div class="post">
+					<p class="title">
+						Make Britain Green
+					</p>
+					<p class="description">
+						Shared By: Henrycoggin
+						<br />
+						44 Likes
+					</p>
+				</div>
+				
+				<div class="post">
+					<p class="title">
+						Make Britain Green
+					</p>
+					<p class="description">
+						Shared By: Henrycoggin
+						<br />
+						44 Likes
+					</p>
+				</div>
+				
+				<div class="post">
+					<p class="title">
+						Make Britain Green
+					</p>
+					<p class="description">
+						Shared By: Henrycoggin
+						<br />
+						44 Likes
+					</p>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+</html>

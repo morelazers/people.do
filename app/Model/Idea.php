@@ -6,10 +6,12 @@ class Idea extends AppModel
     
     public $validate = array(
         'name' => array(
-            'rule' => 'notEmpty'
+            'rule' => 'notEmpty',
+            'message' => 'You need to give your idea a name!'
         ),
         'description' => array(
-            'rule' => 'notEmpty'
+            'rule' => 'notEmpty',
+            'message' => 'You need to describe your idea!'
         )
     );
     
@@ -33,7 +35,7 @@ class Idea extends AppModel
         $this->User->sendMessage($uid, $message, $ideaOwner, $newId);
     }
     
-    public function afterSave($created) {
+    public function afterSave() {
         $ideaId = $this->getLastInsertId();
         
         $idea = $this->findById($ideaId);

@@ -2,6 +2,7 @@
 class CommentsController extends AppController {
     
     public $components = array('RequestHandler');
+    public $uses = array('Comment', 'Idea', 'User');
     
     public function index(){
         /*$data = $this->Comment->generateTreeList(null, null, null, '&nbsp;&nbsp;&nbsp;');
@@ -51,18 +52,25 @@ class CommentsController extends AppController {
             
             $this->Comment->save($data);
             $user = $this->Auth->user();
-            $comment = array(
+            $newId = $this->Comment->getLastInsertId();
+            $comment = $this->Comment->findById($newId);
+            
+            /*$comment = array(
                 'Comment' => array(
                     'id' => $this->Comment->id,
                     'content' => $content,
                     'upvotes' => 1
                 )
-            );
+            );*/
+            
+            $user = $this->User->findById($user['User']['id']);
+            $this->Auth->login($user);
                 
             $view = new View($this, false);
             $view->set(array(
                 'user' => $user,
-                'comment' => $comment
+                'comment' => $comment,
+                'newComment' => true
                 )
             );
             
@@ -71,7 +79,14 @@ class CommentsController extends AppController {
             $view->viewPath = 'Elements';
             $view_output = $view->render('comment');
             echo json_encode(array('content' => $content, 'newCommentId' => $newId, 'comment' => $view_output));
-            $this->Comment->notifyPoster($uid, $data, $parentId, $newId);
+            
+            if($parentId !== null){
+                $this->Comment->notifyPoster($uid, $data, $parentId, $newId);
+            } else {
+                $idea = $this->Idea->findById($ideaId);
+                $this->Idea->notifyPoster($uid, $data, $idea['Idea']['user_id'], $newId);
+            }
+            
         }
     }
     

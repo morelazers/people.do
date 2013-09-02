@@ -1,0 +1,243 @@
+$('document').ready(function(){
+    
+    $("#UserLoginForm").submit(function(event){
+        event.preventDefault();
+        loginAndRefresh();
+    });
+    $("#UserAddForm").submit(function(event){
+        event.preventDefault();
+        registerAndRefresh();
+    });
+    
+   $('#RegisterButton').attr('disabled', true);
+   
+   $("#FacebookModalButton").click(function(){
+        fbLoginAndRefresh(); 
+   });
+   $("#GoogleModalButton").click(function(){
+        gPlusLoginAndRefresh(); 
+   });
+});
+
+function loginAndRefresh(){
+    $("#ModalLoginMessage").text("Logging in...");
+    var username = $('#UserUsername').val();
+    var password = $('#LoginPassword').val();
+    
+    if(!username || !password){
+        $("#ModalLoginMessage").text("That's not quite right, try again?");
+        return;
+    }
+    
+    var request = 
+    $.ajax(window.location.origin + "/users/ajax_login",
+    {
+        type: "POST",
+        data: 
+            {
+                username : username,
+                password : password
+            },
+        dataType: "JSON"
+    });
+    
+    request.done(function(data){
+        if(data.valid){
+            $("#ModalLoginMessage").text("Logged you in!");
+            window.userIsLoggedIn = true;
+            if(document.URL.indexOf("/share") >= 0){ 
+                $("#IdeaAddForm").submit();
+            } else if(window.commentSubmit){
+                getUserId();
+                var element = $('<input type="hidden" name="data[Comment][UserId]" value="'+window.userId+'" id="CommentUserId">');
+                $("#CommentForm").prepend(element);
+                $("#CommentForm").submit();
+            } else if(window.messageSend) {
+                $("#MessageSendForm").submit();    
+            } else {
+                window.location.reload();
+            }
+        } else {
+            $("#ModalLoginMessage").text("That's not quite right, try again?");
+        }
+    });
+}
+
+function registerAndRefresh() {
+    $("#ModalRegisterMessage").text("Registering...");
+    var username = $('#RegisterUsername').val();
+    var password = $('#UserPassword').val();
+    var email = $('#UserEmail').val();
+    
+    if(!username){
+        $("#ModalRegisterMessage").text("We can't let you sign up without a username!");
+        return;
+    }
+    
+    var request = 
+    $.ajax(window.location.origin + "/users/ajax_register",
+    {
+        type: "POST",
+        data: 
+            {
+                username : username,
+                password : password,
+                email :email
+            },
+        dataType: "JSON"
+    });
+    
+    request.done(function(data){
+        if(data.valid){
+            $("#ModalRegisterMessage").text("Registered you!");
+            $("#LoginModal").modal('toggle');
+            window.userIsLoggedIn = true;
+            if(document.URL.indexOf("/share") >= 0){ 
+                $("#IdeaAddForm").submit();
+            } else if(window.commentSubmit){
+                getUserId();
+                var element = $('<input type="hidden" name="data[Comment][UserId]" value="'+window.userId+'" id="CommentUserId">');
+                $("#CommentForm").prepend(element);
+                $("#CommentForm").submit();
+            } else if(window.messageSend) {
+                $("#MessageSendForm").submit();    
+            } else {
+                window.location.reload();
+            }
+        } else {
+            $("#ModalRegisterMessage").text("Couldn't register you, something must've broke; try again in a minute or two");
+        }
+    });
+}
+
+function fbLoginAndRefresh(){
+    $("#OpAuthMessage").text("One sec...");
+    
+    var sessionSetRequest =
+    $.ajax(window.location.origin + '/users/ajaxOpauth',
+    {
+        type: "POST"
+    });
+    
+    sessionSetRequest.done(function(){
+        var facebookAuthWindow = window.open(window.location.origin + '/auth/facebook');
+        var checkClosed = function(){
+            if(facebookAuthWindow.closed){
+                fbAuthorised();
+            } else {
+                window.setTimeout(checkClosed, 1000);
+            }
+        };
+        
+        var fbAuthorised = function() {
+            $("#OpAuthMessage").text("Logged you in!");
+            $("#LoginModal").modal('toggle');
+            window.userIsLoggedIn = true;
+            if(document.URL.indexOf("/share") >= 0){ 
+                $("#IdeaAddForm").submit();
+            } else if(window.commentSubmit){
+                getUserId();
+                var element = $('<input type="hidden" name="data[Comment][UserId]" value="'+window.userId+'" id="CommentUserId">');
+                $("#CommentForm").prepend(element);
+                $("#CommentForm").submit();
+            } else if(window.messageSend) {
+                $("#MessageSendForm").submit();    
+            } else {
+                window.location.reload();
+            }
+        };
+        
+        if(checkClosed()) {
+            fbAuthorised();
+        }
+        
+    });
+}
+
+function gPlusLoginAndRefresh(){
+    $("#OpAuthMessage").text("One sec...");
+    
+    var sessionSetRequest =
+    $.ajax(window.location.origin + '/users/ajaxOpauth',
+    {
+        type: "POST"
+    });
+    
+        sessionSetRequest.done(function(){
+        var googleAuthWindow = window.open(window.location.origin + '/auth/google');
+        
+        var checkClosed = function(){
+            if(googleAuthWindow.closed){
+                googleAuthorised();
+            } else {
+                window.setTimeout(checkClosed, 1000);
+            }
+        };
+        
+        var googleAuthorised = function() {
+            $("#OpAuthMessage").text("Logged you in!");
+            $("#LoginModal").modal('toggle');
+            window.userIsLoggedIn = true;
+            if(document.URL.indexOf("/share") >= 0){ 
+                $("#IdeaAddForm").submit();
+            } else if(window.commentSubmit){
+                getUserId();
+                var element = $('<input type="hidden" name="data[Comment][UserId]" value="'+window.userId+'" id="CommentUserId">');
+                $("#CommentForm").prepend(element);
+                $("#CommentForm").submit();
+            } else if(window.messageSend) {
+                $("#MessageSendForm").submit();    
+            } else {
+                window.location.reload();
+            }
+        };
+        
+        if(checkClosed()) {
+            googleAuthorised();
+        }
+        
+    });
+}
+
+function getUserId() {
+    var request = 
+    $.ajax(window.location.origin + '/users/getCurrentUserId',
+    {
+        type: "POST",
+        dataType: "JSON",
+        async: false
+    });
+    request.done(function(data){
+       window.userId = parseInt(data.id, 10); 
+    });
+}
+
+function postComment(userId){
+    if($("#commentBox").val() === ""){
+        return;
+    }
+    
+    var commentContent = $("#commentBox").val();
+    var ideaId = $("#ideaId").text();
+    
+    var request = 
+    $.ajax(window.location.origin + "/comments/reply/",
+    {
+        type: "POST",
+        data: 
+            {
+                ideaId : ideaId,
+                parentId : null,
+                content : commentContent,
+                uid : userId
+            },
+        dataType: "JSON"
+    });
+
+    request.done(function(data){
+        $('.replyArea').remove();
+        var element = $(data.comment);
+        $(element).insertAfter("#CommentForm");
+    });
+
+}

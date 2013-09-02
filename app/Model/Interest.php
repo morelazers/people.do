@@ -1,9 +1,9 @@
 <?php
 class Interest extends AppModel {
     
-    public function saveNewInterest($id, $uid){
+    public function saveNewInterest($name, $uid){
         $this->create();
-        $newInterest['name'] = $id;
+        $newInterest['name'] = $name;
         $newInterest['user_id'] = $uid;
         $this->save($newInterest);
     }

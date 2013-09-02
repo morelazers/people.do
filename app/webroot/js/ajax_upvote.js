@@ -1,8 +1,5 @@
-$(document).ready(function() {
-    if(!userIsLoggedIn){
-
-    }
-    else{
+$(document).ready(function(){
+    if(userIsLoggedIn){
         $("#UpvoteIdea").click(function(){
             $(this).toggleClass("voted");
             votes = parseInt($("#IdeaUpvoteCount").text());
@@ -17,19 +14,19 @@ $(document).ready(function() {
         $(".upvoteComment").click(function(){
             $(this).toggleClass("voted");
             var id = this.id.slice(13);
-            votes = parseInt($("#CommentUpvoteCount" + id).text());
+            var votes = parseInt($("#CommentUpvoteCount" + id).text(), 10);
             if($(this).hasClass("voted")){
                 votes = votes + 1;
             } else {
                 votes = votes - 1;
             }
             $("#CommentUpvoteCount" + id).text(votes);
-        }); 
+        });
     }
 });
 
-    
 function upvoteComment(commentId, votes, userId){
+    
     var request = 
     $.ajax(window.location.origin + "/comments/upvote/",
     {

@@ -7,7 +7,7 @@ class IdeasController extends AppController
     
     public function index()
     {
-        $this->set('ideas', $this->Idea->find('all'));
+        $this->set('ideas', $this->Idea->find('all', array('order' => array('Idea.upvotes' => 'DESC'))));
     }
     
     public function view($id = null) 
@@ -27,7 +27,6 @@ class IdeasController extends AppController
             
             $this->Idea->Comment->create();
             if($this->Idea->Comment->save($this->request->data)) {
-                $this->Session->setFlash('Comment posted!');
                 $newId = $this->Idea->Comment->getLastInsertId();
             }
             if($idea['Idea']['user_id'] !== $uid) {
@@ -106,7 +105,6 @@ class IdeasController extends AppController
                 $ideaId = $this->Idea->getLastInsertId();
                 
                 $ideaInterest['idea_id'] = $ideaId;
-                $this->Session->setFlash('Your idea has been shared!');
 
                 if(!empty($this->request->data['Interest']['id'])){
                     foreach($this->request->data['Interest']['id'] as $id){

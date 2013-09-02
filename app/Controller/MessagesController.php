@@ -35,18 +35,37 @@ class MessagesController extends AppController {
         );
     }
   
-    public function send() 
+    public function send($id = null) 
     {
+        
+        if(!isset($id)){
+            $this->Session->setFlash("Can't send a message to nobody!");
+            $this->Redirect('/');
+        }
+        
+        $toUser = $this->User->findById($id);
+        if(empty($toUser)){
+            $this->Session->setFlash("That user doesn't exist!");
+            $this->Redirect('/');
+        }
+        
         if($this->request->is('post')) {
             $user = $this->Auth->user();
             $uid = $user['User']['id'];
             $this->Message->create();
             $this->request->data['Message']['from_user_id'] = $uid;
-            $this->request->data['Message']['to_user_id'] = $this->Message->getIdFromUsername($this->request->data['Message']['recipient']);
+            $this->request->data['Message']['to_user_id'] = $id;
             $this->request->data['Message']['is_read'] = 0;
             // Send the message:
             $this->Message->save($this->request->data);
+            $this->Session->setFlash('Message sent!');
+            $this->redirect(array('controller' => 'ideas'));
         }
+        
+        $this->set(array(
+            'toUser' => $toUser
+            )
+        );
     }
     
     public function reply(){
@@ -73,7 +92,7 @@ class MessagesController extends AppController {
                     );
                 $this->Comment->save($comment);
                 
-                $user = $this->User->findById($uid);
+                $user = $this->User->findById($userId);
                 
                 $subject = $user['User']['display_name'].' replied to your comment!';
             }
