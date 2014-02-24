@@ -1,33 +1,61 @@
-<!-- File: /app/View/Ideas/add.ctp -->
-
-<?php echo $this->Html->script('ajax_loginAndRefreshPage.js'); ?>
-
-<?php echo $this->start('topbar'); ?>
-<h1>Share your idea!</h1>
-<?php echo $this->end(); ?>
-<br />
-<div id="ErrorMessage">
-<?php echo $this->Session->flash(); ?>
-</div>
-<?php
-    echo $this->Form->create('Idea');
-    echo $this->Form->error('name');
-    echo $this->Form->input('name', array('error' => false));
-    echo $this->Form->error('description');
-    echo $this->Form->input('description', array('rows' => '3','error' => false));
+<div id="share-page" class="col-lg-10 text-left scrollable">
+  <div class="top-spacer">
+      
+  </div>
+  <h2>Share</h2>
+  <div class="page-description">
+      Tell the world about your (hopefully amazing) idea!
+  </div>
+  
+  <br />
+  <div id="ErrorMessage">
+  </div>
+  
+  <div class="share-idea-form pull-left">
+    <?php
+        echo $this->Form->create('Idea');
+    ?>
     
-    echo $this->element('interestBox', array(
-        'interests' => $interests,
-        'selected' => null,
-        'placeholder' => 'Tag your idea with some interests!'
-        )
-    );
-?>
-<?php
-    echo $this->Form->end(array(
-        'id' => 'SubmitIdea',
-        'label' => 'Share!'
-        )
-    );
-?>
+    <div class="form-group">
+    <?php echo $this->Form->input('name', array('error' => false, 'class' => 'form-control')); ?>
+    </div>
+    <div class="form-group">
+    <?php echo $this->Form->input('description', array('rows' => '7','error' => false, 'class' => 'form-control')); ?>
+    </div>
+
+    <div class="form-group">    
+
+    <?php
+      echo $this->element('interestBox', array(
+          'interests' => $interests,
+          'selected' => null,
+          'placeholder' => 'Start typing to see existing interests!'
+          )
+      );
+    
+    ?>
+
+    </div>
+
+    <div class="form-group">
+
+    <?php
+        $requireLoginClass = "";
+        if(!isset($user)){
+          $requireLoginClass = "login-required";
+        }
+        echo $this->Form->end(array(
+            'id' => 'SubmitIdea',
+            'label' => 'Share!',
+            'class' => $requireLoginClass . " btn btn-default submit-idea"
+            )
+        );
+    ?>
+
+  </div>
+
+  </div>
+  <span class="share-idea-tips pull-right text-right">
+  </span>
+</div>
 

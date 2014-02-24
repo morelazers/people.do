@@ -30,7 +30,7 @@
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/profile', array('controller' => 'profiles', 'action' => 'index'));
+	  Router::connect('/profile', array('controller' => 'profiles', 'action' => 'index'));
     Router::connect('/profile/view/*', array('controller' => 'profiles', 'action' => 'view'));
     Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
     
@@ -38,12 +38,26 @@
     Router::connect('/login/*', array('controller' => 'users', 'action' => 'login'));
     Router::connect('/share/*', array('controller' => 'ideas', 'action' => 'add'));
     Router::connect('/think/*', array('controller' => 'users', 'action' => 'think'));
+    Router::connect('/ideas/ajaxview/*', array('controller' => 'ideas', 'action' => 'ajaxview'));
+    Router::connect('/ideas/upvote/*', array('controller' => 'ideas', 'action' => 'upvote'));
+    Router::connect('/comments/upvote/*', array('controller' => 'comments', 'action' => 'upvote'));
+    Router::connect('/comments/reply/*', array('controller' => 'comments', 'action' => 'reply'));
+    Router::connect('/message', array('controller' => 'messages', 'action' => 'send'));
+    Router::connect('/message/*', array('controller' => 'messages', 'action' => 'send'));
+    Router::connect('/messages/reply/*', array('controller' => 'messages', 'action' => 'reply'));
+    Router::connect('/messages/*', array('controller' => 'messages', 'action' => 'index'));
+    
+    Router::connect('/users/ajax_login/*', array('controller' => 'users', 'action' => 'ajax_login'));
+    Router::connect('/users/ajax_register/*', array('controller' => 'users', 'action' => 'ajax_register'));
+    Router::connect('/users/checkExistence/*', array('controller' => 'users', 'action' => 'checkExistence'));
+    Router::connect('/user/*', array('controller' => 'profiles', 'action' => 'view'));
 
-
-	Router::connect(
-		'/opauth-complete/*', 
-		array('controller' => 'users', 'action' => 'opauth_complete')
-	);
+  	Router::connect(
+  		'/opauth-complete/*', 
+  		array('controller' => 'users', 'action' => 'opauth_complete')
+  	);
+	
+		  Router::connect('/*', array('controller' => 'ideas', 'action' => 'index'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on

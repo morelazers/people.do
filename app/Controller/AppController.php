@@ -70,18 +70,28 @@ class AppController extends Controller {
         // Default deny
         return false;
     }
+    
+    public function _refreshAuth($field = '', $value = '') {
+    	if (!empty($field) && !empty($value)) { 
+    		$this->Session->write($this->Auth->sessionKey .'.'. $field, $value);
+    	} else {
+    		if (isset($this->User)) {
+    			$this->Auth->login($this->User->read(false, $this->Auth->user('id')));
+    		} else {
+    			$this->Auth->login(ClassRegistry::init('User')->findById($this->Auth->user('id')));
+    		}
+	    }
+    }
 
     public function beforeFilter() 
     {
         $this->Auth->allow();
         
         if($this->Session->check('Auth.User')) {
+            $this->_refreshAuth();
             $user = $this->Auth->user();
-            $uid = $user['User']['id'];
-            $user = $this->User->findById($uid);
-            $this->Auth->login($user);
+            $this->set('user', $user);
         }
-        
     }
     
 }

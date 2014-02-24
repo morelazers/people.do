@@ -8,6 +8,11 @@ class MessagesController extends AppController {
     public function index() 
     {
         $user = $this->Auth->user();
+        
+        if(!$user){
+          $this->redirect(array('controller' => 'ideas')); 
+        }
+        
         $uid = $user['User']['id'];
         
         $messages = $this->Message->find(
@@ -15,7 +20,8 @@ class MessagesController extends AppController {
             array(
                 'conditions' => array(
                     'Message.to_user_id' => $uid
-                )
+                ),
+                'order' => array('Message.created DESC')
             )
         );
         
@@ -35,31 +41,37 @@ class MessagesController extends AppController {
         );
     }
   
-    public function send($id = null) 
+    public function send($username = null) 
     {
+        $user = $this->Auth->user();
         
-        if(!isset($id)){
+        if(!isset($user)){
+          $this->redirect(array('controller' => 'ideas')); 
+        }
+        
+        if(!isset($username)){
             $this->Session->setFlash("Can't send a message to nobody!");
             $this->Redirect('/');
         }
         
-        $toUser = $this->User->findById($id);
+        $toUser = $this->User->findByUsername($username);
         if(empty($toUser)){
             $this->Session->setFlash("That user doesn't exist!");
             $this->Redirect('/');
         }
         
         if($this->request->is('post')) {
-            $user = $this->Auth->user();
+            //$user = $this->Auth->user();
             $uid = $user['User']['id'];
             $this->Message->create();
             $this->request->data['Message']['from_user_id'] = $uid;
+            $id = $this->Message->getIdFromUsername($username);
             $this->request->data['Message']['to_user_id'] = $id;
             $this->request->data['Message']['is_read'] = 0;
             // Send the message:
             $this->Message->save($this->request->data);
             $this->Session->setFlash('Message sent!');
-            $this->redirect(array('controller' => 'ideas'));
+            $this->redirect('/');
         }
         
         $this->set(array(
@@ -73,12 +85,13 @@ class MessagesController extends AppController {
             $this->layout = 'ajax';
             $this->autoRender = false;
             $content = $this->request->data['content'];
-            $userId = $this->request->data['uid'];
+            $user = $this->Auth->user();
+            $userId = $user['User']['id'];
             $toUser = $this->request->data['toUser'];
             $parentId = $this->request->data['pId'];
             $subject = "RE: ".$this->request->data['subject'];
             
-            if($parentId !== 0){
+            if(intval($parentId) !== 0){
                 $this->Comment->create();
                 
                 $oldComment = $this->Comment->findById($parentId);

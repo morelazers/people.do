@@ -1,11 +1,18 @@
+#content{
+    font-size: 14px;
+    line-height: 19px;
+}
+
+#EditLink{
+    float: right;
+    text-align: right;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   color: black;
   color: rgba(0, 0, 0, 0.9);
   text-align: center;
-}
-.peopleDoLogo {
-    margin-left:30px;
 }
 
 .idea-title {
@@ -64,17 +71,28 @@ legend {
 }
 .hero-unit {
   background-color: #5E5E5E;
-  text-align: center;
+  text-align: left;
 }
+
 .hero-unit h1,
 .hero-unit h2 {
   font-size: 32px;
   line-height: 48px;
+  margin-left: 163.5px;
 }
+
+.pageDescription{
+    text-align: left;
+    float: left;
+    margin-left:15%;
+    font-size: 15px;
+    color: white;
+}
+
 .footer {
-  margin-top: 30px;
-  padding: 30px 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
+    margin-top: 30px;
+    padding: 30px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 .footer li {
   list-style: none;
@@ -109,7 +127,7 @@ legend {
   height: 100%;
 }
 #header {
-  padding: 30px 0;
+  padding: 30px;
   background-color: #D92A29;
 }
 #header .logo {
@@ -123,7 +141,7 @@ legend {
   line-height: 18px;
 }
 #header .navigation {
-  margin: 40px 0 0 0;
+  margin: 40px 0 5px 0;
   padding: 0;
 }
 #header .navigation li {
@@ -291,16 +309,17 @@ img.left {
 .user-panel {
     color: white;
     text-align: right;
-    margin-top: 14%;
+    margin-top: 30px;
     font-size: 15px;
+    margin-right: 5%;
 }
 .navigation {
     width: 79%;
 }
-.about-centred {
-    font-size: 160%;
-    text-align: center;
-    width: 60%;
+.about {
+    font-size: 130%;
+    text-align: left;
+    width: 65%;
     margin: 0 auto;
     margin-bottom:9px;
     line-height: 110%;
@@ -326,10 +345,12 @@ img.left {
 }
 .comment{
     text-align: left;
-    margin-left: 30px;
+    margin-left: 15px;
+    padding-bottom: 10px;
 }
 .commentChild{
     margin-top: 15px;
+    position: relative;
 }
 #UserAddForm{
     margin-top: 20px;
@@ -353,18 +374,315 @@ img.left {
     line-height: 110%;
 }
 #flashMessage {
-    color: red;
+    color: #D92A29;
     font-size: 25px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 20px;
 }
+
 #FacebookModalButton{
-    background-image: url('/img/fbLoginButtonSmall.jpg');
-    background-repeat: no-repeat;
-    background-position: left;
-    padding-left: 67px;
-    padding-top: 18px;
+    height: 23px;
+    width: 73px;
 }
+
 .profileHeading{
     color:black;
     text-shadow:none;
+}
+#IdeaAddForm{
+    text-align: left;
+    float: left;
+    margin-left: 10%;
+    clear: left;
+    width: 35%;
+}
+#SubmitIdea{
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+#InterestId{
+    width: 389px;
+    height: 30px;
+}
+#IdeaDescription{
+    width: 100%;
+    resize: none;
+} 
+#IdeaName{
+    width: 100%;
+}
+#IdeaTips{
+    float: right;
+    clear: right;
+    text-align: right;
+    margin-right: 10%;
+}
+
+.nameTip{
+    margin-top: 10px;
+}
+
+.descriptionTip{
+    margin-top: 60px;
+}
+
+.interestTip{
+    margin-top: 70px;
+}
+
+.ideaList{
+    margin-top: 20px;
+}
+
+.commentChild{
+    border-left-style: dotted;
+    border-width: 1px;
+    border-color: #5E5E5E;
+}
+
+.commentHr{
+    border-top: 1px dotted #5E5E5E;
+    color: #F5EDF0;
+    background-color: #F5EDF0;
+    height: 4px;
+    /*width: 97%;*/
+    margin-top: 1px;
+}
+
+.viewHr{
+    border-top: 1px dotted #5E5E5E;
+    color: #F5EDF0;
+    background-color: #F5EDF0;
+    height: 4px;
+    width: 96%;
+    margin-left: 17.55px;
+}
+
+#commentBox{
+    width: 35%;
+}
+
+.idea{
+    text-align: left;
+    margin-left: 123.5px;
+    top: 50%;
+    left: 0;
+    width: 80%;
+}
+
+.ideaInfo{
+    margin-left: 80px;
+}
+
+.ideaVotes{
+    position: absolute;
+    float: left;
+    margin-right: 20px;
+    line-height: 60px;
+    font-size: 30px;
+    color: #5E5E5E;
+    width: 60px;
+    text-align: center;
+    
+}
+
+
+#IdeaUpvoteCount {
+	font-size: 30px;
+	position: relative;
+	cursor: default;
+	color: white;
+	
+	text-align: center;
+	line-height: 0px;
+	pointer-events: none;
+	top: -70px;
+	left: 25px;
+}
+
+#UpvoteButtonContainer{
+    float: left;
+    font-size: 14px;
+    margin-left: 48.5px;
+    margin-top: -10px;
+    width: 100px;
+}
+
+#IdeaInfo{
+    font-size: 15px;
+    color: white;
+    margin-left: 163.5px;
+}
+
+#IdeaInfo h1{
+    margin-left: 0;
+}
+
+.upvoteIdea{
+    background:url(/img/bulbsprites.png) -100px 0;
+    color: white;
+    width: 100px;
+    height: 100px;
+}
+
+.upvoteIdea.voted{
+    background:url(/img/bulbsprites.png) 0 0;
+}
+
+#IdeaUpvoteCount.voted{
+    color: #5E5E5E;
+}
+
+.commentContent{
+    padding-left: 10px;
+}
+
+/*.upvoteComment{
+    float: left;
+    background:url(/img/bulbspritessmalldark.png) -60px 0;
+    width: 60px;
+    height: 60px;
+    opacity: 0.8;
+}
+
+.upvoteComment.voted{
+    background:url(/img/bulbspritessmalldark.png) 0 0;
+    opacity: 0.9;
+}*/
+
+.upvoteComment{
+    float: left;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+}
+
+.commentUpvoteCount {
+    
+    float: left;
+    color: #5E5E5E;
+    
+	font-size: 24px;
+	font-weight: 600;
+	position: relative;
+	cursor: default;
+	
+	width:60px;
+	height:60px;
+	text-align:center;
+	line-height:60px;
+	margin-left: -5px;
+	pointer-events:none;
+	
+	opacity: 0.8;
+	
+}
+
+.commentUpvoteCount.voted{
+    opacity: 1;
+}
+
+#EditButton{
+    float: left;
+    margin-left: 203.5px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.saveProfile{
+    margin-top: 20px;
+}
+
+#EditForm{
+    text-align: left;
+    margin-left: 203.5px;
+    margin-top: 40px;
+}
+
+#ProfileAboutMe{
+    height: 136px;
+    width: 420px;
+}
+
+.profile{
+    text-align: left;
+    margin-left: 203.5px;
+    margin-top: 40px;
+}
+
+.listUpvoteButtonContainer{
+    float: left;
+}
+
+.messagesContainer{
+    text-align: left;
+    margin-left: 203.5px;
+}
+
+.message{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+#MessageSendForm{
+    margin-top: 20px;
+    text-align: left;
+    margin-left: 203.5px;
+}
+
+#MessageSubject{
+    width: 420px;
+}
+
+#MessageContent{
+    height: 136px;
+    width: 420px;
+}
+
+.headerUnderlineLink{
+    opacity: 1;
+    text-decoration: underline;
+}
+
+#LogoutLink{
+    margin-top: 10px;
+}
+
+.buttonLink{
+    background:none;
+    border:none; 
+    padding:0;
+    /*border is optional*/
+    color: #D92A29;
+}
+
+.buttonLink:hover{
+    text-decoration: underline;
+}
+
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
 }

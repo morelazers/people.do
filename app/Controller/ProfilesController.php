@@ -19,6 +19,7 @@ class ProfilesController extends AppController{
         	// Align the being-edited profile with the one in the database
             $profile['Profile']['id'] = $user['Profile']['id'];
             $profile['Profile']['user_id'] = $user['User']['id'];
+            $profile['Profile']['about_me'] = $this->request->data['Profile']['about_me'];
             
             $userInterest['user_id'] = $user['User']['id'];
             
@@ -26,7 +27,7 @@ class ProfilesController extends AppController{
             
             if(!empty($this->request->data['Interest']['id'])){
                 foreach($this->request->data['Interest']['id'] as $id){
-                    if(!is_numeric($id)){
+                    if(!is_numeric($id) && !$this->Interest->findByName($this->request->data['Interest']['id'])){
                         $this->Interest->saveNewInterest($id, $user['User']['id']);
                         $id = $this->Interest->getLastInsertId();
                     }
@@ -39,10 +40,10 @@ class ProfilesController extends AppController{
             }
             
             if ($this->Profile->save($profile)) {
-                $this->Session->setFlash('Your profile has been updated.');
+                $this->Session->setFlash('Your profile has been updated!');
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash('Unable to update your profile.');
+                $this->Session->setFlash('Unable to update your profile for some reason, we\'re probably trying to fix it right now!');
             }
         }
         
@@ -58,19 +59,20 @@ class ProfilesController extends AppController{
         
         $this->set(array(
             'interests' => $interests,
-            'selected' => $interestNames
+            'selected' => $interestNames,
+            'user' => $user
             )
         );
 	}
     
-    public function view($id = null) {
-        if(!$userToView = $this->Profile->User->findById($id)){
+    public function view($username = null) {
+        if(!$userToView = $this->Profile->User->findByUsername($username)){
             throw new NotFoundException(__('Invalid user'));
         }
         
         $user = $this->Auth->user();
         
-        if($id === $user['User']['id']){
+        if($username === $user['User']['username']){
             $this->redirect(array('controller' => 'profiles', 'action' => 'index'));
         }
         
@@ -90,4 +92,3 @@ class ProfilesController extends AppController{
     }
     
 }
-?>

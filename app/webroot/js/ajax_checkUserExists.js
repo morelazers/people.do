@@ -1,10 +1,10 @@
 $(document).ready(function(){
     $('#UsernameValidMessage').html('');
-    $('#MessageRecipient').keyup(checkUsernameIsValid);
-    $('#MessageRecipient').keydown(checkUsernameIsValid);
+    $('#MessageRecipient').keyup(checkRecipientIsValid);
+    $('#MessageRecipient').keydown(checkRecipientIsValid);
 });
 
-function checkUsernameIsValid(){
+function checkRecipientIsValid(){
         $('#UsernameValidMessage').html("Checking username...");
         $('#SendButton').attr('disabled', true);
         var request = 

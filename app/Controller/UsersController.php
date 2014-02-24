@@ -119,10 +119,10 @@ class UsersController extends AppController {
         $this->redirect($this->Auth->logout());
     }
 
-    public function index($username = null) {
+/*    public function index($username = null) {
         $this->User->recursive = 0;
         $this->set('users', $this->paginate()); 
-    }
+    }*/
 
     public function add() {
         if ($this->request->is('post')) {
@@ -140,6 +140,7 @@ class UsersController extends AppController {
     public function checkExistence() {
         if($this->request->is('ajax')) {
             if(!isset($this->request->data['username'])){
+                //debug($this->request->data);
                 exit;
             }
             $this->layout = 'ajax';
@@ -156,25 +157,32 @@ class UsersController extends AppController {
     public function think() {
         $user = $this->Auth->user();
         
+        $this->paginate = array(
+            'limit' => 20
+        );
+    
+        $ideas = $this->paginate('Idea');
+        
         if(!$user){
-            $ideasToDisplay = $this->Idea->find('all', array('order' => array('Idea.upvotes' => 'DESC')));
+            //$ideasToDisplay = $this->Idea->find('all', array('order' => array('Idea.upvotes' => 'DESC')));
             $this->set(array(
-                'ideas' => $ideasToDisplay
+                'ideas' => $ideas
                     )
                 );
             return;
         }
         
-        // Find the IdeaInterests that have the same InterestIds as the UserInterests
+        // Find the idea interests that have the same ids as the user interests
         
-        // Count the number of times a single IdeaId comes up
+        // Count the number of times a single idea id comes up
         
         // Display the list in descending order
         
-        $IdeaInterests = array();
+        $ideaInterests = array();
         
+        // Find the ideas with matching interests
         foreach($user['UserInterest'] as $interest){
-            $IdeaInterests[] = $this->IdeaInterest->find(
+            $ideaInterests[] = $this->IdeaInterest->find(
                 'all', 
                 array(
                 'conditions' => array(
@@ -185,30 +193,53 @@ class UsersController extends AppController {
         }
         
         $ideas = array();
-        foreach ($IdeaInterests as $match) {
+        
+        // Count the number of matches in each idea
+        foreach ($ideaInterests as $match) {
             foreach($match as $interest) {
                 if($interest['IdeaInterest']['idea_id']){
                     if(isset($ideas[$interest['IdeaInterest']['idea_id']])){
+                        // Add one to the matching interest count of this idea
                         $ideas[$interest['IdeaInterest']['idea_id']]++;
                     } else {
+                        // If it's the first time we've seen this ID, add it to the array with value 1
                         $ideas[$interest['IdeaInterest']['idea_id']] = 1;
                     }
                 }
             }
         }
         
+        //debug($ideas);
+        
         arsort($ideas);
         
-        $ideas = array_flip($ideas);
+        //debug($ideas);
         
-        $ideasToDisplay = $this->Idea->find(
+        $ids = array_keys($ideas);
+        
+        //debug($ids);
+        
+        //$ideas = array_flip($ideas);
+        
+        //debug($ideas);
+        
+        $this->paginate = array(
+            'limit' => 20,
+            'conditions' => array(
+                'Idea.id' => $ids
+            )
+        );
+    
+        $ideasToDisplay = $this->paginate('Idea');
+        
+        /*$ideasToDisplay = $this->Idea->find(
         'all',
         array(
             'conditions' => array(
-                'Idea.id' => $ideas
+                'Idea.id' => $ids
                 )
             )
-        );
+        );*/
         
         $this->set(array(
             'ideas' => $ideasToDisplay,

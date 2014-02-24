@@ -1,0 +1,225 @@
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  font-family: 'Lato'; 
+}
+
+#nav-panel{
+  padding-right: 40px;
+}
+
+.logo-link, .logo-link:hover{
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+} 
+
+
+.nav-separator{
+  height: 50px;
+}
+
+.top-spacer{
+  height: 60px; 
+}
+
+#idea-list{
+  padding-right: 40px;
+}
+
+.idea-list-title{
+  cursor:pointer;
+}
+
+.idea-list-id{
+  display: none; 
+}
+
+.idea{
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 60px;
+}
+
+.scrollable{
+  overflow-y: scroll;
+}
+
+#idea-content{
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+#idea-id{
+  display: none; 
+}
+
+#idea-actions{
+
+}
+
+.upvote-switch{
+  /*line-height: 30px;*/
+}
+
+#idea-description{
+  padding-top: 20px; 
+}
+
+.comment-box {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+
+#comment-box-top{
+  margin-top: 20px; 
+  height: 100px;
+  width: 105%;
+}
+
+#comment-post-top{
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.comment{
+  padding-top: 20px;
+} 
+
+.comment-info:after{
+  clear: both; 
+  display: table;
+  content: " ";
+}
+
+.comment-id{
+  display: none;  
+}
+
+.comment-body{
+  padding-top: 10px; 
+}
+
+.comment-reply-button{
+  padding-top: 10px; 
+}
+
+.comment-child{
+  margin-left: 20px;
+  padding-top: 10px;
+}
+
+#LoginModal{ 
+}
+
+.modal-login-form{
+  width: 40%;
+  padding-top:95px;
+  padding-left: 30px;
+}
+
+.modal-register-form{
+  width: 40%; 
+  padding-right: 30px;
+  padding-top: 35px;
+}
+
+.modal-other-login{
+  padding-top: 365px; 
+  text-align: center;
+}
+
+.modal-msg{
+  text-align: center; 
+}
+
+#share-page{
+  /*padding-left: 40px; */
+}
+
+.share-idea-form{
+  width: 50%;
+}
+
+.interest-box{
+  width: 100%;
+}
+
+.share-idea-tips{
+  margin-top: 27px;
+}
+
+.description-tip{
+  margin-top: 105px; 
+}
+
+.interests-tip{
+  padding-top: 125px; 
+}
+
+.default{
+  
+}
+
+#EditForm{
+  display: none;
+  width: 50%;
+}
+
+.saveProfile{
+  margin-bottom: 10px; 
+}
+
+.message-send-form{
+  padding-top:40px;
+  width: 50%;  
+}
+
+.from-id{
+  display: none; 
+}
+
+.parent-id{
+  display: none; 
+}
+
+.messages-container{
+  width: 50%; 
+}
+
+.message{
+  padding-top: 10px; 
+}
+
+.message-reply-textarea{
+  width: 220px;
+  height: 100px;
+  margin-top: 10px;
+}
+
+.btn-reply-to-message,
+.btn-cancel-reply-to-message,
+.btn-message-view-idea,
+.btn-send-reply-to-message {
+  margin-top: 10px; 
+}
+
+
+.btn-send-reply-to-message{
+  width: 10%;
+}
+
+.btn-cancel-reply-to-message{
+   margin-left: 10px;
+}
+
+.message-reply{
+  margin-top: 20px;
+}

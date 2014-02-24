@@ -9,8 +9,16 @@ class Message extends AppModel {
         'Recipient' => array(
             'className' => 'User',
             'foreignKey' => 'to_user_id'
-        )
+        ),
+        'Comment'
     );
+    
+/*    // Allow linking back to the idea in the message inbox
+    public $hasOne = array('Message' => array(
+        'conditions' => array('Message.comment_id' => '!== NULL')
+        'foreignKey' => 'comment_id'
+        )
+    );*/
     
     public $validate = array(
         'recipient' => array(
@@ -34,11 +42,11 @@ class Message extends AppModel {
     );
     
     public function getIdFromUsername($username){
-        $result = $this->User->findByUsername($username);
+        $result = $this->Recipient->findByUsername($username);
         if(!$result) {
             return null;
         }
-        return $result['User']['id'];
+        return $result['Recipient']['id'];
     }
 }
 ?>

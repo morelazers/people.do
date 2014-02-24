@@ -1,6 +1,7 @@
 <?php
 class Comment extends AppModel {
     
+    // Tree structure makes it much easier to thread comments
     public $actsAs = array('Tree');
     
     public $hasMany = array(
@@ -33,14 +34,14 @@ class Comment extends AppModel {
         if($parentComment['Comment']['user_id'] !== $uid){
             $toId = $parentComment['Comment']['user_id'];
         
-            $message['content'] = $data['content'];
+            $message['content'] = $data['Comment']['content'];
             $message['subject'] = $user['User']['display_name']." replied to your comment!";
             
             $this->User->sendMessage($uid, $message, $toId, $newId);
         }
     }
     
-    public function afterSave() {
+    public function afterSave($created) {
         $newId = $this->getLastInsertId();
         
         $comment = $this->findById($newId);

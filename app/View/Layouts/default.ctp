@@ -21,127 +21,107 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 ?>
 <!DOCTYPE html>
 <html>
+  <head>
+  
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="stylesheet" href="/css/chosen.css">
 
-
-
-<head>
-    <meta charset="utf-8">
+    <?php
+    echo $this->fetch('meta');
+    ?>
+        
+    <title>people.do</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <?php echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'); ?>
-    <?php echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js'); ?>
-    <?php echo $this->Html->script('bootstrap.js'); ?>
-    <?php echo $this->Html->script('ajax_loginAndRefreshPage.js'); ?>
-    <?php echo $this->Html->script('ajax_checkNewUsernameIsValid.js'); ?>
-    
-    <?php 
-        $userdata = $this->session->read('Auth.User'); 
-    	echo '<script> var userIsLoggedIn = ';
-    	if(!$userdata){
-            $loggedIn = false;
-    		echo 'false ';
-    	} else {
-            $loggedIn = true;
-    		echo 'true ';
-    	}
-    	echo '</script>';
-    	//debug($userdata);
-    ?>
+    <script type="text/javascript">
+       window.userIsLoggedIn = "<?php if(isset($user)){ echo true; } else { echo false; }; ?>";
+    </script>
 
-	<?php echo $this->Html->charset(); ?>
-	<title>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
 
-		people.do
-
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
-
-		echo $this->Html->css('bootstrap');
-        echo $this->Html->css('bootstrap-responsive.min');
-        echo $this->Html->css('style');
-        
-        echo $this->Html->css('http://fonts.googleapis.com/css?family=Lato:400,700');
-
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-	?>
-</head>
-<body>
-
-	<div class="container">
-  	<div id="header" class="row">
-    	<div class="span4">
-      		<div class="logo">
-        		<?php 
-                    echo $this->Html->image("transparentlogo.png", array(
-                        "alt" => "People.do",
-                        'url' => array('controller' => 'ideas', 'action' => 'index'),
-                        'class' => 'peopleDoLogo'
-                    ));
-    			?>
-      		</div>
-      </div>      
-  		<div class="span6">
-        <ul class="navigation">
-          <li><a href="/">Home</a></li>
-          <li><a href="/share">Share</a></li>
-          <li><a href="/think">Think</a></li>
-          <li><a href="/about/">About</a></li>
+  <div id="page-container">
+  
+    <div id="nav-panel" class="col-xs-2">
+      <div class="row">
+        <div id="logo" class="text-right">
+          <a href="/" class="logo-link"><h1>people.do</h1></a>
+        </div>
+      </div>
+      <div class="row">
+        <ul id="nav-buttons" class="nav nav-pills nav-stacked text-right">
+          <li><a href="/share" id="share"><strong>share an idea</strong></a></li>
+          <li><a href="/think" id="think"><strong>interest me</strong></a></li>
+          <li><a href="/about" id="about"><strong>about</strong></a></li>
         </ul>
       </div>
-      <div class="span2">
-        <div class="user-panel">
-  		
-        Welcome<?php if($loggedIn){ 
-                        echo ', '.$userdata['User']['display_name'].'!<br />';
-                        $unreadCount = 0;
-                        foreach($userdata['MessageReceived'] as $message){
-                            if(!$message['is_read']){
-                                $unreadCount++;
-                            }
-                        }
-                        echo '<a href="/messages/" class="messagesLink">Messages ('.$unreadCount.')</a>';
-                    } else {
-                    ?>!
-                    <br />
-                    <?php 
-                        echo $this->Html->link('Log in/Register', '#LoginModal', array('data-toggle' => 'modal'));
-                    }
-                    ?>
-        </div>
+      <div class="nav-separator">
+        <!-- 50px seperator between the two navs -->
       </div>
-    </div>
-
-    <div class="row">
-      <div class="span12">
-        <div class="hero-unit">
-          <?php echo $this->fetch('topbar'); ?>
-        </div>
-      </div>
-    </div>  
-
-	<div id="main" class="container-inset">
-		<div id="content">
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
-		</div>
-	</div>
-	<div class="footer">
-    
-    <?php echo $this->element('loginModal'); ?>
-        
       <div class="row">
-        <div class="span6">
-          <p>&copy; 2013 PeopleDo</p>
-        </div>
+        <ul id="user-panel" class="nav nav-pills nav-stacked text-right">
+          <li>
+              <?php 
+              if(isset($user)){
+                $unreadCount = 0;
+                foreach($user['MessageReceived'] as $msg){
+                  if(!$msg['is_read']){
+                    $unreadCount++;
+                  }
+                }
+                echo '<a href="/profile" id="user-link">' . $user['User']['username'] . '</a>';
+                $messagesLink = '<li><a href="messages" id="messages-link">';
+                if($unreadCount != 0){
+                  $messagesLink .= $unreadCount;
+                }else{
+                  $messagesLink .= 'no';
+                } 
+                $messagesLink .= ' new messages</a></li>';
+                echo $messagesLink;                
+                echo '<li><a href="/logout" id="logout-link">logout</a></li>'; 
+              } else {
+                echo '<a href="#" data-toggle="modal" data-target="#LoginModal">Login/Register</a></li>';
+              }
+              ?>
+        </ul>
       </div>
     </div>
-	</div>
-	<?php
-    echo $this->Js->writeBuffer();
+  
+  <?php
+    echo $this->fetch('content');
   ?>
-</body>
+  
+  </div>
+
+  <?php echo $this->element('loginModal'); ?>
+
+  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  <script src="/js/bootstrap-switch.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <script src="/js/ajax_replyToComment.js"></script>
+  <script src="/js/ajax_checkNewUsernameIsValid.js"></script>
+  <script src="/js/checkPasswordsMatch.js"></script>
+  <script src="/js/ajax_checkUserExists.js"></script>
+  <script src="/js/ajax_loginAndRefreshPage.js"></script>
+  <script src="/js/ajax_replyToMessage.js"></script>
+
+  <?php 
+  echo $this->fetch('script'); 
+  echo $this->JS->writeBuffer();
+  ?>
+
+
+  </body>
 </html>

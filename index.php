@@ -1,43 +1,93 @@
 <?php
-/**
- * Requests collector.
- *
- *  This file collects requests if:
- *	- no mod_rewrite is available or .htaccess files are not supported
- *  - requires App.baseUrl to be uncommented in app/Config/core.php
- *	- app/webroot is not set as a document root.
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c), Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @since         CakePHP(tm) v 0.2.9
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
+$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+?>
 
-/**
- *  Get Cake's root directory
- */
-define('APP_DIR', 'app');
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', dirname(__FILE__));
-define('WEBROOT_DIR', 'webroot');
-define('WWW_ROOT', ROOT . DS . APP_DIR . DS . WEBROOT_DIR . DS);
+<!DOCTYPE html>
+<html>
 
-/**
- * This only needs to be changed if the "cake" directory is located
- * outside of the distributed structure.
- * Full path to the directory containing "cake". Do not add trailing directory separator
- */
-if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-	define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
-}
+<head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" href="styles.css" type="text/css">
+	<?php 
+        $userdata = $this->session->read('Auth.User'); 
+    	echo '<script> var userIsLoggedIn = ';
+    	if(!$userdata){
+            $loggedIn = false;
+    		echo 'false ';
+    	} else {
+            $loggedIn = true;
+    		echo 'true ';
+    	}
+    	echo '</script>';
+    ?>
 
-require APP_DIR . DS . WEBROOT_DIR . DS . 'index.php';
+	<!-- <?php echo $this->Html->charset(); ?> -->
+	<title>people.do</title>
+
+</head>
+
+<body>
+	<!--header -->
+	<div id="header">
+		<div class="container">
+				<a href="/index.html"><h1 class="logo">people.do</h1></a>
+			<div id="nav-container">
+			  	<ul id="topnav">
+					<!-- Change these to reflect your pages. -->
+				    <li><a href="index.html">Home</a></li>
+				    <li><a href="share.html">Share</a></li>
+				    <li><a href="think.html">Think</a></li>
+				    <li><a href="about.html">About</a></li>
+					<li>
+					<?php if($loggedIn) { 
+			        echo ', '.$userdata['User']['display_name'].'!<br />';
+			                          
+					$unreadCount = 0;
+			                          
+						foreach($userdata['MessageReceived'] as $message) {
+			                              if(!$message['is_read']) {
+			                                  $unreadCount++;
+			                              }
+			            }
+			            echo '<a href="/messages/">Messages ('.$unreadCount.')</a>';
+			            } else {
+			                        ?>!
+			           <? php 
+			             echo $this->Html->link('Log in/Register', '#LoginModal', array('data-toggle' => 'modal'));
+			             }
+			           ?>
+					</li>
+				 </ul>
+			</div>
+		</div>
+	</div>
+	
+	<!-- hero --> 
+	<div id="hero">
+		<div class="container">
+			<h2 id="hero"><?php echo $this->fetch('topbar'); ?></h2>
+		</div>
+	</div>
+	
+	<!-- content -->
+	<div id="content">
+		<div class="container">
+			<?php echo $this->Session->flash(); ?>
+			<p class="text-content"><?php echo $this->fetch('content'); ?></p> 
+		</div>
+	</div>
+	
+	<!-- footer -->
+	<div id="footer">
+		<div class="container">
+			<p id="footer-content">
+				<?php echo $this->element('loginModal'); ?>
+				© 2013 people.do
+			</p>
+		</div>
+	</div>
+	<?php
+    echo $this->Js->writeBuffer();
+  ?>	
+</body>
+</html>

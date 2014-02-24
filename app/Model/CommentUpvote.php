@@ -1,5 +1,6 @@
 <?php 
 class CommentUpvote extends AppModel{
-    public $belongsTo = array('Comment', 'User');
+  public $recursive = -1;
+  public $belongsTo = array('Comment', 'User');
 }
 ?>

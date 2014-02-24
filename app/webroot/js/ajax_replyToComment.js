@@ -1,6 +1,9 @@
 $(document).ready(function() {
-	$('.replyToCommentButton').click(function(event){
-        event.preventDefault();
+	$('.reply-button').click(function(event){
+	    console.log("click");
+        if($(this).text() === "Reply"){
+          $(this).text('Cancel');
+        }
 	});
 });
 
@@ -26,7 +29,7 @@ function replyToComment(commentId, userId){
     var commentContent = $("#ReplyToCommentTextArea"+commentId).val();
     var ideaId = $("#ideaId").text();
     
-	var request = 
+	  var request = 
     $.ajax(window.location.origin + "/comments/reply/",
     {
         type: "POST",

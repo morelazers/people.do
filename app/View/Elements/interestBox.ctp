@@ -16,13 +16,16 @@
         );
     }
     
+?>
+<label for="InterestId">Interests</label>    
+<?php
     echo $this->Chosen->select(
         'Interest.id',
         $selectArray,
         array(
             'data-placeholder' => $placeholder,
             'multiple' => true,
-            'class' => 'interestBox'
+            'class' => 'interest-box form-control'
         )
     );
 ?>

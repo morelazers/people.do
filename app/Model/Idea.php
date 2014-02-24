@@ -15,9 +15,9 @@ class Idea extends AppModel
         )
     );
     
-    public function isOwnedBy($post, $user) 
+    public function isOwnedBy($idea, $user) 
     {
-        return $this->field('id', array('id' => $post, 'user_id' => $user)) === $post;
+        return $this->field('id', array('id' => $idea, 'user_id' => $user)) === $idea;
     }
     
     public function notifyPoster($uid, $data, $ideaOwner, $newId){
@@ -35,20 +35,25 @@ class Idea extends AppModel
         $this->User->sendMessage($uid, $message, $ideaOwner, $newId);
     }
     
-    public function afterSave() {
+    public function afterSave($created) {
         $ideaId = $this->getLastInsertId();
         
         $idea = $this->findById($ideaId);
         
-        $uid = $idea['Idea']['user_id'];
+        if($idea){
+            $uid = $idea['Idea']['user_id'];
         
-        $this->IdeaUpvote->create();
-        $newIdeaUpvote = array(
-            'idea_id' => $ideaId,
-            'user_id' => $uid
-        );
-        $this->IdeaUpvote->save($newIdeaUpvote);
+            $this->IdeaUpvote->create();
+            $newIdeaUpvote = array(
+                'idea_id' => $ideaId,
+                'user_id' => $uid
+            );
+            $this->IdeaUpvote->save($newIdeaUpvote);
+        }
+        
+        $ideaInterest['idea_id'] = $ideaId;
     }
+    
     
 }
 ?>

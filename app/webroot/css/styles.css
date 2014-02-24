@@ -1,0 +1,109 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%; 
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #FFF;
+	font-size: 16px;
+}
+
+/* Formatting CSS [Content Divs, Container Divs]*/
+
+#header {
+	width: 100%;
+	float: left;
+	background-color: #d92a29;
+}
+
+#hero {
+	width: 100%;
+	height: 127px;
+	float: left;
+	background-color: #5e5e5e;
+}
+
+#content {
+	width: 100%;
+	float: left;
+	background-color: #f5edf0;
+}
+
+#footer {
+	width: 100%;
+	padding: 0;
+	padding-bottom: 10px;
+	float: left;
+	background-color: #e8e1e3;
+}
+
+.container {
+	margin: 0 auto;
+	width: 960px;
+}
+
+#nav-container {
+	float: right;
+}
+
+.class {
+	width: 50%;
+	border: 0;
+}
+
+/* Content CSS [Words, Logos, Navigation, Menues]*/
+
+h1.logo {
+	width: 296px;
+	height: 96px;
+	display: inline-block;
+	text-indent: -9999px;
+	background-image: url("transparentlogo.png");
+	background-repeat: no-repeat;
+}
+
+/* All of the navigation */
+#topnav {
+	width: 610px;
+	padding-top: 45px;
+	list-style: none;
+}
+
+#topnav li, #topnav a {
+	padding-left: 10px;
+	float: left;
+	font-size: 20px;
+	text-decoration: none;
+	color: #FFF;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+#topnav a {
+	opacity: 1;
+	/* Edit these to change the speed of the hover-fade effect */
+	transition: opacity .2s ease-out;
+	-moz-transition: opacity .2s ease-out;
+	-webkit-transition: opacity .2s ease-out;
+	-o-transition: opacity .2s ease-out;
+}
+
+#topnav a:hover {
+	/* Edit this to change how much the text fades while hovered */
+	opacity: .75;
+}
+
+h2#hero{
+	font-size: 26px;
+	font-weight: normal;
+	line-height: 160px;
+}
+
+p.text-content {
+	color: #575656;
+}
+
+p#footer-content {
+	padding-top: 10px;
+	color: #575656;
+	border-top: 1px solid #575656;
+}

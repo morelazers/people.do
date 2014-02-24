@@ -1,56 +1,39 @@
 $(document).ready(function(){
     if(userIsLoggedIn){
-        $("#UpvoteIdea").click(function(){
-            $(this).toggleClass("voted");
-            votes = parseInt($("#IdeaUpvoteCount").text());
-            if($(this).hasClass("voted")){
-                votes = votes + 1;
-            } else {
-                votes = votes - 1;
-            }
-            $("#IdeaUpvoteCount").text("" + votes);
+        $("#upvote-idea").click(function(){
+            ideaId = parseInt($("#idea-id").html());
+            upvoteIdea(ideaId);
         });
         
-        $(".upvoteComment").click(function(){
-            $(this).toggleClass("voted");
-            var id = this.id.slice(13);
-            var votes = parseInt($("#CommentUpvoteCount" + id).text(), 10);
-            if($(this).hasClass("voted")){
-                votes = votes + 1;
-            } else {
-                votes = votes - 1;
-            }
-            $("#CommentUpvoteCount" + id).text(votes);
+        $(".upvote-comment").click(function(){
+            var id = $(this).parent().parent().parent().next().html()
+            console.log(id);
+            $(this).bootstrapSwitch('toggleState');
         });
     }
 });
 
-function upvoteComment(commentId, votes, userId){
-    
+function upvoteComment(commentId){
     var request = 
     $.ajax(window.location.origin + "/comments/upvote/",
     {
         type: "POST",
         data: 
             {
-                id : commentId,
-                upvotes : votes,
-                uid : userId
+                id : commentId
             },
         dataType: "JSON"
     });
 }
 
-function upvoteIdea(ideaId, votes, userId){
+function upvoteIdea(ideaId){
     var request = 
     $.ajax(window.location.origin + "/ideas/upvote/",
     {
         type: "POST",
         data: 
             {
-                id : ideaId,
-                upvotes: votes,
-                uid : userId
+                id : ideaId
             },
         dataType: "JSON"
     });

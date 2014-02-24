@@ -1,29 +1,47 @@
-<?php echo $this->Html->script('ajax_replyToMessage.js'); ?>
-<?php echo $this->start('topbar'); ?>
-<h1>Messages</h1>
-<?php echo $this->end(); ?>
-</br>
-</br>
-<?php foreach($messages as $message): ?>
-<p>
-    <span class="MessageFrom">
-    <?php 
-        echo $this->Html->link($message['Sender']['display_name'], array('controller' => 'profiles', 'action' => 'view', $message['Sender']['id']));
-    ?>
-    </span>
-    <br />
-    <span id="Subject<?php echo $message['Message']['id']; ?>"><b><?php echo $message['Message']['subject']; ?></b></span>
-    <br/>
-    <?php echo $message['Message']['content']; ?>
-    </br>
-    <?php
-        echo $this->Form->button('Reply', array('type' => 'button', 'class' => 'replyToMessageButton', 'id' => 'ReplyToMessage'.$message['Message']['id']));
-        if(!$parentId = $message['Message']['comment_id']){
-            $parentId = 0;
-        }
-        $replyEventCode = 'showReplyBox('.$message['Message']['id'].', '.$user['User']['id'].', '.$message['Message']['from_user_id'].', '.$parentId.')';
-        echo $this->Js->get('#ReplyToMessage'.$message['Message']['id'])->event('click', $replyEventCode, array('wrap' =>true));
-    ?>
-    
-</p>
-<?php endforeach; ?>
+<div id="messages-page" class="col-lg-10 text-left scrollable">
+
+  <div class="top-spacer">
+  </div>
+
+  <h2>Messages</h2>
+  <div class="pageDescription">
+      Here are the messages that people have sent you.
+  </div>
+  
+  <div class="messages-container">
+      <?php foreach($messages as $message): ?>
+      <p>
+          <div class="message">
+              <div class="message-info">
+                <div class="from-id">
+                  <?php echo $message['Sender']['id']; ?>
+                </div>
+                <div class="parent-id">
+                  <?php echo $message['Message']['comment_id']; ?>
+                </div>
+              </div>
+                <a href="/user/<?php echo $message['Sender']['display_name']; ?>"><?php echo $message['Sender']['display_name']; ?></a>
+              <br />
+              Sent: <?php echo $this->Time->format("F jS, Y H:i", $message['Message']['created']); ?>
+              <br />
+              <span class="subject"><strong><?php echo $message['Message']['subject']; ?></strong></span>
+              <br/>
+              <?php echo $message['Message']['content']; ?>
+              </br>
+              <button class="btn btn-default btn-reply-to-message">Reply</button>
+              
+              
+              
+              <?php
+                  //debug($message);
+                  if($message['Comment']['id'] !== null){
+                      ?>
+                      <a href="/<?php echo $message['Comment']['idea_id']; ?>" class="btn-message-view-idea btn btn-default">Idea</a>
+                      <?php
+                  }
+              ?>
+          </div>
+      </p>
+      <?php endforeach; ?>
+  </div>
+</div>

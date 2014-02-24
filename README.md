@@ -1,8 +1,3 @@
-People.do is an ideas-sharing website built using the CakePHP framework.
-
-
-
-
 CakePHP
 =======
 

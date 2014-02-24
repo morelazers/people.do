@@ -4,22 +4,8 @@
 <?php echo $this->Html->script('ajax_replyToComment'); ?>
 
 <?php echo $this->start('topbar'); ?>
-<h1><?php echo h($idea['Idea']['name']); ?></h1>
-<div id="ideaId" style="display:none"><?php echo $idea['Idea']['id']; ?></div>
 
-<p><small>Brainchild of: 
-<?php
-    echo $this->Html->link($idea['Idea']['shared_by_name'], 
-    array('controller' => 'profiles', 'action' => 'view', $idea['Idea']['user_id']), array('class' => 'topBarLink'));
-?>
-</small></p>
-
-<p>Upvotes: 
-    <span id="IdeaUpvoteCount">
-        <?php echo $idea['Idea']['upvotes']; ?>
-    </span>
-</p>
-
+<div id="UpvoteButtonContainer">
 <?php 
 
     /* If the user is logged in, display the upvote and reply links. If not, replace the links with a login popup */
@@ -27,20 +13,58 @@
     $user = $this->session->read('Auth.User'); 
     if(!$user){
         ?>
-        <button class="loginRequired">Upvote</button>
+        <a class="loginRequired">
+            <img src="/img/transparent.png" class="upvoteIdea"></img>
+            <span id="IdeaUpvoteCount" class="count">
+                <?php echo $idea['Idea']['upvotes']; ?>
+            </span>
+        </a>
         <?php
     } else {
-        $class = 'upvoteIdea';
+        $class = '';
         foreach($ideaUpvotes as $vote){
             if($vote['Idea']['id'] === $idea['Idea']['id'] && $vote['User']['id'] === $user['User']['id']){
-                $class = 'upvoteIdea voted';
+                $class = ' voted';
             }
         }
-        echo $this->Html->link('Upvote', '', array('class' => $class, 'id' => 'UpvoteIdea'));
+        
+        ?>
+         <a>
+            <img src="/img/transparent.png" class="upvoteIdea<?php echo $class; ?>"></img>
+            <span id="IdeaUpvoteCount" class="count<?php echo $class; ?>">
+                <?php echo $idea['Idea']['upvotes']; ?>
+            </span>
+         </a>
+        <?php
         $eventCode = 'upvoteIdea('.$idea['Idea']['id'].', '.$idea['Idea']['upvotes'].', '.$user['User']['id'].')';
-        echo $this->Js->get('#UpvoteIdea')->event('click', $eventCode, array('wrap' => true));
+        echo $this->Js->get('.upvoteIdea')->event('click', $eventCode, array('wrap' => true));
     }
 ?>
+
+</div>
+
+<div id="IdeaInfo">
+    <div id="IdeaName">
+        <h1><?php echo h($idea['Idea']['name']); ?></h1>
+    </div>
+    <div id="ideaId" style="display:none"><?php echo $idea['Idea']['id']; ?></div>
+    Brainchild of: 
+    <?php
+        echo $this->Html->link($idea['Idea']['shared_by_name'], 
+        array('controller' => 'profiles', 'action' => 'view', $idea['Idea']['user_id']), array('class' => 'topBarLink'));
+    ?>
+</div>
+
+<?php 
+
+    if($user['User']['id'] === $idea['Idea']['user_id']){
+        ?>
+        <span id="EditLink"><a href="/ideas/edit/<?php echo $idea['Idea']['id']; ?>">Edit</a></span>
+        <?php
+    }
+
+?>
+
 
 <?php echo $this->end(); ?>
 
@@ -48,13 +72,14 @@
 <br />
 <p><?php echo nl2br($idea['Idea']['description']); ?></p>
 </div>
-<hr>
+
+<hr class="viewHr"></hr>
 
 <div id="CommentsAndForm">
 
 <?php
 
-    /* Show the comment form at the bottom of the list of comments */
+    /* Show the comment form above the list of comments */
 
     if(!$user){
         $class = 'loginRequired';
@@ -71,7 +96,7 @@
     }
     
     echo $this->Form->input('content', array(
-        'rows' => '3',
+        'rows' => '7',
         'id' => 'commentBox',
         'label' => 'Leave a comment!'
         )
@@ -86,7 +111,7 @@
     echo $this->Js->writeBuffer();
 ?>
 
-<hr>
+<hr class="viewHr"></hr>
 
 <?php foreach ($comments as $comment): ?>
 

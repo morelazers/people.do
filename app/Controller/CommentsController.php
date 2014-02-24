@@ -14,7 +14,8 @@ class CommentsController extends AppController {
             $this->layout = 'ajax';
             $this->autoRender = false;
             $id = $this->request->data['id'];
-            $uid = $this->request->data['uid'];
+            $user = $this->Auth->user();
+            $uid = $user['User']['id'];
             if($vote = $this->Comment->CommentUpvote->findByCommentIdAndUserId($id, $uid)){
                 $this->Comment->CommentUpvote->delete($vote['CommentUpvote']['id']);
                 $this->Comment->UpdateAll(array('Comment.upvotes' => 'Comment.upvotes - 1'), array('Comment.id' => $id));
@@ -34,13 +35,19 @@ class CommentsController extends AppController {
         if($this->request->is('ajax')){
             $this->layout = 'ajax';
             $this->autoRender = false;
+            
+            $child = true;
+            
+            $user = $this->Auth->user();
+            
             $ideaId = $this->request->data['ideaId'];
-            if($this->request->data['parentId']){
+            if($this->request->data['parentId'] !== '-1'){
                 $parentId = $this->request->data['parentId'];
             } else {
                 $parentId = null;
+                $child = false; 
             }
-            $uid = $this->request->data['uid'];
+            $uid = $user['User']['id'];
             $content = $this->request->data['content'];
             $this->Comment->create();
             $data = array(
@@ -51,26 +58,31 @@ class CommentsController extends AppController {
             );
             
             $this->Comment->save($data);
-            $user = $this->Auth->user();
+            
             $newId = $this->Comment->getLastInsertId();
             $comment = $this->Comment->findById($newId);
             
-            /*$comment = array(
+            
+            $data = array(
                 'Comment' => array(
                     'id' => $this->Comment->id,
                     'content' => $content,
-                    'upvotes' => 1
-                )
-            );*/
+                    'upvotes' => 1,
+                    'UserId' => $user['User']['id']  
+                ),
+            );
+            
             
             $user = $this->User->findById($user['User']['id']);
             $this->Auth->login($user);
                 
             $view = new View($this, false);
+            
             $view->set(array(
                 'user' => $user,
                 'comment' => $comment,
-                'newComment' => true
+                'newComment' => true,
+                'child' => $child
                 )
             );
             

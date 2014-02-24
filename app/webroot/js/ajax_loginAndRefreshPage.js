@@ -43,7 +43,7 @@ function loginAndRefresh(){
     
     request.done(function(data){
         if(data.valid){
-            $("#ModalLoginMessage").text("Logged you in!");
+            $("#ModalLoginMessage").text("Logged you in, hang tight!");
             window.userIsLoggedIn = true;
             if(document.URL.indexOf("/share") >= 0){ 
                 $("#IdeaAddForm").submit();
@@ -74,6 +74,8 @@ function registerAndRefresh() {
         return;
     }
     
+    username = username.replace(/[^a-z0-9\s]/gi, '');
+    
     var request = 
     $.ajax(window.location.origin + "/users/ajax_register",
     {
@@ -89,7 +91,7 @@ function registerAndRefresh() {
     
     request.done(function(data){
         if(data.valid){
-            $("#ModalRegisterMessage").text("Registered you!");
+            $("#ModalRegisterMessage").text("Registered you, here we go!");
             $("#LoginModal").modal('toggle');
             window.userIsLoggedIn = true;
             if(document.URL.indexOf("/share") >= 0){ 
@@ -105,7 +107,7 @@ function registerAndRefresh() {
                 window.location.reload();
             }
         } else {
-            $("#ModalRegisterMessage").text("Couldn't register you, something must've broke; try again in a minute or two");
+            $("#ModalRegisterMessage").text("We couldn't register you, something must've broke; try again in a minute or two");
         }
     });
 }
@@ -212,13 +214,14 @@ function getUserId() {
     });
 }
 
+/*
 function postComment(userId){
-    if($("#commentBox").val() === ""){
+    if($(".comment-box").val() === ""){
         return;
     }
     
-    var commentContent = $("#commentBox").val();
-    var ideaId = $("#ideaId").text();
+    var commentContent = $(".comment-box").val();
+    var ideaId = $("#idea-id").text();
     
     var request = 
     $.ajax(window.location.origin + "/comments/reply/",
@@ -227,17 +230,19 @@ function postComment(userId){
         data: 
             {
                 ideaId : ideaId,
-                parentId : null,
-                content : commentContent,
-                uid : userId
+                parentId : -1,
+                content : commentContent
             },
         dataType: "JSON"
     });
 
     request.done(function(data){
-        $('.replyArea').remove();
+        //$('.replyArea').remove();
         var element = $(data.comment);
-        $(element).insertAfter("#CommentForm");
+        $(element).insertAfter("#comments-title");
+        $(element).children().first().children().first().children(".comment-upvote-switch").children(".bootstrap-switch").bootstrapSwitch();
+        initialiseLinks();
     });
 
 }
+*/
