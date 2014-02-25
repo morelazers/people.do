@@ -16,6 +16,7 @@ h6{
   color: black;
   cursor: pointer;
   text-decoration: none;
+  z-index:999;
 } 
 
 
