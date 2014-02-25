@@ -39,6 +39,7 @@
     Router::connect('/share/*', array('controller' => 'ideas', 'action' => 'add'));
     Router::connect('/think/*', array('controller' => 'users', 'action' => 'think'));
     Router::connect('/ideas/ajaxview/*', array('controller' => 'ideas', 'action' => 'ajaxview'));
+    Router::connect('/ideas/ajaxShare/*', array('controller' => 'ideas', 'action' => 'ajaxShare'));
     Router::connect('/ideas/upvote/*', array('controller' => 'ideas', 'action' => 'upvote'));
     Router::connect('/comments/upvote/*', array('controller' => 'comments', 'action' => 'upvote'));
     Router::connect('/comments/reply/*', array('controller' => 'comments', 'action' => 'reply'));

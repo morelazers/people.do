@@ -12,27 +12,28 @@ function addNewCommentThread(el){
 function addCommentReply(rb, el){
   rb.parent().next().after($(el));
   
-  //add handler to the new reply button /* BROKEN DON'T KNOW WHY */
+  console.log($(el).find('.reply-button'));
   
-  rb.parent().parent().children(".comment-reply-button").children().first().on('click', function(){
+  initialiseNewCommentSwitch();
+  
+  console.log(rb.parent().parent().find('.reply-button').eq(1));
+  
+  rb.parent().parent().children().find('.reply-button').eq(1).on("click", function(){
+    console.log("FUCK");
     console.log($(this));
     changeReplyButtonText($(this));
   });
-  
-  initialiseNewCommentSwitch();
   
   rb.parent().remove();
 }
 
 function postComment(btn, pid){
   var commentContent;
-  console.log(btn);
   if(pid === -1){
     commentContent = $('.comment-box').val();
   } else {
     commentContent = btn.prev().val();
   }
-  console.log(commentContent);
   if(commentContent === ""){
    return; 
   }
@@ -70,14 +71,14 @@ function initialiseCommentButton(){
   });
 }
 
+function handleCommentReplySubmit(submitbtn){
+  var parentCommentId = submitbtn.parent().siblings(".comment-info").children(".comment-id").html();
+  postComment(submitbtn, parentCommentId); 
+}
+
 function initialiseCommentReplyButton(){
  $(".submit-comment-reply").on('click', function(event){
-    var parentCommentId = $(this).parent().siblings(".comment-info").children(".comment-id").html();
-    
-    console.log(parentCommentId);
-    
-    postComment($(this), parentCommentId);
-    console.log("lllllllllllllll");
+    handleCommentReplySubmit($(this));
     //$(this).parent().next().children(".reply-button").text('Reply');
   });
   
@@ -96,13 +97,15 @@ function showCommentReplyArea(btn){
   if(window.userIsLoggedIn){
     loginRequiredClass = ""; 
   }
-  var element = $("<div class='comment-reply-area'><textarea class='comment-reply-textarea' rows='3' cols='30' required='required'></textarea>"+
+  var element = $.parseHTML("<div class='comment-reply-area'><textarea class='comment-reply-textarea' rows='3' cols='30' required='required'></textarea>"+
     "<button class='btn submit-comment-reply" + loginRequiredClass + "'>Submit Reply</button></div>");
-  $(element).insertBefore(btn.parent());
+    
+  btn.parent().before(element);
+  var newel = btn.parent().parent().find(".submit-comment-reply").first();
+  $(element).find(".submit-comment-reply").on('click', function(){
+    handleCommentReplySubmit($(this));
+  });
   initialiseModal();
-  if(window.userIsLoggedIn){
-    initialiseCommentReplyButton();
-  }
 }
 
 function removeCommentReplyArea(btn){
@@ -192,7 +195,16 @@ function initialiseShareButton(){
   if(window.userIsLoggedIn){
     $("#IdeaAddForm").on("submit", function(event){
       event.preventDefault();
-      $.post(window.location.origin + '/ideas/ajaxShare', $(this).serialize());
+      var request =
+      $.ajax(window.location.origin + '/ideas/ajaxShare',
+      {
+        type: "POST",
+        data: $(this).serialize(),
+        dataType: "JSON"
+      });
+      request.done(function(data){
+        window.location.replace('/' + data.newid);
+      });
     });
   }
 }
@@ -217,6 +229,8 @@ function loadIdea(id){
       initialiseModal();
       initialiseReplyButtons();
       window.history.pushState("", "people.do", "/" + $('#idea-id').html());
+      var h=$(window).height();
+      $('#idea-content').height(h+'px');
     });
 }
 
@@ -239,8 +253,6 @@ function replyToMessage(subject, content, toUserId, parentId, btn){
         //$('.reply-area').remove();
         //$('#ReplyToMessage'+messageId).text('Reply');
         var element = $("<div class='message-reply'>"+message.content+"</div>");
-        //console.log(element);
-        //console.log($(element));
         element.insertAfter(btn.parent().siblings().last());
         btn.parent().remove();
         return element;
@@ -257,7 +269,6 @@ function showMessageReplyBox(btn){
   
   var newel = $.parseHTML(element);
   btn.parent().append(newel);
-  console.log(btn.parent().children().last().children().first().next());
   initialiseMessageReplyCancelButton(btn.parent().children().last().children().last());
   initialiseMessageSendButton(btn.parent().children().last().children().first().next());
 }
@@ -269,7 +280,6 @@ function initialiseMessageSendButton(sendbtn){
     var toid = parseInt($(this).parent().parent().find('from-id').text());
     var parentid = parseInt($(this).parent().parent().find('parent-id').text());
     if(content !== ''){
-      console.log(content);
       replyToMessage(subject, content, toid, parentid, $(this));
       sendbtn.parent().parent().find('.btn-reply-to-message').prop('disabled', false);
     }
@@ -302,7 +312,6 @@ $(document).ready(function() {
     initialiseIdeaTitles();
     
     var urlextension = document.location.pathname.slice(1);
-    console.log(urlextension);
     
     if(urlextension == parseInt(urlextension, 10)){
       loadIdea(urlextension); 

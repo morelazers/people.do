@@ -38,7 +38,7 @@ if($user){
   <div class="comment-info">
     <div>
     <span class="comment-username pull-left text-right">
-      <a href="/users/<?php echo $commentPosterName; ?>"><?php echo $commentPosterName; ?></a>
+      <a href="/user/<?php echo $commentPosterName; ?>"><?php echo $commentPosterName; ?></a>
     </span>
     <span class="comment-upvote-switch pull-right">
       <input type="checkbox" <?php echo $checked; ?>class="upvote-comment pull-right bootstrap-switch switch-mini<?php echo $login . $new; ?>" data-on-label="<?php echo intval($upvotes + 1); ?>" data-off-label="<?php echo $upvotes; ?>">
