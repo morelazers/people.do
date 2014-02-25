@@ -223,3 +223,13 @@ h6{
 .message-reply{
   margin-top: 20px;
 }
+
+.about-page p{
+  font-size: 25px;
+  margin: 0 0 40px;
+}
+
+.about-heading{
+  font-size: 30px; 
+  margin-top: 70px;
+}

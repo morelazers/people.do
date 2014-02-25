@@ -1,11 +1,10 @@
-<?php echo $this->start('topbar'); ?>
-<h1>What is this place?</h1>
+<div class="about-page col-md-10 scrollable">
+<div class="about-heading">
+  What is this place?
+</div>
 <div class="pageDescription">
     A little bit about why this page even exists.
 </div>
-<?php echo $this->end(); ?>
-
-<div class="about">
 <br/>
 <p>
 People.do is an ideas-sharing website designed for the purpose of getting great ideas out of heads and into the real world. There are many ways in which this process happens in day-to-day life already; 

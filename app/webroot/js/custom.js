@@ -242,6 +242,7 @@ function replyToMessage(subject, content, toUserId, parentId, btn){
         //console.log(element);
         //console.log($(element));
         element.insertAfter(btn.parent().siblings().last());
+        btn.parent().remove();
         return element;
     }); 
 }
@@ -253,22 +254,24 @@ function showMessageReplyBox(btn){
   element = element +   "<button class='btn-send-reply-to-message btn btn-default'>Send</button>";
   element = element +   "<button class='btn-cancel-reply-to-message btn btn-default'>Cancel</button>";
   element = element + "</div>";
-  console.log($(element));
-  console.log($(element).find('.btn-cancel-reply-to-message'));
-  initialiseMessageReplyCancelButton($(element).find('.btn-cancel-reply-to-message'));
-  initialiseMessageSendButton($(element).find('.btn-send-reply-to-message'));
-  $(element).insertAfter(btn);
+  
+  var newel = $.parseHTML(element);
+  btn.parent().append(newel);
+  console.log(btn.parent().children().last().children().first().next());
+  initialiseMessageReplyCancelButton(btn.parent().children().last().children().last());
+  initialiseMessageSendButton(btn.parent().children().last().children().first().next());
 }
 
-function initialiseMessageSendButton(btn){
-  $(btn).on('click', function(){
+function initialiseMessageSendButton(sendbtn){
+  $(sendbtn).on('click', function(){
     var subject = $(this).parent().parent().find('.subject').text();
-    var content = $(this).parent().find('.message-reply-textare').val();
+    var content = $(this).parent().find('.message-reply-textarea').val();
     var toid = parseInt($(this).parent().parent().find('from-id').text());
     var parentid = parseInt($(this).parent().parent().find('parent-id').text());
     if(content !== ''){
       console.log(content);
       replyToMessage(subject, content, toid, parentid, $(this));
+      sendbtn.parent().parent().find('.btn-reply-to-message').prop('disabled', false);
     }
   }); 
 }
@@ -279,10 +282,10 @@ function initialiseMessageReplyButton(){
   });
 }
 
-function initialiseMessageReplyCancelButton(btn){
-   btn.on('click', function(){
-     btn.parent().parent().find('.btn-reply-to-message').prop('disabled', false);
-     btn.parent().remove();
+function initialiseMessageReplyCancelButton(cancelbtn){
+   cancelbtn.on('click', function(){
+     cancelbtn.parent().parent().find('.btn-reply-to-message').prop('disabled', false);
+     cancelbtn.parent().remove();
    });
 }
 
