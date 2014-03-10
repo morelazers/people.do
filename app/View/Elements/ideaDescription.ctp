@@ -1,5 +1,5 @@
-<?php 
-//debug($data); 
+<?php
+//debug($data);
 $upvotes = $idea['Idea']['upvotes'];
 
 $ideaChecked = "";
@@ -35,16 +35,16 @@ if(!$user){
     <div id="comment-box-top" class="row">
       <textarea rows="4" class="comment-box"></textarea>
     </div>
-    <button id="comment-post-top" class="row btn btn-reg<?php echo $requireLoginClass; ?>">
+    <button id="comment-post-top" class="row btn btn-default<?php echo $requireLoginClass; ?>">
       Comment
     </button>
   </div>
-  
+
   <div id="idea-comments" class="row">
     <div id="comments-title">
       <h4><?php echo count($idea['Comment']); ?> Comments</h4>
     </div>
-    <?php 
+    <?php
     foreach($comments as $comment){
       echo $this->element('comment', array(
         'comment' => $comment,
@@ -52,8 +52,8 @@ if(!$user){
           'user' => $user,
           'child' => false
         )
-      ); 
+      );
     }
     ?>
   </div>
-</div>  
+</div>

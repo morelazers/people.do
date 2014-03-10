@@ -1,17 +1,16 @@
 <?php
 class ProfilesController extends AppController{
-    
+
     public $components = array('Session', 'RequestHandler');
     public $uses = array('Interest', 'User', 'Profile');
-	
+
 	public function index(){
 
 		// Get the currently logged in user
 		$user = $this->Auth->user();
 
         if (!$user) {
-            $this->Session->setFlash('Please login first');
-            $this->redirect(array('controller' => 'users', 'action' =>'login'));
+            $this->redirect(array('controller' => 'ideas', 'action' =>'index'));
         }
 
         if ($this->request->is('post') || $this->request->is('put')) {
@@ -20,11 +19,11 @@ class ProfilesController extends AppController{
             $profile['Profile']['id'] = $user['Profile']['id'];
             $profile['Profile']['user_id'] = $user['User']['id'];
             $profile['Profile']['about_me'] = $this->request->data['Profile']['about_me'];
-            
+
             $userInterest['user_id'] = $user['User']['id'];
-            
+
             $this->Profile->User->UserInterest->deleteAll(array('UserInterest.user_id' => $userInterest['user_id']));
-            
+
             if(!empty($this->request->data['Interest']['id'])){
                 foreach($this->request->data['Interest']['id'] as $id){
                     if(!is_numeric($id) && !$this->Interest->findByName($id)){
@@ -38,25 +37,24 @@ class ProfilesController extends AppController{
                     }
                 }
             }
-            
+
             if ($this->Profile->save($profile)) {
-                $this->Session->setFlash('Your profile has been updated!');
+                $user = $this->User->findById($user['User']['id']);
+                $this->Auth->login($user);
                 $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash('Unable to update your profile for some reason, we\'re probably trying to fix it right now!');
             }
         }
-        
+
         $interests = $this->Interest->find('all');
         $user = $this->User->findById($user['User']['id']);
-        
+
         $interestNames = array();
         foreach($user['UserInterest'] as $id) {
             if($i = $this->Interest->findById($id['interest_id'])){
                 $interestNames[$i['Interest']['id']] = $i['Interest']['name'];
             }
         }
-        
+
         $this->set(array(
             'interests' => $interests,
             'selected' => $interestNames,
@@ -64,7 +62,7 @@ class ProfilesController extends AppController{
             )
         );
 	}
-    
+
     public function view($username = null) {
 
         if(!$userToView = $this->Profile->User->findByUsername($username)){
@@ -72,13 +70,13 @@ class ProfilesController extends AppController{
                 throw new NotFoundException(__('Invalid user'));
             }
         }
-        
+
         $user = $this->Auth->user();
-        
+
         if($username === $user['User']['username']){
             $this->redirect(array('controller' => 'profiles', 'action' => 'index'));
         }
-        
+
         $interestNames = array();
         if(!empty($userToView['UserInterest'])){
             foreach($userToView['UserInterest'] as $interestId){
@@ -86,12 +84,12 @@ class ProfilesController extends AppController{
                 $interestNames[] = $interest['Interest']['name'];
             }
         }
-        
+
         $this->set(array(
             'userToView' => $userToView,
             'interestNames' => $interestNames
             )
         );
     }
-    
+
 }

@@ -1,11 +1,11 @@
-
+a
 h1,
 h2,
 h3,
 h4,
 h5,
 h6{
-  font-family: 'Lato'; 
+  font-family: 'Lato';
 }
 
 #nav-panel{
@@ -17,7 +17,7 @@ h6{
   cursor: pointer;
   text-decoration: none;
   z-index:999;
-} 
+}
 
 
 .nav-separator{
@@ -25,7 +25,7 @@ h6{
 }
 
 .top-spacer{
-  height: 60px; 
+  height: 60px;
 }
 
 #idea-list{
@@ -37,7 +37,7 @@ h6{
 }
 
 .idea-list-id{
-  display: none; 
+  display: none;
 }
 
 .idea{
@@ -56,7 +56,7 @@ h6{
 }
 
 #idea-id{
-  display: none; 
+  display: none;
 }
 
 #idea-actions{
@@ -68,7 +68,7 @@ h6{
 }
 
 #idea-description{
-  padding-top: 20px; 
+  padding-top: 20px;
 }
 
 .comment-box {
@@ -80,7 +80,7 @@ h6{
 }
 
 #comment-box-top{
-  margin-top: 20px; 
+  margin-top: 20px;
   height: 100px;
   width: 105%;
 }
@@ -92,24 +92,24 @@ h6{
 
 .comment{
   padding-top: 20px;
-} 
+}
 
 .comment-info:after{
-  clear: both; 
+  clear: both;
   display: table;
   content: " ";
 }
 
 .comment-id{
-  display: none;  
+  display: none;
 }
 
 .comment-body{
-  padding-top: 10px; 
+  padding-top: 10px;
 }
 
 .comment-reply-button{
-  padding-top: 10px; 
+  padding-top: 10px;
 }
 
 .comment-child{
@@ -117,7 +117,7 @@ h6{
   padding-top: 10px;
 }
 
-#LoginModal{ 
+#LoginModal{
 }
 
 .modal-login-form{
@@ -127,18 +127,22 @@ h6{
 }
 
 .modal-register-form{
-  width: 40%; 
+  width: 40%;
   padding-right: 30px;
   padding-top: 35px;
 }
 
+.btn-modal{
+  margin-top: 10px;
+}
+
 .modal-other-login{
-  padding-top: 365px; 
+  padding-top: 365px;
   text-align: center;
 }
 
 .modal-msg{
-  text-align: center; 
+  text-align: center;
 }
 
 #share-page{
@@ -158,45 +162,45 @@ h6{
 }
 
 .description-tip{
-  margin-top: 105px; 
+  margin-top: 105px;
 }
 
 .interests-tip{
-  padding-top: 125px; 
+  padding-top: 125px;
 }
 
 .default{
-  
+
 }
 
 #EditForm{
   display: none;
-  width: 50%;
+  width: 100%;
 }
 
 .saveProfile{
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 .message-send-form{
   padding-top:40px;
-  width: 50%;  
+  width: 50%;
 }
 
 .from-id{
-  display: none; 
+  display: none;
 }
 
 .parent-id{
-  display: none; 
+  display: none;
 }
 
 .messages-container{
-  width: 50%; 
+  width: 50%;
 }
 
 .message{
-  padding-top: 10px; 
+  padding-top: 10px;
 }
 
 .message-reply-textarea{
@@ -209,7 +213,7 @@ h6{
 .btn-cancel-reply-to-message,
 .btn-message-view-idea,
 .btn-send-reply-to-message {
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
 
@@ -226,7 +230,7 @@ h6{
 }
 
 .about-page{
-  padding: 0px 673px 0px 0px;
+  padding: 0px 400px 0px 0px;
 }
 
 .about-page p{
@@ -236,12 +240,12 @@ h6{
 }
 
 .about-heading{
-  font-size: 30px; 
+  font-size: 30px;
   margin-top: 70px;
 }
 
 .search-field{
-  width: 50%; 
+  width: 50%;
 }
 
 .facebookButton,

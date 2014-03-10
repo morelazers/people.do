@@ -1,6 +1,6 @@
 function initialiseNewCommentSwitch(){
   $('.new-comment').bootstrapSwitch();
-  $('.new-comment').removeClass('new-comment'); 
+  $('.new-comment').removeClass('new-comment');
   $('.comment-box').val('');
 }
 
@@ -11,19 +11,19 @@ function addNewCommentThread(el){
 
 function addCommentReply(rb, el){
   rb.parent().next().after($(el));
-  
+
   console.log($(el).find('.reply-button'));
-  
+
   initialiseNewCommentSwitch();
-  
+
   console.log(rb.parent().parent().find('.reply-button').eq(1));
-  
+
   rb.parent().parent().children().find('.reply-button').eq(1).on("click", function(){
     console.log("FUCK");
     console.log($(this));
     changeReplyButtonText($(this));
   });
-  
+
   rb.parent().remove();
 }
 
@@ -35,15 +35,15 @@ function postComment(btn, pid){
     commentContent = btn.prev().val();
   }
   if(commentContent === ""){
-   return; 
+   return;
   }
-  var ideaId = $("#idea-id").text(); 
+  var ideaId = $("#idea-id").text();
   var parentCommentId = pid;
-  var request = 
+  var request =
   $.ajax(window.location.origin + "/comments/reply/",
   {
     type: "POST",
-    data: 
+    data:
       {
         ideaId : ideaId,
         parentId : parentCommentId,
@@ -55,10 +55,10 @@ function postComment(btn, pid){
   request.done(function(data){
     var element = (data.comment);
     if(pid !== -1){
-      btn.parent().next().children(".reply-button").text('Reply'); 
+      btn.parent().next().children(".reply-button").text('Reply');
       addCommentReply(btn, element);
     } else {
-      addNewCommentThread(element); 
+      addNewCommentThread(element);
     }
     //initialiseLinks();
   });
@@ -73,7 +73,7 @@ function initialiseCommentButton(){
 
 function handleCommentReplySubmit(submitbtn){
   var parentCommentId = submitbtn.parent().siblings(".comment-info").children(".comment-id").html();
-  postComment(submitbtn, parentCommentId); 
+  postComment(submitbtn, parentCommentId);
 }
 
 function initialiseCommentReplyButton(){
@@ -83,7 +83,7 @@ function initialiseCommentReplyButton(){
       //$(this).parent().next().children(".reply-button").text('Reply');
     });
   }
-  
+
 }
 
 function initialiseModal(){
@@ -95,13 +95,13 @@ function initialiseModal(){
 }
 
 function showCommentReplyArea(btn){
-  var loginRequiredClass = " login-required"; 
+  var loginRequiredClass = " login-required";
   if(window.userIsLoggedIn){
-    loginRequiredClass = ""; 
+    loginRequiredClass = "";
   }
   var element = $.parseHTML("<div class='comment-reply-area'><textarea class='comment-reply-textarea' rows='3' cols='30' required='required'></textarea>"+
     "<button class='btn btn-default submit-comment-reply" + loginRequiredClass + "'>Submit Reply</button></div>");
-    
+
   btn.parent().before(element);
   var newel = btn.parent().parent().find(".submit-comment-reply").first();
   if(window.userIsLoggedIn){
@@ -118,11 +118,11 @@ function removeCommentReplyArea(btn){
 
 
 function upvoteComment(commentId){
-  var request = 
+  var request =
   $.ajax(window.location.origin + "/comments/upvote/",
   {
     type: "POST",
-    data: 
+    data:
     {
       id : commentId
     },
@@ -131,11 +131,11 @@ function upvoteComment(commentId){
 }
 
 function upvoteIdea(ideaId){
-  var request = 
+  var request =
   $.ajax(window.location.origin + "/ideas/upvote/",
   {
     type: "POST",
-    data: 
+    data:
     {
       id : ideaId
     },
@@ -148,11 +148,11 @@ function initialiseUpvoteButtons(){
     if(window.userIsLoggedIn){
       upvoteIdea(parseInt($("#idea-id").html()));
     } else {
-      $('#LoginModal').modal('show'); 
+      $('#LoginModal').modal('show');
     }
   });
-  
-  
+
+
   $('.upvote-comment').on('switch-change', function (e, data) {
     if(window.userIsLoggedIn){
       var element = $(data.el);
@@ -161,19 +161,19 @@ function initialiseUpvoteButtons(){
       $('#LoginModal').modal('show');
     }
   });
-  
+
 }
 
 function initialiseIdeaTitles(){
   $(".idea-list-title").on('click', function(event){
     var ideaId = $(this).parent().children().last().html();
     loadIdea(ideaId);
-  }); 
+  });
 }
 
 function changeReplyButtonText(btn){
   if(btn.text() === "Reply"){
-    btn.text('Cancel'); 
+    btn.text('Cancel');
     showCommentReplyArea(btn);
   } else {
     btn.text('Reply');
@@ -214,11 +214,11 @@ function initialiseShareButton(){
 }
 
 function loadIdea(id){
-  var request = 
+  var request =
     $.ajax(window.location.origin + "/ideas/ajaxview",
     {
       type: "POST",
-      data: 
+      data:
         {
           ideaId : id
         },
@@ -226,7 +226,7 @@ function loadIdea(id){
       dataType: "JSON"
     });
     request.done(function(data){
-      $("#idea-content-panel").html(data.markup); 
+      $("#idea-content-panel").html(data.markup);
       $('.bootstrap-switch').bootstrapSwitch();
       initialiseLinks();
       initialiseUpvoteButtons();
@@ -239,11 +239,11 @@ function loadIdea(id){
 }
 
 function replyToMessage(subject, content, toUserId, parentId, btn){
-	var request = 
+	var request =
     $.ajax(window.location.origin + "/messages/reply/",
     {
         type: "POST",
-        data: 
+        data:
             {
                 pId : parentId,
                 content : content,
@@ -252,7 +252,7 @@ function replyToMessage(subject, content, toUserId, parentId, btn){
             },
         dataType: "JSON"
     });
-    
+
     return request.done(function(message){
         //$('.reply-area').remove();
         //$('#ReplyToMessage'+messageId).text('Reply');
@@ -260,7 +260,7 @@ function replyToMessage(subject, content, toUserId, parentId, btn){
         element.insertAfter(btn.parent().siblings().last());
         btn.parent().remove();
         return element;
-    }); 
+    });
 }
 
 function showMessageReplyBox(btn){
@@ -270,7 +270,7 @@ function showMessageReplyBox(btn){
   element = element +   "<button class='btn-send-reply-to-message btn btn-default'>Send</button>";
   element = element +   "<button class='btn-cancel-reply-to-message btn btn-default'>Cancel</button>";
   element = element + "</div>";
-  
+
   var newel = $.parseHTML(element);
   btn.parent().append(newel);
   initialiseMessageReplyCancelButton(btn.parent().children().last().children().last());
@@ -291,7 +291,7 @@ function initialiseMessageSendButton(sendbtn){
       replyToMessage(subject, content, toid, parentid, $(this));
       sendbtn.parent().parent().find('.btn-reply-to-message').prop('disabled', false);
     }
-  }); 
+  });
 }
 
 function initialiseMessageReplyButton(){
@@ -316,25 +316,25 @@ $(document).ready(function() {
 
     var topid = $("#idea-list").children().next().children().next().html();
     initialiseIdeaTitles();
-    
+
     var urlextension = document.location.pathname.slice(1);
-    
+
     if(urlextension == parseInt(urlextension, 10)){
-      loadIdea(urlextension); 
+      loadIdea(urlextension);
     } else if(urlextension == "think" && !window.userIsLoggedIn){
       loadIdea(topid);
     }
 
     // i'm in your monitor reading your screen size
-    
+
     $('.scrollable').height(h+'px');
     $('#nav-panel').height(h+'px');
 
-    if('http://people.do' == window.location.origin){
+    if('http://people.do' == window.location.origin || 'http://localhost' == window.location.origin){
       loadIdea(topid);
     }
     initialiseModal();
     initialiseShareButton();
-    
+
     initialiseMessageReplyButton();
 });

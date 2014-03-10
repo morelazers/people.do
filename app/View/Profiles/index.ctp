@@ -8,19 +8,19 @@
 			$("#EditButton").text("Edit");
 		}
 	}
-    
+
 </script>
 
-<div class="profile col-md-10">
+<div class="profile col-md-5">
 
   <div class="top-spacer"></div>
   <h2>The internet probably loves you</h2>
   <div class="pageDescription">
       Show it some love and write on it, or just tell it what you like.
   </div>
-  
-  <?php echo $this->element('profile', array('user' => $user, 'interestNames' => $selected)); ?>
-  
+
+  <?php echo $this->element('profile', array('user' => $user, 'interestNames' => $selected, 'thisUser' => true)); ?>
+
   <div id="EditForm">
   <?php
   	echo $this->Form->create('Profile');
@@ -31,17 +31,17 @@
     ?>
     </div>
 
-    <div class="form-group">  
+    <div class="form-group">
 
     <?php
-      
+
       echo $this->element('interestBox', array(
           'interests' => $interests,
           'selected' => $selected,
           'placeholder' => 'Psst, hit \'enter\' after typing to save something new'
           )
       );
-  
+
     ?>
     </div>
     <?php

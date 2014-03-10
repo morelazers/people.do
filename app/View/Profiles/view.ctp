@@ -1,4 +1,4 @@
-<div id="profile-view" class="col-lg-10 text-left scrollable">
+<div id="profile-view" class="col-md-5 text-left scrollable">
 
   <div class="top-spacer"></div>
   <h2>
@@ -14,13 +14,14 @@
       ?>
       <a href="/message/<?php echo $messageLink; ?>">Message <?php echo $userToView['User']['display_name']; ?></a>
   </div>
-  
+
   <?php
-      echo $this->element('profile', 
+      echo $this->element('profile',
       array(
-          'user' => $userToView
+          'user' => $userToView,
+          'thisUser' => false
           )
       );
-      
+
   ?>
 </div>
