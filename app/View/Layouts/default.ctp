@@ -49,6 +49,8 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
     <meta name="msapplication-TileImage" content="/mstile-144x144.png">
     <!-- END FAVICON (yep) -->
 
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
     <?php
     echo $this->fetch('meta');
     ?>
@@ -98,8 +100,8 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                     $unreadCount++;
                   }
                 }
-                echo '<a href="/profile" id="user-link">' . $user['User']['username'] . '</a>';
-                $messagesLink = '<li><a href="messages" id="messages-link">';
+                echo '<a href="/profile" id="user-link">' . $user['User']['display_name'] . '</a>';
+                $messagesLink = '<li><a href="/messages" id="messages-link">';
                 if($unreadCount != 0){
                   $messagesLink .= $unreadCount;
                 }else{
@@ -124,7 +126,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 
   <?php echo $this->element('loginModal'); ?>
 
-  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+  
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script src="/js/bootstrap-switch.min.js"></script>
   <script src="/js/custom.js"></script>

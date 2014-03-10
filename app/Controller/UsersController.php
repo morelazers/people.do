@@ -23,6 +23,8 @@ class UsersController extends AppController {
     }
     
     public function opauth_complete(){
+
+        //debug($this->data);
         
         if(isset($this->data['error'])){
             die;
@@ -157,16 +159,16 @@ class UsersController extends AppController {
     public function think() {
         $user = $this->Auth->user();
         
-        $this->paginate = array(
+        /*$this->paginate = array(
             'limit' => 20
-        );
+        );*/
     
-        $ideas = $this->paginate('Idea');
+        //$ideas = $this->paginate('Idea');
         
         if(!$user){
-            //$ideasToDisplay = $this->Idea->find('all', array('order' => array('Idea.upvotes' => 'DESC')));
+            $ideasToDisplay = $this->Idea->find('all', array('order' => array('Idea.upvotes' => 'DESC')));
             $this->set(array(
-                'ideas' => $ideas
+                'ideas' => $ideasToDisplay
                     )
                 );
             return;

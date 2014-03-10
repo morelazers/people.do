@@ -20,7 +20,14 @@
                   <?php echo $message['Message']['comment_id']; ?>
                 </div>
               </div>
-                <a href="/user/<?php echo $message['Sender']['display_name']; ?>"><?php echo $message['Sender']['display_name']; ?></a>
+                <?php 
+                if($message['Sender']['facebook_user'] || $message['Sender']['google_user']){
+                  $profileLink = $message['Sender']['id'];
+                } else {
+                  $profileLink = $message['Sender']['display_name'];
+                }
+                ?>
+                <a href="/user/<?php echo $profileLink; ?>"><?php echo $message['Sender']['display_name']; ?></a>
               <br />
               Sent: <?php echo $this->Time->format("F jS, Y H:i", $message['Message']['created']); ?>
               <br />

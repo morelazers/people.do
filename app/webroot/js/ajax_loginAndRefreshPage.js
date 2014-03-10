@@ -1,4 +1,4 @@
-$('document').ready(function(){
+$(document).ready(function(){
     
     $("#UserLoginForm").submit(function(event){
         event.preventDefault();
@@ -14,7 +14,7 @@ $('document').ready(function(){
    $("#FacebookModalButton").click(function(){
         fbLoginAndRefresh(); 
    });
-   $("#GoogleModalButton").click(function(){
+   $("#GPlusModalButton").click(function(){
         gPlusLoginAndRefresh(); 
    });
 });

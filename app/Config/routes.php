@@ -53,18 +53,23 @@
     Router::connect('/users/checkExistence/*', array('controller' => 'users', 'action' => 'checkExistence'));
     Router::connect('/user/*', array('controller' => 'profiles', 'action' => 'view'));
 
+    Router::connect('/users/ajaxOpauth/*', array('controller' => 'users', 'action' => 'ajaxOpauth'));
+    //Router::connect('/auth/facebook/*', array());
+    //Router::connect('/auth/google/*', array());
+
+    //Router::connect('/auth/callback/*', array('controller' => 'users', 'action' => 'opauth_complete'));
   	Router::connect(
   		'/opauth-complete/*', 
   		array('controller' => 'users', 'action' => 'opauth_complete')
   	);
 	
-		  Router::connect('/*', array('controller' => 'ideas', 'action' => 'index'));
-
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
 	CakePlugin::routes();
+
+    Router::connect('/*', array('controller' => 'ideas', 'action' => 'index'));
 
 /**
  * Load the CakePHP default routes. Only remove this if you do not want to use

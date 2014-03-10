@@ -7,8 +7,13 @@ if(!isset($child)){
 
 $thisComment = $comment['Comment'];
 $commentPoster = $comment['User'];
-$commentPosterName= $commentPoster['username'];
+$commentPosterName = $commentPoster['display_name'];
+$link = $commentPosterName;
 $upvotes = $thisComment['upvotes'];
+
+if(!$commentPoster['username']){
+  $link = $commentPoster['id'];
+}
 
 $childClass = "";
 if($child){
@@ -38,7 +43,7 @@ if($user){
   <div class="comment-info">
     <div>
     <span class="comment-username pull-left text-right">
-      <a href="/user/<?php echo $commentPosterName; ?>"><?php echo $commentPosterName; ?></a>
+      <a href="/user/<?php echo $link; ?>"><?php echo $commentPosterName; ?></a>
     </span>
     <span class="comment-upvote-switch pull-right">
       <input type="checkbox" <?php echo $checked; ?>class="upvote-comment pull-right bootstrap-switch switch-mini<?php echo $login . $new; ?>" data-on-label="<?php echo intval($upvotes + 1); ?>" data-off-label="<?php echo $upvotes; ?>">
@@ -51,7 +56,7 @@ if($user){
   </div>
 
   <div class="comment-reply-button">
-    <button class="btn reply-button">Reply</button>
+    <button class="btn btn-default reply-button">Reply</button>
   </div> 
   <?php
 

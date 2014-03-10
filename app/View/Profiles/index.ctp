@@ -14,9 +14,9 @@
 <div class="profile col-md-10">
 
   <div class="top-spacer"></div>
-  <h2>Your profile</h2>
+  <h2>The internet probably loves you</h2>
   <div class="pageDescription">
-      Write a little about yourself and tell us what you're interested in!
+      Show it some love and write on it, or just tell it what you like.
   </div>
   
   <?php echo $this->element('profile', array('user' => $user, 'interestNames' => $selected)); ?>
@@ -27,7 +27,7 @@
   ?>
     <div class="form-group">
     <?php
-      echo $this->Form->input('about_me', array('rows' => '7', 'default' => $user['Profile']['about_me'], 'class' => 'form-control about-me'));
+      echo $this->Form->input('about_me', array('rows' => '7', 'default' => $user['Profile']['about_me'], 'class' => 'form-control about-me', 'label' => 'Write something!'));
     ?>
     </div>
 
@@ -38,7 +38,7 @@
       echo $this->element('interestBox', array(
           'interests' => $interests,
           'selected' => $selected,
-          'placeholder' => 'What are you interested in?'
+          'placeholder' => 'Psst, hit \'enter\' after typing to save something new'
           )
       );
   

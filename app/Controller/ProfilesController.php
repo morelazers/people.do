@@ -27,7 +27,7 @@ class ProfilesController extends AppController{
             
             if(!empty($this->request->data['Interest']['id'])){
                 foreach($this->request->data['Interest']['id'] as $id){
-                    if(!is_numeric($id) && !$this->Interest->findByName($this->request->data['Interest']['id'])){
+                    if(!is_numeric($id) && !$this->Interest->findByName($id)){
                         $this->Interest->saveNewInterest($id, $user['User']['id']);
                         $id = $this->Interest->getLastInsertId();
                     }
@@ -60,14 +60,17 @@ class ProfilesController extends AppController{
         $this->set(array(
             'interests' => $interests,
             'selected' => $interestNames,
-            'user' => $user
+            'userToView' => $user
             )
         );
 	}
     
     public function view($username = null) {
+
         if(!$userToView = $this->Profile->User->findByUsername($username)){
-            throw new NotFoundException(__('Invalid user'));
+            if(!$userToView = $this->Profile->User->findById($username)){
+                throw new NotFoundException(__('Invalid user'));
+            }
         }
         
         $user = $this->Auth->user();

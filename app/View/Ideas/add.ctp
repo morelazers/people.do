@@ -2,9 +2,9 @@
   <div class="top-spacer">
       
   </div>
-  <h2>Share</h2>
+  <h2>Tell the world about your idea!</h2>
   <div class="page-description">
-      Tell the world about your (hopefully amazing) idea!
+      
   </div>
   
   <br />
@@ -58,4 +58,3 @@
   <span class="share-idea-tips pull-right text-right">
   </span>
 </div>
-

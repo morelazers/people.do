@@ -17,7 +17,7 @@
     }
     
 ?>
-<label for="InterestId">Interests</label>    
+<label for="InterestId">What do you like?</label>    
 <?php
     echo $this->Chosen->select(
         'Interest.id',

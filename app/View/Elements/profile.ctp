@@ -1,16 +1,18 @@
 <div class="profile">
-    <h2 class="profileHeading">About <?php echo $user['User']['display_name']; ?>:</h2>
+    <h2 class="profileHeading"><?php echo $user['User']['display_name']; ?> wrote this:</h2>
     <p>
         <?php
+        $about = false;
         if(isset($user['Profile']['about_me']) && $user['Profile']['about_me'] !== ''){
-            echo $user['Profile']['about_me']; 
+            echo $user['Profile']['about_me'];
+            $about = true;
         } else {
-            echo $user['User']['display_name']." has yet to write anything about themselves, if you're sitting next to them, give them a nudge.";
+            echo "Actually, " . $user['User']['display_name']." hasn't written anything, I was just kidding.";
         }
         ?>
     </p>
     
-    <h2 class="profileHeading"><?php echo $user['User']['display_name']; ?>'s Interests:</h2>
+    <h2 class="profileHeading"><?php echo $user['User']['display_name']; ?> likes these things:</h2>
     <p>
         <?php
         $count = count($interestNames);
@@ -23,8 +25,10 @@
                     echo ', ';
                 }
             }
+        } else if($about){
+        	echo " * empty space *";
         } else {
-            echo "Apparently, ".$user['User']['display_name']." isn't interested in anything!";
+            echo "peopledo, ideas, burrito- oh, no sorry I was kidding again, " . $user['User']['display_name']." hasn't told me what they like yet. <br /><br /> At least we can rule out egotism.";
         }
         ?>
     </p>

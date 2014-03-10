@@ -50,14 +50,16 @@ class MessagesController extends AppController {
         }
         
         if(!isset($username)){
-            $this->Session->setFlash("Can't send a message to nobody!");
+            // $this->Session->setFlash("Can't send a message to nobody!");
             $this->Redirect('/');
         }
         
         $toUser = $this->User->findByUsername($username);
         if(empty($toUser)){
-            $this->Session->setFlash("That user doesn't exist!");
-            $this->Redirect('/');
+            if(!$toUser = $this->User->findById($username)){
+                $this->Redirect('/');
+            }
+            // $this->Session->setFlash("That user doesn't exist!");
         }
         
         if($this->request->is('post')) {
@@ -70,7 +72,7 @@ class MessagesController extends AppController {
             $this->request->data['Message']['is_read'] = 0;
             // Send the message:
             $this->Message->save($this->request->data);
-            $this->Session->setFlash('Message sent!');
+            // $this->Session->setFlash('Message sent!');
             $this->redirect('/');
         }
         

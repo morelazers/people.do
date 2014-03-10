@@ -77,10 +77,12 @@ function handleCommentReplySubmit(submitbtn){
 }
 
 function initialiseCommentReplyButton(){
- $(".submit-comment-reply").on('click', function(event){
-    handleCommentReplySubmit($(this));
-    //$(this).parent().next().children(".reply-button").text('Reply');
-  });
+  if(window.userIsLoggedIn){
+    $(".submit-comment-reply").on('click', function(event){
+      handleCommentReplySubmit($(this));
+      //$(this).parent().next().children(".reply-button").text('Reply');
+    });
+  }
   
 }
 
@@ -98,13 +100,15 @@ function showCommentReplyArea(btn){
     loginRequiredClass = ""; 
   }
   var element = $.parseHTML("<div class='comment-reply-area'><textarea class='comment-reply-textarea' rows='3' cols='30' required='required'></textarea>"+
-    "<button class='btn submit-comment-reply" + loginRequiredClass + "'>Submit Reply</button></div>");
+    "<button class='btn btn-default submit-comment-reply" + loginRequiredClass + "'>Submit Reply</button></div>");
     
   btn.parent().before(element);
   var newel = btn.parent().parent().find(".submit-comment-reply").first();
-  $(element).find(".submit-comment-reply").on('click', function(){
-    handleCommentReplySubmit($(this));
-  });
+  if(window.userIsLoggedIn){
+    $(element).find(".submit-comment-reply").on('click', function(){
+      handleCommentReplySubmit($(this));
+    });
+  }
   initialiseModal();
 }
 
@@ -277,8 +281,12 @@ function initialiseMessageSendButton(sendbtn){
   $(sendbtn).on('click', function(){
     var subject = $(this).parent().parent().find('.subject').text();
     var content = $(this).parent().find('.message-reply-textarea').val();
-    var toid = parseInt($(this).parent().parent().find('from-id').text());
-    var parentid = parseInt($(this).parent().parent().find('parent-id').text());
+    var toid = parseInt($(this).parent().parent().find('.from-id').text());
+
+    console.log($(this).parent().parent().find('.from-id'));
+    console.log(toid);
+
+    var parentid = parseInt($(this).parent().parent().find('.parent-id').text());
     if(content !== ''){
       replyToMessage(subject, content, toid, parentid, $(this));
       sendbtn.parent().parent().find('.btn-reply-to-message').prop('disabled', false);
@@ -300,14 +308,12 @@ function initialiseMessageReplyCancelButton(cancelbtn){
 }
 
 $(document).ready(function() {
-    // i'm in your monitor reading your screen size
-    var h=$(window).height();
-    $('.scrollable').height(h+'px');
-    $('#nav-panel').height(h+'px');
-    
     // make the swtches look nice
     //$('.bootstrap-switch').bootstrapSwitch();
     //initialiseLinks();
+
+    var h=$(window).height();
+
     var topid = $("#idea-list").children().next().children().next().html();
     initialiseIdeaTitles();
     
@@ -315,10 +321,18 @@ $(document).ready(function() {
     
     if(urlextension == parseInt(urlextension, 10)){
       loadIdea(urlextension); 
-    } else {
+    } else if(urlextension == "think" && !window.userIsLoggedIn){
       loadIdea(topid);
     }
-    //loadIdea(topid);
+
+    // i'm in your monitor reading your screen size
+    
+    $('.scrollable').height(h+'px');
+    $('#nav-panel').height(h+'px');
+
+    if('http://people.do' == window.location.origin){
+      loadIdea(topid);
+    }
     initialiseModal();
     initialiseShareButton();
     
