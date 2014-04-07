@@ -1,4 +1,4 @@
-a
+/*a
 h1,
 h2,
 h3,
@@ -7,7 +7,7 @@ h5,
 h6{
   font-family: 'Lato';
 }
-
+*/
 #nav-panel{
   padding-right: 40px;
 }
@@ -43,7 +43,8 @@ h6{
 .idea{
   font-size: 24px;
   font-weight: 500;
-  line-height: 60px;
+  line-height: 30px;
+  margin-bottom: 20px;
 }
 
 .scrollable{
