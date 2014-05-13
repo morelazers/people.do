@@ -2,9 +2,9 @@
 
   <?php if(isset($think)){ ?>
   <div class="row">
-    <div class="think-heading">Just trying something out...</div>
+    <div class="think-heading">I'm just trying something out...</div>
     <div class="page-description">
-      This page attempts to find things you might like.
+      This page attempts to find ideas you might like.
       <br/>
     </div>
   </div>
@@ -24,20 +24,18 @@
     } else if(isset($think)){
 ?>
         <div class="row">
-        To get the most out of this page, you should tell us what you like
+        To get the most out of it, you should tell us what you like
         <?php
             echo $this->Html->link('over here!', array('controller' => 'profiles', 'action' => 'index'));
         ?>
         </div>
 <?php
-    } else {
-      ?>
-      <div class="top-spacer">
-
-      </div>
-    <?php
     }
 ?>
+
+    <div class="top-spacer">
+    
+    </div>
 
 <?php
 $count = 0;

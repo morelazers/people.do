@@ -27,20 +27,32 @@ class Comment extends AppModel {
         )
     );
     
+    /**
+     * Notifies the poster of a comment of a reply to that comment
+     *
+     * @param uid - the id of the current user
+     * @param data - the data array of the new comment
+     * @param parent - the id of the parent comment
+     * @param newId - the id of the new comment
+     */
     public function notifyPoster($uid, $data, $parent, $newId) {
-        $parentComment = $this->findById($parent);
-        $user = $this->User->findById($uid);
+      $parentComment = $this->findById($parent);
+      $user = $this->User->findById($uid);
+      
+      // dont do anything if we're replying to our own comment
+      if($parentComment['Comment']['user_id'] !== $uid){
+        $toId = $parentComment['Comment']['user_id'];
+    
+        $message['content'] = $data['Comment']['content'];
+        $message['subject'] = $user['User']['display_name']." replied to your comment!";
         
-        if($parentComment['Comment']['user_id'] !== $uid){
-            $toId = $parentComment['Comment']['user_id'];
-        
-            $message['content'] = $data['Comment']['content'];
-            $message['subject'] = $user['User']['display_name']." replied to your comment!";
-            
-            $this->User->sendMessage($uid, $message, $toId, $newId);
-        }
+        $this->User->sendMessage($uid, $message, $toId, $newId);
+      }
     }
     
+    /**
+     * Makes an upvote on the part of whoever posted the comment
+     */
     public function afterSave($created) {
         $newId = $this->getLastInsertId();
         

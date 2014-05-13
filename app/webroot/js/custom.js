@@ -144,8 +144,13 @@ function upvoteIdea(ideaId){
 }
 
 function initialiseUpvoteButtons(){
-  $('#upvote-idea').on('switch-change', function (e, data) {
+  if($("#upvote-checkbox").prop("checked") === true){
+    $(".switch-container").addClass("flip");
+  }
+  $('#upvote-idea').on('click', function (e, data) {
     if(window.userIsLoggedIn){
+      $(".switch-container").toggleClass("flip");
+      $("#upvote-checkbox").prop("checked", !$("#upvote-checkbox").prop("checked"));
       upvoteIdea(parseInt($("#idea-id").html()));
     } else {
       $('#LoginModal').modal('show');
@@ -153,7 +158,7 @@ function initialiseUpvoteButtons(){
   });
 
 
-  $('.upvote-comment').on('switch-change', function (e, data) {
+  $('.upvote-comment').on('click', function (e, data) {
     if(window.userIsLoggedIn){
       var element = $(data.el);
       upvoteComment(parseInt(element.parent().parent().parent().parent().siblings().last().html()));
@@ -166,6 +171,8 @@ function initialiseUpvoteButtons(){
 
 function initialiseIdeaTitles(){
   $(".idea-list-title").on('click', function(event){
+    $(".idea").removeClass("active");
+    $(this).parent().addClass("active");
     var ideaId = $(this).parent().children().last().html();
     loadIdea(ideaId);
   });
@@ -227,7 +234,7 @@ function loadIdea(id){
     });
     request.done(function(data){
       $("#idea-content-panel").html(data.markup);
-      $('.bootstrap-switch').bootstrapSwitch();
+      // $('.bootstrap-switch').bootstrapSwitch();
       initialiseLinks();
       initialiseUpvoteButtons();
       initialiseModal();
@@ -235,6 +242,11 @@ function loadIdea(id){
       window.history.pushState("", "people.do", "/" + $('#idea-id').html());
       var h=$(window).height();
       $('#idea-content').height(h+'px');
+      
+      var idearow = $('.idea-list-id:contains("'+id+'")').parent();
+
+      idearow.addClass("active");
+      
     });
 }
 
@@ -321,7 +333,12 @@ $(document).ready(function() {
 
     if(urlextension == parseInt(urlextension, 10)){
       loadIdea(urlextension);
-    } else if(urlextension == "think" && !window.userIsLoggedIn){
+    } else if(
+      (urlextension == "think" && !window.userIsLoggedIn)
+      || ('http://people.do' == window.location.origin || 'http://localhost' == window.location.origin)
+      ){
+      loadIdea(topid);
+    } else {
       loadIdea(topid);
     }
 
@@ -330,9 +347,6 @@ $(document).ready(function() {
     $('.scrollable').height(h+'px');
     $('#nav-panel').height(h+'px');
 
-    if('http://people.do' == window.location.origin || 'http://localhost' == window.location.origin){
-      loadIdea(topid);
-    }
     initialiseModal();
     initialiseShareButton();
 

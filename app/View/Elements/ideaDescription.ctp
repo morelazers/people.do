@@ -3,7 +3,7 @@
 $upvotes = $idea['Idea']['upvotes'];
 
 $ideaChecked = "";
-if($ideaUpvotes){
+if(!empty($ideaUpvotes)){
   $ideaChecked = " checked ";
   $upvotes--;
 }
@@ -23,13 +23,21 @@ if(!$user){
     <span class="idea-submitter-name pull-right text-right">
       <h5><strong>Brainchild of: <a href="/user/<?php echo $idea['User']['username']; ?>"><?php echo $idea['Idea']['shared_by_name']; ?></a></strong></h5>
     </span>
-    <span class="upvote-switch pull-left">
-      <input id="upvote-idea" type="checkbox" <?php echo $ideaChecked; ?>class="bootstrap-switch pull-left<?php echo $requireLoginClass; ?>" data-on-label="<?php echo intval($upvotes + 1); ?>" data-off-label="<?php echo $upvotes; ?>">
-    </span>
+    <input id="upvote-checkbox" type="checkbox"<?php echo $ideaChecked; ?>class="pull-left">
+    <div id="upvote-idea" class="switch-container" ontouchstart="this.classList.toggle('hover');">
+      <div class="flipper">
+        <div class="upvote-switch <?php echo $requireLoginClass; ?>">
+          <div class="current-upvotes"><?php echo intval($upvotes); ?></div>
+        </div>
+        <div class="upvote-switch-checked">
+          <div class="current-upvotes"><?php echo intval($upvotes + 1); ?></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="idea-description" class="row text-left">
-    <?php echo nl2br($idea['Idea']['description']); ?>
+    <?php echo $idea['Idea']['description']; ?>
   </div>
   <div id="idea-comment">
     <div id="comment-box-top" class="row">

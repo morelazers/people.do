@@ -1,5 +1,5 @@
 <?php
-class IdeasController extends AppController 
+class IdeasController extends AppController
 {
     public $helpers = array('Html', 'Form', 'Session', 'Js');
     public $components = array('Session', 'RequestHandler');
@@ -11,6 +11,18 @@ class IdeasController extends AppController
         $this->set(array('ideas' => $ideas));
     }
     
+    /**
+     * Loads and draws the view of an idea of given id in the data field of AJAX POST request
+     *
+     * REALLY REALLY BAD.
+     * This should just return appropriate data and be drawn in JavaScript;
+     * much less server load that way.
+     *
+     * @param ideaId - the id of the idea we're going to draw
+     *
+     * @returntype - JSON array
+     * @field markup - the HTML of the idea description
+     */
     public function ajaxview(){
       if($this->request->is('ajax')){
         $this->layout = 'ajax';
@@ -22,10 +34,8 @@ class IdeasController extends AppController
         $id = $this->request->data['ideaId'];
         $idea = $this->Idea->findById($id);
         
-        //debug($id);
-        
         if(!$idea){
-          $this->Idea->find('first', array('order' => array('Idea.upvotes' => 'DESC'))); 
+          $this->Idea->find('first', array('order' => array('Idea.upvotes' => 'DESC')));
         }
         
         $ideaUpvotes = $this->IdeaUpvote->find('list', array(
@@ -47,9 +57,6 @@ class IdeasController extends AppController
             'recursive' => 0
           )
         );
-        
-        //debug($ideaUpvotes);
-        //debug($commentUpvotes);
           
         $this->Idea->unbindModel(
             array('hasMany' => array('Comment'))
@@ -61,7 +68,7 @@ class IdeasController extends AppController
               'Comment.idea_id' => $id
             ),
             'order' => array(
-              'Comment.upvotes' => 'desc'  
+              'Comment.upvotes' => 'desc'
             ),
             'recursive' => 0
           )
@@ -69,16 +76,7 @@ class IdeasController extends AppController
         
         $tosend = compact('idea', 'ideaUpvotes', 'commentUpvotes', 'comments', 'user');
         
-        /*$data = array(
-          'idea' => $idea,
-          'ideaUpvotes' => $ideaUpvotes,
-          'commentUpvotes' => $commentUpvotes,
-          'comments' => $comments,
-          'user' => $user
-        );*/
-        
         $view = new View($this, false);
-        //$content = "";
         $content = $view->element('ideaDescription', $tosend);
         
         echo json_encode(array('markup' => $content));
@@ -87,7 +85,7 @@ class IdeasController extends AppController
       
     }
     
-    public function view($id = null) 
+    public function view($id = null)
     {
         if (!$id) {
             throw new NotFoundException(__('Invalid idea'));
@@ -136,7 +134,7 @@ class IdeasController extends AppController
                     'Comment.idea_id' => $id
                 ),
                 'order' => array(
-                    'Comment.upvotes' => 'desc'  
+                    'Comment.upvotes' => 'desc'
                 )
             )
         );
@@ -152,6 +150,12 @@ class IdeasController extends AppController
         $this->set($data);
     }
     
+    /**
+     * Upvotes an idea via AJAX POST of given id
+     *
+     * @param id - the id od the idea to upvote
+     *
+     */
     public function upvote() {
         if($this->request->is('ajax')){
             $this->layout = 'ajax';
@@ -176,13 +180,24 @@ class IdeasController extends AppController
         }
     }
     
+    /**
+     * Shares an idea via AJAX POST
+     *
+     * REALLY BAD WAY OF RECEIVING DATA.
+     * Should send the appropriate parts with clear param names
+     *
+     * @param JSON object of the comment
+     *
+     * @returntype int
+     * @return newid - the id of the new idea
+     *
+     */
     public function ajaxShare(){
      
       $this->layout = 'ajax';
       $this->autoRender = false;
      
       if($this->request->is('ajax')){
-        //debug($this->request->data);
         $user = $this->Auth->user();
         $this->request->data['Idea']['user_id'] = $user['User']['id'];
         $this->request->data['Idea']['shared_by_name'] = $user['User']['display_name'];
@@ -191,7 +206,6 @@ class IdeasController extends AppController
           $ideaId = $this->Idea->getLastInsertId();
           $this->addInterests($this->request->data, $ideaId, $user);
           echo json_encode(array('newid' => $this->Idea->id));
-          //$this->redirect(array('action' => 'view', $ideaId));
         } else {
           echo json_encode(array('error' => 'Unable to share'));
         }
@@ -199,7 +213,7 @@ class IdeasController extends AppController
       
     }
     
-    public function add() 
+    public function add()
     {
         if ($this->request->is('post')) {
             $user = $this->Auth->user();
@@ -271,7 +285,14 @@ class IdeasController extends AppController
         }
         
     }
-
+    
+    /**
+     * Adds new interests to an idea, and adds new ones into the database
+     *
+     * @param data - the data array of the new interests to add
+     * @param ideaId - the id of the idea they were added ot
+     * @param user - the current user
+     */
     public function addInterests($data, $ideaId, $user){
         
         $ideaInterest['idea_id'] = $ideaId;
@@ -292,7 +313,7 @@ class IdeasController extends AppController
         
     }
 
-    public function isAuthorised($user) 
+    public function isAuthorised($user)
     {
         // All registered users can add posts
         if ($this->action === 'add') {

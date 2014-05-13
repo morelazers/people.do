@@ -4,6 +4,10 @@ class ProfilesController extends AppController{
     public $components = array('Session', 'RequestHandler');
     public $uses = array('Interest', 'User', 'Profile');
 
+
+  /**
+   * Display the current user's profile page
+   */
 	public function index(){
 
 		// Get the currently logged in user
@@ -63,11 +67,14 @@ class ProfilesController extends AppController{
         );
 	}
 
+    /**
+     * Display the profile of a user of URL-given username
+     */
     public function view($username = null) {
 
         if(!$userToView = $this->Profile->User->findByUsername($username)){
             if(!$userToView = $this->Profile->User->findById($username)){
-                throw new NotFoundException(__('Invalid user'));
+                $this->redirect('/');
             }
         }
 

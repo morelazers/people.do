@@ -1,5 +1,5 @@
 <?php
-class Idea extends AppModel 
+class Idea extends AppModel
 {
     public $hasMany = array('Comment', 'IdeaUpvote', 'IdeaInterest');
     public $belongsTo = array('User');
@@ -15,17 +15,30 @@ class Idea extends AppModel
         )
     );
     
-    public function isOwnedBy($idea, $user) 
+    public function isOwnedBy($idea, $user)
     {
         return $this->field('id', array('id' => $idea, 'user_id' => $user)) === $idea;
     }
     
+    
+    /**
+     * Notifies whoever posted the idea of a new comment, unless they shared the idea
+     *
+     * @param uid - the id of the current user
+     * @param data - an array of the comment posted
+     * @param ideaOwner - the id of the sharer of the idea
+     * @param newId - the id of the new comment
+     */
     public function notifyPoster($uid, $data, $ideaOwner, $newId){
+      
+      // don't do anything if we shared the idea
+      if($uid !== $ideaOwner){
         
+        // get the user who posted the comment
         $user = $this->User->findById($data['Comment']['UserId']);
         
         $commentContent = $data['Comment']['content'];
-        $subject = "You have a new reply from ".$user['User']['display_name']."!";
+        $subject = "There's a new comment on your idea from ".$user['User']['display_name']."!";
         
         $message = array(
             'content' => $commentContent,
@@ -33,11 +46,15 @@ class Idea extends AppModel
         );
         
         $this->User->sendMessage($uid, $message, $ideaOwner, $newId);
+      }
     }
     
+    /**
+     * Makes an automatic upvote on the part of the user that shared the idea
+     */
     public function afterSave($created) {
+      
         $ideaId = $this->getLastInsertId();
-        
         $idea = $this->findById($ideaId);
         
         if($idea){

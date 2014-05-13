@@ -1,4 +1,10 @@
-/*a
+body{
+  height: 100%;
+  width: 100%;
+  background-color: #E4E4E4;
+}
+
+a
 h1,
 h2,
 h3,
@@ -7,18 +13,44 @@ h5,
 h6{
   font-family: 'Lato';
 }
-*/
+
+a{
+  /*color: #FF4E36;*/
+}
+
+.nav{
+  padding-left: 5px;
+}
+
+#nav-panel li a:hover, #nav-panel ul a:hover{
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 #nav-panel{
-  padding-right: 40px;
+  padding-right: 20px;
+  background-image: url(/img/backgrounds/lions.jpg);
+  background-position: -85px 0;
 }
 
 .logo-link, .logo-link:hover{
-  color: black;
+  color: white;
+  text-shadow: 0 1px black;
   cursor: pointer;
   text-decoration: none;
   z-index:999;
 }
 
+#nav-buttons li, #nav-buttons a, #user-panel a{
+  color: white;
+  text-shadow: 0 1px black;
+}
+
+.nav-button-separator{
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
 .nav-separator{
   height: 50px;
@@ -30,21 +62,41 @@ h6{
 
 #idea-list{
   padding-right: 40px;
+  padding-left: 10px;
 }
 
 .idea-list-title{
   cursor:pointer;
+  padding-left: 10px;
 }
 
 .idea-list-id{
   display: none;
 }
 
+.idea.row{
+ margin-left: 0;
+}
+
 .idea{
   font-size: 24px;
   font-weight: 500;
-  line-height: 30px;
-  margin-bottom: 20px;
+  line-height: 60px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.idea:hover{
+  background-color: rgba(255, 255, 255, 0.2);
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.idea.active{
+  background-color: rgba(255, 78, 78, 1);
+  color: white;
+  text-shadow: 0 1px black;
 }
 
 .scrollable{
@@ -64,8 +116,117 @@ h6{
 
 }
 
+/* Required for custom checkbox CSS www.hongkiat.com/blog/css3-checkbox-radio */
+input[type=checkbox] {
+    display: none;
+}
+
+/** FOR FLIPPING **/
+
+/* entire container, keeps perspective */
+.switch-container {
+  position: relative;
+	-webkit-perspective: 1000;
+	perspective: 1000;
+	
+	transition: 1.6s;
+	-webkit-transition: 1.6s;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+}
+
+/* flip the pane when hovered */
+.switch-container:hover .flipper, .switch-container.hover .flipper {
+	-webkit-transform-origin: 50%; /* half of height */
+	transform-origin: 50%; /* half of height */
+}
+
+/* flip speed goes here */
+.flipper {
+  transition: 1.6s;
+	-webkit-transition: 1.6s;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.upvote-switch, .upvote-switch-checked {
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.upvote-switch {
+	z-index: 2;
+}
+
+/* back, initially hidden pane */
+.upvote-switch-checked {
+	-webkit-transform: rotateX(180deg);
+	transform: rotateX(180deg);
+}
+
+.switch-container:hover .flipper, .switch-container.hover .flipper, .switch-container.switch .flipper {
+	-webkit-transform: rotateX(45deg);
+	transform: rotateX(45deg);
+}
+
+.switch-container.flip {
+  -webkit-transform: rotateX(180deg);
+	transform: rotateX(180deg);
+	
+	transition: 1.6s;
+	-webkit-transition: 1.6s;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+}
+
+/** END FOR FLIPPING **/
+
 .upvote-switch{
-  /*line-height: 30px;*/
+  height: 30px;
+  width: 60px;
+  border-radius: 0 0 90px 90px;
+  -moz-border-radius: 0 0 90px 90px;
+  -webkit-border-radius: 0 0 90px 90px;
+  background: #FF4E36;
+  text-align: center;
+  cursor: pointer;
+}
+
+.upvote-switch-checked{
+  margin-top: -30px;
+  height: 30px;
+  width: 60px;
+  border-radius: 0 0 90px 90px;
+  -moz-border-radius: 0 0 90px 90px;
+  -webkit-border-radius: 0 0 90px 90px;
+  background: #5BFF53;
+  text-align: center;
+  cursor: pointer;
+}
+
+.upvote-switch-checked .current-upvotes{
+}
+
+.circle{
+     height: 45px;
+     width: 45px;
+     border-radius: 45px;
+     -moz-border-radius: 45px;
+     -webkit-border-radius: 45px;
+     background:green;
+}
+
+.current-upvotes{
+  color: #FBFFF6;
+  font-size: 20px;
 }
 
 #idea-description{
@@ -119,6 +280,7 @@ h6{
 }
 
 #LoginModal{
+  
 }
 
 .modal-login-form{
@@ -231,7 +393,7 @@ h6{
 }
 
 .about-page{
-  padding: 0px 400px 0px 0px;
+  padding: 0px 400px 0px 20px;
 }
 
 .about-page p{

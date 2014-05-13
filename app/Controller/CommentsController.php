@@ -4,11 +4,11 @@ class CommentsController extends AppController {
     public $components = array('RequestHandler');
     public $uses = array('Comment', 'Idea', 'User');
     
-    public function index(){
-        /*$data = $this->Comment->generateTreeList(null, null, null, '&nbsp;&nbsp;&nbsp;');
-        debug($data); die;*/
-    }
-    
+    /**
+     * Upvote a comment via an AJAX POST request
+     * No check for a logged in user, will spit an error if not (but shouldn't be able to be called)
+     * @param id - the comment id
+     */
     public function upvote() {
         if($this->request->is('ajax')){
             $this->layout = 'ajax';
@@ -16,6 +16,8 @@ class CommentsController extends AppController {
             $id = $this->request->data['id'];
             $user = $this->Auth->user();
             $uid = $user['User']['id'];
+            
+            /* This logic could be in model */
             if($vote = $this->Comment->CommentUpvote->findByCommentIdAndUserId($id, $uid)){
                 $this->Comment->CommentUpvote->delete($vote['CommentUpvote']['id']);
                 $this->Comment->UpdateAll(array('Comment.upvotes' => 'Comment.upvotes - 1'), array('Comment.id' => $id));
@@ -31,13 +33,24 @@ class CommentsController extends AppController {
         }
     }
 
+    /**
+     * Post a comment on an idea, possibly replying to another comment via AJAX POST request
+     * @param ideaId - the id of the idea to post the comment to
+     * @param parentId - the id of the parent comment (-1 if none)
+     * @param content - the contents of the reply to be posted
+     *
+     * @return content - the contents of the reply saved
+     * @return newId - the id of the new comment
+     * @return comment - the HTML of the new comment element (should generate this in JS really)
+     * @returntype JSON Object
+     *
+     */
     public function reply(){
         if($this->request->is('ajax')){
             $this->layout = 'ajax';
             $this->autoRender = false;
             
             $child = true;
-            
             $user = $this->Auth->user();
             
             $ideaId = $this->request->data['ideaId'];
@@ -45,7 +58,7 @@ class CommentsController extends AppController {
                 $parentId = $this->request->data['parentId'];
             } else {
                 $parentId = null;
-                $child = false; 
+                $child = false;
             }
             $uid = $user['User']['id'];
             $content = $this->request->data['content'];
@@ -68,11 +81,11 @@ class CommentsController extends AppController {
                     'id' => $this->Comment->id,
                     'content' => $content,
                     'upvotes' => 1,
-                    'UserId' => $user['User']['id']  
+                    'UserId' => $user['User']['id']
                 ),
             );
             
-            
+            // AJAX request so refresh the user's session manually
             $user = $this->User->findById($user['User']['id']);
             $this->Auth->login($user);
                 
@@ -94,11 +107,9 @@ class CommentsController extends AppController {
             
             if($parentId !== null){
                 $this->Comment->notifyPoster($uid, $data, $parentId, $newId);
-            } else {
-                $idea = $this->Idea->findById($ideaId);
-                $this->Idea->notifyPoster($uid, $data, $idea['Idea']['user_id'], $newId);
             }
-            
+            $idea = $this->Idea->findById($ideaId);
+            $this->Idea->notifyPoster($uid, $data, $idea['Idea']['user_id'], $newId);
         }
     }
     

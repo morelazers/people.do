@@ -5,18 +5,21 @@ class MessagesController extends AppController {
     public $components = array('Session', 'RequestHandler');
     public $uses = array('Message', 'Comment', 'User');
     
-    public function index() 
+    /**
+     * The inbox page
+     */
+    public function index()
     {
         $user = $this->Auth->user();
         
         if(!$user){
-          $this->redirect(array('controller' => 'ideas')); 
+          $this->redirect(array('controller' => 'ideas'));
         }
         
         $uid = $user['User']['id'];
         
         $messages = $this->Message->find(
-            'all', 
+            'all',
             array(
                 'conditions' => array(
                     'Message.to_user_id' => $uid
@@ -41,16 +44,18 @@ class MessagesController extends AppController {
         );
     }
   
-    public function send($username = null) 
+    /**
+     * Page for sending a message to a user, whose name (or id if facebook/google) is specified in the URL
+     */
+    public function send($username = null)
     {
         $user = $this->Auth->user();
         
         if(!isset($user)){
-          $this->redirect(array('controller' => 'ideas')); 
+          $this->redirect(array('controller' => 'ideas'));
         }
         
         if(!isset($username)){
-            // $this->Session->setFlash("Can't send a message to nobody!");
             $this->Redirect('/');
         }
         
@@ -59,11 +64,9 @@ class MessagesController extends AppController {
             if(!$toUser = $this->User->findById($username)){
                 $this->Redirect('/');
             }
-            // $this->Session->setFlash("That user doesn't exist!");
         }
         
         if($this->request->is('post')) {
-            //$user = $this->Auth->user();
             $uid = $user['User']['id'];
             $this->Message->create();
             $this->request->data['Message']['from_user_id'] = $uid;
@@ -72,7 +75,6 @@ class MessagesController extends AppController {
             $this->request->data['Message']['is_read'] = 0;
             // Send the message:
             $this->Message->save($this->request->data);
-            // $this->Session->setFlash('Message sent!');
             $this->redirect('/');
         }
         
@@ -82,6 +84,14 @@ class MessagesController extends AppController {
         );
     }
     
+    /**
+     * Reply to a message via AJAX POST
+     *
+     * @param content - the body of the message
+     * @param toUser - the id of the user to send the message to
+     * @param pId - the id of the parent message
+     * @param subject - the subject of the message to send
+     */
     public function reply(){
         if($this->request->is('ajax')){
             $this->layout = 'ajax';

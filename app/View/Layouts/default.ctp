@@ -74,16 +74,20 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
   <div id="page-container">
   
     <div id="nav-panel" class="col-xs-2">
-      <div class="row">
+      <div>
         <div id="logo" class="text-right">
           <a href="/" class="logo-link"><h1>people.do</h1></a>
         </div>
       </div>
       <div class="row">
         <ul id="nav-buttons" class="nav nav-pills nav-stacked text-right">
+          <div class="nav-button-separator"></div>
           <li><a href="/share" id="share"><strong>share an idea</strong></a></li>
+          <div class="nav-button-separator"></div>
           <li><a href="/think" id="think"><strong>interest me</strong></a></li>
+          <div class="nav-button-separator"></div>
           <li><a href="/about" id="about"><strong>about</strong></a></li>
+          <div class="nav-button-separator"></div>
         </ul>
       </div>
       <div class="nav-separator">
@@ -91,8 +95,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
       </div>
       <div class="row">
         <ul id="user-panel" class="nav nav-pills nav-stacked text-right">
+          <div class="nav-button-separator"></div>
           <li>
-              <?php 
+              <?php
               if(isset($user)){
                 $unreadCount = 0;
                 foreach($user['MessageReceived'] as $msg){
@@ -106,14 +111,17 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                   $messagesLink .= $unreadCount;
                 }else{
                   $messagesLink .= 'no';
-                } 
+                }
                 $messagesLink .= ' new messages</a></li>';
-                echo $messagesLink;                
-                echo '<li><a href="/logout" id="logout-link">logout</a></li>'; 
+                echo '<div class="nav-button-separator"></div>';
+                echo $messagesLink;
+                echo '<div class="nav-button-separator"></div>';
+                echo '<li><a href="/logout" id="logout-link">logout</a></li>';
               } else {
                 echo '<a href="#" data-toggle="modal" data-target="#LoginModal">Login/Register</a></li>';
               }
               ?>
+          <div class="nav-button-separator"></div>
         </ul>
       </div>
     </div>
@@ -137,8 +145,8 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
   <script src="/js/ajax_loginAndRefreshPage.js"></script>
   <script src="/js/ajax_replyToMessage.js"></script>
 
-  <?php 
-  echo $this->fetch('script'); 
+  <?php
+  echo $this->fetch('script');
   echo $this->JS->writeBuffer();
   ?>
 
