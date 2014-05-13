@@ -37,7 +37,7 @@ if(!$user){
   </div>
 
   <div id="idea-description" class="row text-left">
-    <?php echo $idea['Idea']['description']; ?>
+    <?php echo nl2br($idea['Idea']['description']); ?>
   </div>
   <div id="idea-comment">
     <div id="comment-box-top" class="row">
