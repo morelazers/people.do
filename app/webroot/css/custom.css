@@ -30,6 +30,7 @@ a{
   padding-right: 20px;
   background-image: url(/img/backgrounds/lions.jpg);
   background-position: -85px 0;
+  background-size: cover;
 }
 
 .logo-link, .logo-link:hover{
