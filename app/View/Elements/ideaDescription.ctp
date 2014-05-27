@@ -28,8 +28,18 @@ if(!$user){
       <h5><strong>Brainchild of: <a href="/user/<?php echo $link; ?>"><?php echo $idea['Idea']['shared_by_name']; ?></a></strong></h5>
     </span>
     <input id="upvote-checkbox" type="checkbox"<?php echo $ideaChecked; ?>class="pull-left">
-    <div id="upvote-idea" class="switch-container" ontouchstart="this.classList.toggle('hover');">
-      <div class="flipper">
+    <div id="upvote-idea" class="switch-container">
+
+      <div class="circle-vote-container upvote-switch<?php echo $requireLoginClass; ?>">
+          <div class="semi-flip">
+            <?php echo intval($upvotes + 1); ?>
+            <p><?php echo intval($upvotes); ?></p>
+          </div>
+        </div> 
+
+   
+
+      <!-- <div class="flip">
         <div class="upvote-switch <?php echo $requireLoginClass; ?>">
           <div class="current-upvotes"><?php echo intval($upvotes); ?></div>
         </div>
@@ -37,6 +47,10 @@ if(!$user){
           <div class="current-upvotes"><?php echo intval($upvotes + 1); ?></div>
         </div>
       </div>
+ -->  
+      
+
+
     </div>
   </div>
 

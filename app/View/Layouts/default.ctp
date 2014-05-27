@@ -30,6 +30,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
     <link rel="stylesheet" href="/css/bootstrap-switch.min.css">
     <link rel="stylesheet" href="/css/custom.css">
     <link rel="stylesheet" href="/css/chosen.css">
+    <link rel="stylesheet" href="/css/switch.css">
 
     <!-- FAVICON -->
     <link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-touch-icon-57x57.png">

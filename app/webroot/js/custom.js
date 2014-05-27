@@ -1,5 +1,5 @@
 function initialiseNewCommentSwitch(){
-  $('.new-comment').bootstrapSwitch();
+  //$('.new-comment').bootstrapSwitch();
   $('.new-comment').removeClass('new-comment');
   $('.comment-box').val('');
 }
@@ -10,7 +10,7 @@ function addNewCommentThread(el){
 }
 
 function addCommentReply(rb, el){
-  rb.parent().next().after($(el));
+  rb.next().after($(el));
 
   console.log($(el).find('.reply-button'));
 
@@ -19,20 +19,25 @@ function addCommentReply(rb, el){
   console.log(rb.parent().parent().find('.reply-button').eq(1));
 
   rb.parent().parent().children().find('.reply-button').eq(1).on("click", function(){
-    console.log("FUCK");
-    console.log($(this));
     changeReplyButtonText($(this));
   });
 
-  rb.parent().remove();
+  rb.next().children().first().text("Reply");
+  rb.prev().remove();
+  //changeReplyButtonText(rb.next());
+  rb.remove();
+
 }
 
 function postComment(btn, pid){
   var commentContent;
+
+  console.log(btn.prev().children().first().val());
+
   if(pid === -1){
     commentContent = $('.comment-box').val();
   } else {
-    commentContent = btn.prev().val();
+    commentContent = btn.prev().children().first().val();
   }
   if(commentContent === ""){
    return;
@@ -72,7 +77,7 @@ function initialiseCommentButton(){
 }
 
 function handleCommentReplySubmit(submitbtn){
-  var parentCommentId = submitbtn.parent().siblings(".comment-info").children(".comment-id").html();
+  var parentCommentId = submitbtn.siblings(".comment-info").children(".comment-id").html();
   postComment(submitbtn, parentCommentId);
 }
 
@@ -109,7 +114,9 @@ function showCommentReplyArea(btn){
   btn.parent().before(element);
   var newel = btn.parent().parent().find(".submit-comment-reply").first();
   if(window.userIsLoggedIn){
-    $(element).find(".submit-comment-reply").on('click', function(){
+    console.log($(element).find(".submit-comment-reply"));
+    console.log(newel);
+    newel.on('click', function(){
       handleCommentReplySubmit($(this));
     });
   }
@@ -150,11 +157,11 @@ function upvoteIdea(ideaId){
 
 function initialiseUpvoteButtons(){
   if($("#upvote-checkbox").prop("checked") === true){
-    $(".switch-container").addClass("flip");
+    $(".semi-flip").addClass("flipped");
   }
   $('#upvote-idea').on('click', function (e, data) {
     if(window.userIsLoggedIn){
-      $(".switch-container").toggleClass("flip");
+      $(".semi-flip").toggleClass("flipped");
       $("#upvote-checkbox").prop("checked", !$("#upvote-checkbox").prop("checked"));
       upvoteIdea(parseInt($("#idea-id").html()));
     } else {

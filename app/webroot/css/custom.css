@@ -69,7 +69,6 @@ a{
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-left: 10px;
-  padding-right: 10px;
 }
 
 .idea-list-title{
@@ -130,7 +129,7 @@ input[type=checkbox] {
 /** FOR FLIPPING **/
 
 /* entire container, keeps perspective */
-.switch-container {
+/*.switch-container {
   position: relative;
 	-webkit-perspective: 1000;
 	perspective: 1000;
@@ -139,7 +138,7 @@ input[type=checkbox] {
 	-webkit-transition: 1.6s;
 	transform-style: preserve-3d;
 	-webkit-transform-style: preserve-3d;
-}
+}*/
 
 /* flip the pane when hovered */
 .switch-container:hover .flipper, .switch-container.hover .flipper {
@@ -148,7 +147,7 @@ input[type=checkbox] {
 }
 
 /* flip speed goes here */
-.flipper {
+/*.flipper {
   transition: 1.6s;
 	-webkit-transition: 1.6s;
 	transform-style: preserve-3d;
@@ -156,34 +155,34 @@ input[type=checkbox] {
 
 	position: relative;
 }
-
+*/
 /* hide back of pane during swap */
-.upvote-switch, .upvote-switch-checked {
+/*.upvote-switch, .upvote-switch-checked {
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
 
 	position: absolute;
 	top: 0;
 	left: 0;
-}
+}*/
 
 /* front pane, placed above back */
-.upvote-switch {
+/*.upvote-switch {
 	z-index: 2;
-}
+}*/
 
 /* back, initially hidden pane */
-.upvote-switch-checked {
+/*.upvote-switch-checked {
 	-webkit-transform: rotateX(180deg);
 	transform: rotateX(180deg);
-}
+}*/
 
-.switch-container:hover .flipper, .switch-container.hover .flipper, .switch-container.switch .flipper {
+/*.switch-container:hover .flipper, .switch-container.hover .flipper, .switch-container.switch .flipper {
 	-webkit-transform: rotateX(45deg);
 	transform: rotateX(45deg);
-}
+}*/
 
-.switch-container.flip {
+/*.switch-container.flip {
   -webkit-transform: rotateX(180deg);
 	transform: rotateX(180deg);
 	
@@ -191,11 +190,11 @@ input[type=checkbox] {
 	-webkit-transition: 1.6s;
 	transform-style: preserve-3d;
 	-webkit-transform-style: preserve-3d;
-}
+}*/
 
 /** END FOR FLIPPING **/
 
-.upvote-switch{
+/*.upvote-switch{
   height: 30px;
   width: 60px;
   border-radius: 0 0 90px 90px;
@@ -228,6 +227,10 @@ input[type=checkbox] {
      -moz-border-radius: 45px;
      -webkit-border-radius: 45px;
      background:green;
+}*/
+
+#upvote-idea{
+  width: 70px;
 }
 
 .current-upvotes{
@@ -283,6 +286,7 @@ input[type=checkbox] {
 
 .comment-body{
   padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .comment-reply-button{
