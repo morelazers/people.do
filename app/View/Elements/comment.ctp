@@ -1,4 +1,4 @@
-<?php 
+<?php
 if(!isset($child)){
     $child = false;
 }
@@ -40,6 +40,7 @@ if($user){
 ?>
 
 <div class="comment<?php echo $childClass; ?>">
+  <div class="comment-separator"></div>
   <div class="comment-info">
     <div>
     <span class="comment-username pull-left text-right">
@@ -55,9 +56,9 @@ if($user){
     <?php echo nl2br($thisComment['content']); ?>
   </div>
 
-  <div class="comment-reply-button">
+  <span class="comment-reply-button">
     <button class="btn btn-default reply-button">Reply</button>
-  </div> 
+  </span>
   <?php
 
   if(!empty($comment['children'])){
@@ -73,6 +74,6 @@ if($user){
     }
   }
 
-  ?> 
+  ?>
 
-</div> 
+</div>

@@ -1,4 +1,4 @@
-<div class="profile">
+<div class="profile-info">
     <h2 class="profileHeading">
       <?php
       if(!$thisUser){

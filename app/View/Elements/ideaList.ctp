@@ -1,34 +1,37 @@
 <div id="idea-list" class="col-lg-5 text-left scrollable">
 
   <?php if(isset($think)){ ?>
-  <div class="row">
-    <div class="think-heading">I'm just trying something out...</div>
-    <div class="page-description">
-      This page attempts to find ideas you might like.
-      <br/>
+  <div class="think-page-explanation">
+    <div>
+      <div class="think-heading">I'm just trying something out...</div>
+      <div class="page-description">
+        This page attempts to find ideas you might like.
+        <br/>
+      </div>
     </div>
-  </div>
   <?php } ?>
 
 <?php
     if(!isset($user) && isset($think)){
 ?>
-        <div class="row">
+        <div>
           To get the most out of it,
           <?php
               echo $this->Html->link('log in', '#LoginModal', array('data-toggle' => 'modal'));
           ?>
           and tell me what interests you!
         </div>
+      </div>
 <?php
     } else if(isset($think)){
 ?>
-        <div class="row">
+        <div>
         To get the most out of it, you should tell us what you like
         <?php
             echo $this->Html->link('over here!', array('controller' => 'profiles', 'action' => 'index'));
         ?>
         </div>
+      </div>
 <?php
     }
 ?>
@@ -48,6 +51,7 @@ if(isset($ideas)){
 	}
 	$count++;
 	?>
+    <div class="idea-title-separator"></div>
 		<div class="idea row">
 		  <div class="idea-list-title">
 			<?php echo $idea['Idea']['name']; ?>
@@ -56,6 +60,7 @@ if(isset($ideas)){
 		</div>
 
 	<?php endforeach; ?>
+  <div class="idea-title-separator"></div>
 	</div>
 
 	<div id="idea-content-panel">

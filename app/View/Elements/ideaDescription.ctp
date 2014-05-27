@@ -2,6 +2,10 @@
 //debug($data);
 $upvotes = $idea['Idea']['upvotes'];
 
+if(!$link = $idea['User']['username']){
+  $link = $idea['User']['id'];
+}
+
 $ideaChecked = "";
 if(!empty($ideaUpvotes)){
   $ideaChecked = " checked ";
@@ -21,7 +25,7 @@ if(!$user){
   </div>
   <div class="row">
     <span class="idea-submitter-name pull-right text-right">
-      <h5><strong>Brainchild of: <a href="/user/<?php echo $idea['User']['username']; ?>"><?php echo $idea['Idea']['shared_by_name']; ?></a></strong></h5>
+      <h5><strong>Brainchild of: <a href="/user/<?php echo $link; ?>"><?php echo $idea['Idea']['shared_by_name']; ?></a></strong></h5>
     </span>
     <input id="upvote-checkbox" type="checkbox"<?php echo $ideaChecked; ?>class="pull-left">
     <div id="upvote-idea" class="switch-container" ontouchstart="this.classList.toggle('hover');">

@@ -99,8 +99,12 @@ function showCommentReplyArea(btn){
   if(window.userIsLoggedIn){
     loginRequiredClass = "";
   }
-  var element = $.parseHTML("<div class='comment-reply-area'><textarea class='comment-reply-textarea' rows='3' cols='30' required='required'></textarea>"+
-    "<button class='btn btn-default submit-comment-reply" + loginRequiredClass + "'>Submit Reply</button></div>");
+  var element = $.parseHTML(
+    "<div class='comment-reply-area'>" +
+      "<textarea class='comment-reply-textarea' rows='3' cols='30' required='required'></textarea>" +
+    "</div>" +
+    "<button class='btn btn-default submit-comment-reply" + loginRequiredClass + "'>Submit Reply</button>"
+    );
 
   btn.parent().before(element);
   var newel = btn.parent().parent().find(".submit-comment-reply").first();
@@ -113,7 +117,8 @@ function showCommentReplyArea(btn){
 }
 
 function removeCommentReplyArea(btn){
-   btn.parent().prev().remove();
+  btn.parent().prev().prev().remove();
+  btn.parent().prev().remove();
 }
 
 

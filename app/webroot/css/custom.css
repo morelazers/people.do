@@ -65,6 +65,13 @@ a{
   padding-left: 10px;
 }
 
+.idea-title-separator{
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .idea-list-title{
   cursor:pointer;
   padding-left: 10px;
@@ -84,7 +91,6 @@ a{
   line-height: 60px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  margin-bottom: 5px;
 }
 
 .idea:hover{
@@ -252,8 +258,17 @@ input[type=checkbox] {
   margin-bottom: 20px;
 }
 
+.comment-separator{
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .comment{
   padding-top: 20px;
+}
+
+.comment-info{
+  padding-top: 10px;
 }
 
 .comment-info:after{
@@ -272,6 +287,10 @@ input[type=checkbox] {
 
 .comment-reply-button{
   padding-top: 10px;
+}
+
+.comment-reply-textarea{
+  margin-bottom: 10px;
 }
 
 .comment-child{
@@ -334,6 +353,10 @@ input[type=checkbox] {
 
 .default{
 
+}
+
+.profile-text{
+  max-width: 45%;
 }
 
 #EditForm{
@@ -414,6 +437,10 @@ input[type=checkbox] {
 .facebookButton,
 .gPlusButton{
   text-decoration: none !important;
+}
+
+.think-page-explanation{
+  padding-left:10px;
 }
 
 .think-heading{

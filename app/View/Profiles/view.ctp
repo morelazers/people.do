@@ -1,4 +1,4 @@
-<div id="profile-view" class="col-md-5 text-left scrollable">
+<div id="profile-view" class="col-md-10 profile scrollable text-left">
 
   <div class="top-spacer"></div>
   <h2>
